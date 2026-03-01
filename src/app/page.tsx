@@ -1,10 +1,12 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Flame, Zap, Dumbbell, Target, Droplets, Moon,
   ChevronRight, Trophy, Utensils, TrendingUp,
-  CheckCircle2, Circle, Star,
+  CheckCircle2, Circle, Star, Sparkles,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -28,6 +30,9 @@ const fadeUp = {
 
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+// DiceBear avatar URL
+const AVATAR_URL = 'https://api.dicebear.com/9.x/adventurer/svg?seed=FitForgeWarrior&backgroundColor=transparent';
+
 export default function DashboardPage() {
   const { level, streak, xp, waterGlasses, waterGoal, sleepHours, getProgress, addWater, removeWater, addXp } = useGamificationStore();
   const { weeklyPlan, completedWorkouts } = useWorkoutStore();
@@ -41,37 +46,88 @@ export default function DashboardPage() {
   const todayMeals = getTodayCompletion();
   const mealsCompleted = Object.values(todayMeals).filter(Boolean).length;
 
-  // Daily quests
+  // Interactive quests state
+  const [questToggles, setQuestToggles] = useState<Record<string, boolean>>({});
+
   const quests = [
     { id: 'workout', title: 'Complete today\'s workout', xp: 50, done: today?.completed ?? false, icon: Dumbbell },
     { id: 'meal', title: 'Track all meals', xp: 20, done: mealsCompleted === 4, icon: Utensils },
     { id: 'water', title: `Drink ${waterGoal} glasses of water`, xp: 10, done: waterGlasses >= waterGoal, icon: Droplets },
     { id: 'sleep', title: 'Log sleep (7+ hours)', xp: 10, done: sleepHours >= 7, icon: Moon },
   ];
-  const questsDone = quests.filter(q => q.done).length;
+
+  const isQuestDone = (quest: typeof quests[0]) => quest.done || questToggles[quest.id];
+  const questsDone = quests.filter(q => isQuestDone(q)).length;
+
+  const toggleQuest = (id: string) => {
+    const quest = quests.find(q => q.id === id);
+    if (quest?.done) return; // Already done by real data
+    const newState = !questToggles[id];
+    setQuestToggles(prev => ({ ...prev, [id]: newState }));
+    if (newState) {
+      addXp(quest?.xp ?? 0);
+    }
+  };
+
+  // Water splash animation state
+  const [waterSplash, setWaterSplash] = useState(false);
+  const handleAddWater = () => {
+    addWater();
+    addXp(5);
+    setWaterSplash(true);
+    setTimeout(() => setWaterSplash(false), 600);
+  };
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
-      {/* Hero Section */}
+      {/* ═══════════════════════════════════════════════ */}
+      {/* HERO SECTION with DiceBear Avatar              */}
+      {/* ═══════════════════════════════════════════════ */}
       <motion.div
         custom={0}
         initial="hidden"
         animate="visible"
         variants={fadeUp}
-        className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-cyan-500/10 via-violet-600/10 to-fuchsia-500/10 border border-white/5 p-6 sm:p-8"
+        className="relative overflow-hidden rounded-2xl bg-slate-900/50 backdrop-blur-xl border border-white/10 p-6 sm:p-8"
       >
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-cyan-500/20 to-violet-600/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+        {/* Ambient glow blobs */}
+        <div className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-br from-cyan-500/20 to-violet-600/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-fuchsia-500/15 to-cyan-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4 pointer-events-none" />
+
         <div className="relative flex flex-col sm:flex-row items-start sm:items-center gap-6">
-          {/* Avatar */}
+          {/* DiceBear Avatar with glowing border */}
           <motion.div
-            whileHover={{ scale: 1.05, rotate: 5 }}
-            className="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-500 to-violet-600 flex items-center justify-center text-4xl glow shadow-2xl"
+            whileHover={{ scale: 1.08, rotate: 3 }}
+            whileTap={{ scale: 0.95 }}
+            className="relative group cursor-pointer"
           >
-            {avatar.emoji}
+            {/* Outer neon glow ring */}
+            <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-cyan-400 via-violet-500 to-fuchsia-500 opacity-70 blur-md group-hover:opacity-100 group-hover:blur-lg transition-all duration-500" />
+            {/* Avatar container */}
+            <div className="relative w-22 h-22 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-cyan-500 to-violet-600 p-[2px] shadow-2xl">
+              <div className="w-full h-full rounded-[14px] bg-slate-900/80 backdrop-blur-sm flex items-center justify-center overflow-hidden">
+                <Image
+                  src={AVATAR_URL}
+                  alt="User Avatar"
+                  width={80}
+                  height={80}
+                  className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
+                  unoptimized
+                />
+              </div>
+            </div>
+            {/* Level badge on avatar */}
+            <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-gradient-to-r from-cyan-500 to-violet-600 flex items-center justify-center text-[10px] font-bold text-white ring-2 ring-slate-900 shadow-lg">
+              {level}
+            </div>
           </motion.div>
+
+          {/* Info */}
           <div className="flex-1">
-            <div className="flex items-center gap-2 mb-1">
-              <h1 className="text-2xl sm:text-3xl font-bold">Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 17 ? 'Afternoon' : 'Evening'}!</h1>
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
+              <h1 className="text-2xl sm:text-3xl font-bold">
+                Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 17 ? 'Afternoon' : 'Evening'}!
+              </h1>
               <Badge variant="secondary" className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30">
                 {avatar.name}
               </Badge>
@@ -79,19 +135,24 @@ export default function DashboardPage() {
             <p className="text-sm text-muted-foreground mb-3">
               Level {level} • {avatar.description}
             </p>
+            {/* XP Bar */}
             <div className="flex items-center gap-4">
               <div className="flex-1 max-w-xs">
                 <div className="flex justify-between text-xs mb-1">
-                  <span className="text-muted-foreground">XP Progress</span>
+                  <span className="text-muted-foreground flex items-center gap-1">
+                    <Sparkles size={12} className="text-cyan-400" /> XP Progress
+                  </span>
                   <span className="text-cyan-400 font-medium">{progress.xp}/{progress.xpNeeded}</span>
                 </div>
-                <div className="h-2.5 rounded-full bg-white/5 overflow-hidden">
+                <div className="h-3 rounded-full bg-white/5 overflow-hidden border border-white/5">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${progress.percentage}%` }}
-                    transition={{ duration: 1, delay: 0.3 }}
-                    className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-violet-600"
-                  />
+                    transition={{ duration: 1.2, delay: 0.3, ease: 'easeOut' }}
+                    className="h-full rounded-full bg-gradient-to-r from-cyan-500 via-violet-500 to-fuchsia-500 relative"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 animate-pulse" />
+                  </motion.div>
                 </div>
               </div>
             </div>
@@ -99,19 +160,23 @@ export default function DashboardPage() {
         </div>
       </motion.div>
 
-      {/* Stats Row */}
+      {/* ═══════════════════════════════════════════════ */}
+      {/* STATS ROW — True Glassmorphism                 */}
+      {/* ═══════════════════════════════════════════════ */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
-          { label: 'Streak', value: `${streak} days`, icon: Flame, color: 'text-orange-400', bg: 'from-orange-500/10 to-red-500/10' },
-          { label: 'Level', value: `Level ${level}`, icon: Zap, color: 'text-cyan-400', bg: 'from-cyan-500/10 to-blue-500/10' },
-          { label: 'Workouts', value: `${completedWorkouts}/6`, icon: Dumbbell, color: 'text-emerald-400', bg: 'from-emerald-500/10 to-green-500/10' },
-          { label: 'XP Total', value: `${xp} XP`, icon: Star, color: 'text-violet-400', bg: 'from-violet-500/10 to-purple-500/10' },
+          { label: 'Streak', value: `${streak} days`, icon: Flame, color: 'text-orange-400', gradient: 'from-orange-500/15 to-red-500/10', glow: 'shadow-orange-500/10' },
+          { label: 'Level', value: `Level ${level}`, icon: Zap, color: 'text-cyan-400', gradient: 'from-cyan-500/15 to-blue-500/10', glow: 'shadow-cyan-500/10' },
+          { label: 'Workouts', value: `${completedWorkouts}/6`, icon: Dumbbell, color: 'text-emerald-400', gradient: 'from-emerald-500/15 to-green-500/10', glow: 'shadow-emerald-500/10' },
+          { label: 'XP Total', value: `${xp} XP`, icon: Star, color: 'text-violet-400', gradient: 'from-violet-500/15 to-purple-500/10', glow: 'shadow-violet-500/10' },
         ].map((stat, i) => (
           <motion.div key={stat.label} custom={i + 1} initial="hidden" animate="visible" variants={fadeUp}>
-            <Card className={`bg-gradient-to-br ${stat.bg} border-white/5 hover:border-white/10 transition-all duration-300 group cursor-default`}>
+            <Card className={`bg-gradient-to-br ${stat.gradient} backdrop-blur-md border border-white/10 hover:border-white/20 transition-all duration-300 group cursor-default hover:shadow-lg ${stat.glow}`}>
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <stat.icon size={16} className={stat.color} />
+                  <div className="p-1.5 rounded-lg bg-white/5">
+                    <stat.icon size={14} className={stat.color} />
+                  </div>
                   <span className="text-xs text-muted-foreground">{stat.label}</span>
                 </div>
                 <p className={`text-xl font-bold ${stat.color}`}>{stat.value}</p>
@@ -121,62 +186,101 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      {/* Main Grid */}
+      {/* ═══════════════════════════════════════════════ */}
+      {/* MAIN GRID                                      */}
+      {/* ═══════════════════════════════════════════════ */}
       <div className="grid lg:grid-cols-3 gap-6">
-        {/* Left Column: Quests + Quote */}
+        {/* Left Column */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Daily Quests */}
+
+          {/* ─── DAILY QUESTS (Interactive) ─── */}
           <motion.div custom={5} initial="hidden" animate="visible" variants={fadeUp}>
-            <Card className="glass-card border-white/5">
+            <Card className="bg-slate-900/50 backdrop-blur-md border border-white/10">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-base flex items-center gap-2">
-                    <Target size={18} className="text-cyan-400" />
+                    <div className="p-1.5 rounded-lg bg-cyan-500/10">
+                      <Target size={16} className="text-cyan-400" />
+                    </div>
                     Daily Quests
                   </CardTitle>
                   <Badge variant="secondary" className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30 text-xs">
                     {questsDone}/{quests.length} Done
                   </Badge>
                 </div>
+                {/* Quest progress bar */}
+                <div className="h-1.5 rounded-full bg-white/5 overflow-hidden mt-2">
+                  <motion.div
+                    animate={{ width: `${(questsDone / quests.length) * 100}%` }}
+                    transition={{ duration: 0.5, ease: 'easeOut' }}
+                    className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-emerald-400"
+                  />
+                </div>
               </CardHeader>
               <CardContent className="space-y-2">
-                {quests.map((quest) => (
-                  <div
-                    key={quest.id}
-                    className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-200 ${quest.done
-                      ? 'bg-emerald-500/10 border border-emerald-500/20'
-                      : 'bg-white/3 border border-white/5 hover:border-white/10'
-                      }`}
-                  >
-                    {quest.done ? (
-                      <CheckCircle2 size={18} className="text-emerald-400 flex-shrink-0" />
-                    ) : (
-                      <Circle size={18} className="text-muted-foreground flex-shrink-0" />
-                    )}
-                    <quest.icon size={16} className={quest.done ? 'text-emerald-400' : 'text-muted-foreground'} />
-                    <span className={`flex-1 text-sm ${quest.done ? 'line-through text-muted-foreground' : ''}`}>
-                      {quest.title}
-                    </span>
-                    <Badge variant="secondary" className="text-xs bg-yellow-500/10 text-yellow-400 border-yellow-500/20">
-                      +{quest.xp} XP
-                    </Badge>
-                  </div>
-                ))}
+                {quests.map((quest) => {
+                  const done = isQuestDone(quest);
+                  return (
+                    <motion.button
+                      key={quest.id}
+                      onClick={() => toggleQuest(quest.id)}
+                      whileTap={{ scale: 0.98 }}
+                      className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-300 cursor-pointer text-left ${done
+                          ? 'bg-emerald-500/10 border border-emerald-500/20'
+                          : 'bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-white/15'
+                        }`}
+                    >
+                      <motion.div
+                        animate={done ? { scale: [1, 1.3, 1] } : {}}
+                        transition={{ duration: 0.3 }}
+                      >
+                        {done ? (
+                          <CheckCircle2 size={18} className="text-emerald-400 flex-shrink-0" />
+                        ) : (
+                          <Circle size={18} className="text-muted-foreground flex-shrink-0 group-hover:text-foreground" />
+                        )}
+                      </motion.div>
+                      <div className={`p-1 rounded-md ${done ? 'bg-emerald-500/10' : 'bg-white/5'}`}>
+                        <quest.icon size={14} className={`transition-colors duration-300 ${done ? 'text-emerald-400' : 'text-muted-foreground'}`} />
+                      </div>
+                      <span className={`flex-1 text-sm transition-all duration-300 ${done ? 'line-through text-muted-foreground/60' : ''}`}>
+                        {quest.title}
+                      </span>
+                      <AnimatePresence>
+                        {done && (
+                          <motion.span
+                            initial={{ opacity: 0, scale: 0, x: 10 }}
+                            animate={{ opacity: 1, scale: 1, x: 0 }}
+                            exit={{ opacity: 0, scale: 0 }}
+                            className="text-[10px] text-emerald-400 font-medium"
+                          >
+                            ✓
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                      <Badge variant="secondary" className={`text-xs transition-all duration-300 ${done ? 'bg-emerald-500/10 text-emerald-400/60 border-emerald-500/15' : 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20'}`}>
+                        +{quest.xp} XP
+                      </Badge>
+                    </motion.button>
+                  );
+                })}
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Today's Workout Preview */}
+          {/* ─── TODAY'S WORKOUT PREVIEW ─── */}
           <motion.div custom={6} initial="hidden" animate="visible" variants={fadeUp}>
-            <Card className="glass-card border-white/5">
+            <Card className="bg-slate-900/50 backdrop-blur-md border border-white/10">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-base flex items-center gap-2">
-                    <Dumbbell size={18} className="text-emerald-400" />
+                    <div className="p-1.5 rounded-lg bg-emerald-500/10">
+                      <Dumbbell size={16} className="text-emerald-400" />
+                    </div>
                     Today&apos;s Workout — {days[new Date().getDay()]}
                   </CardTitle>
                   <Link href="/workouts">
-                    <Button variant="ghost" size="sm" className="text-xs text-cyan-400 hover:text-cyan-300">
+                    <Button variant="ghost" size="sm" className="text-xs text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10">
                       View All <ChevronRight size={14} />
                     </Button>
                   </Link>
@@ -185,7 +289,13 @@ export default function DashboardPage() {
               <CardContent>
                 {today?.isRestDay ? (
                   <div className="text-center py-8">
-                    <p className="text-4xl mb-2">😴</p>
+                    <motion.p
+                      animate={{ y: [0, -5, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                      className="text-4xl mb-2"
+                    >
+                      😴
+                    </motion.p>
                     <p className="text-lg font-medium">Rest Day</p>
                     <p className="text-sm text-muted-foreground">Your muscles are recovering and growing!</p>
                   </div>
@@ -196,10 +306,10 @@ export default function DashboardPage() {
                       if (!ex) return null;
                       const isDone = today.completedExercises.includes(exId);
                       return (
-                        <div key={exId} className={`flex items-center gap-3 p-3 rounded-xl transition-all ${isDone ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/3 border border-white/5'}`}>
+                        <div key={exId} className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-300 ${isDone ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-white/15'}`}>
                           <span className="text-xl">{ex.icon}</span>
                           <div className="flex-1">
-                            <p className={`text-sm font-medium ${isDone ? 'line-through text-muted-foreground' : ''}`}>{ex.name}</p>
+                            <p className={`text-sm font-medium transition-all duration-300 ${isDone ? 'line-through text-muted-foreground/60' : ''}`}>{ex.name}</p>
                             <p className="text-xs text-muted-foreground">{ex.sets} × {ex.reps}</p>
                           </div>
                           {isDone && <CheckCircle2 size={16} className="text-emerald-400" />}
@@ -216,73 +326,128 @@ export default function DashboardPage() {
           </motion.div>
         </div>
 
-        {/* Right Column: Water + Quick Links + Quote */}
+        {/* ═══════════════════════════════════════════════ */}
+        {/* RIGHT COLUMN                                   */}
+        {/* ═══════════════════════════════════════════════ */}
         <div className="space-y-6">
-          {/* Water Tracker */}
+          {/* ─── WATER TRACKER (Glassmorphism + Splash) ─── */}
           <motion.div custom={7} initial="hidden" animate="visible" variants={fadeUp}>
-            <Card className="glass-card border-white/5">
+            <Card className="bg-slate-900/50 backdrop-blur-md border border-white/10">
               <CardHeader className="pb-2">
                 <CardTitle className="text-base flex items-center gap-2">
-                  <Droplets size={18} className="text-blue-400" />
+                  <div className="p-1.5 rounded-lg bg-blue-500/10">
+                    <Droplets size={16} className="text-blue-400" />
+                  </div>
                   Water Tracker
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-center">
-                  <p className="text-3xl font-bold text-blue-400 mb-1">{waterGlasses}</p>
+                  <motion.p
+                    key={waterGlasses}
+                    initial={{ scale: 1.3, opacity: 0.7 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    className="text-3xl font-bold text-blue-400 mb-1"
+                  >
+                    {waterGlasses}
+                  </motion.p>
                   <p className="text-xs text-muted-foreground mb-3">of {waterGoal} glasses</p>
-                  <Progress value={(waterGlasses / waterGoal) * 100} className="h-2 mb-3" />
+                  <div className="h-2.5 rounded-full bg-white/5 overflow-hidden mb-3 border border-white/5">
+                    <motion.div
+                      animate={{ width: `${Math.min((waterGlasses / waterGoal) * 100, 100)}%` }}
+                      transition={{ duration: 0.4, ease: 'easeOut' }}
+                      className="h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-400"
+                    />
+                  </div>
+                  {/* Glass icons row */}
+                  <div className="flex justify-center gap-1 mb-3">
+                    {Array.from({ length: waterGoal }).map((_, i) => (
+                      <motion.div
+                        key={i}
+                        initial={false}
+                        animate={i < waterGlasses ? { scale: [1, 1.2, 1], opacity: 1 } : { opacity: 0.2 }}
+                        transition={{ duration: 0.3 }}
+                        className={`text-sm ${i < waterGlasses ? '' : 'grayscale'}`}
+                      >
+                        💧
+                      </motion.div>
+                    ))}
+                  </div>
                   <div className="flex gap-2 justify-center">
                     <Button
                       size="sm"
                       variant="outline"
                       onClick={removeWater}
-                      className="text-xs border-white/10 hover:bg-white/5"
+                      className="text-xs border-white/10 hover:bg-white/5 backdrop-blur-sm"
                     >
                       −
                     </Button>
-                    <Button
-                      size="sm"
-                      onClick={() => { addWater(); addXp(5); }}
-                      className="text-xs bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 border border-blue-500/30"
-                    >
-                      + Add Glass 💧
-                    </Button>
+                    <motion.div whileTap={{ scale: 0.95 }}>
+                      <Button
+                        size="sm"
+                        onClick={handleAddWater}
+                        className="text-xs bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 border border-blue-500/30 backdrop-blur-sm relative overflow-hidden"
+                      >
+                        <AnimatePresence>
+                          {waterSplash && (
+                            <motion.span
+                              initial={{ opacity: 1, scale: 0 }}
+                              animate={{ opacity: 0, scale: 3 }}
+                              exit={{ opacity: 0 }}
+                              transition={{ duration: 0.5 }}
+                              className="absolute inset-0 bg-blue-400/20 rounded-full"
+                            />
+                          )}
+                        </AnimatePresence>
+                        + Add Glass 💧
+                      </Button>
+                    </motion.div>
                   </div>
                 </div>
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Quick Actions */}
+          {/* ─── QUICK ACTIONS (Glassmorphism) ─── */}
           <motion.div custom={8} initial="hidden" animate="visible" variants={fadeUp}>
-            <Card className="glass-card border-white/5">
+            <Card className="bg-slate-900/50 backdrop-blur-md border border-white/10">
               <CardHeader className="pb-2">
                 <CardTitle className="text-base">Quick Actions</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
                 {[
-                  { label: 'Start Workout', href: '/workouts', icon: Dumbbell, color: 'text-emerald-400' },
-                  { label: 'Log Meal', href: '/diet', icon: Utensils, color: 'text-amber-400' },
-                  { label: 'Track Progress', href: '/progress', icon: TrendingUp, color: 'text-cyan-400' },
-                  { label: 'Achievements', href: '/achievements', icon: Trophy, color: 'text-violet-400' },
+                  { label: 'Start Workout', href: '/workouts', icon: Dumbbell, color: 'text-emerald-400', hoverBg: 'hover:bg-emerald-500/10' },
+                  { label: 'Log Meal', href: '/diet', icon: Utensils, color: 'text-amber-400', hoverBg: 'hover:bg-amber-500/10' },
+                  { label: 'Track Progress', href: '/progress', icon: TrendingUp, color: 'text-cyan-400', hoverBg: 'hover:bg-cyan-500/10' },
+                  { label: 'Achievements', href: '/achievements', icon: Trophy, color: 'text-violet-400', hoverBg: 'hover:bg-violet-500/10' },
                 ].map((action) => (
                   <Link key={action.href} href={action.href}>
-                    <div className="flex items-center gap-3 p-3 rounded-xl bg-white/3 border border-white/5 hover:border-white/10 hover:bg-white/5 transition-all cursor-pointer group">
-                      <action.icon size={16} className={action.color} />
+                    <motion.div
+                      whileHover={{ x: 4 }}
+                      whileTap={{ scale: 0.98 }}
+                      className={`flex items-center gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:border-white/15 ${action.hoverBg} transition-all duration-300 cursor-pointer group`}
+                    >
+                      <div className="p-1.5 rounded-lg bg-white/5 group-hover:bg-white/10 transition-colors">
+                        <action.icon size={14} className={action.color} />
+                      </div>
                       <span className="text-sm flex-1">{action.label}</span>
                       <ChevronRight size={14} className="text-muted-foreground group-hover:text-foreground transition-colors" />
-                    </div>
+                    </motion.div>
                   </Link>
                 ))}
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Motivational Quote */}
+          {/* ─── MOTIVATIONAL QUOTE ─── */}
           <motion.div custom={9} initial="hidden" animate="visible" variants={fadeUp}>
-            <Card className="bg-gradient-to-br from-violet-500/10 to-fuchsia-500/10 border-white/5">
-              <CardContent className="p-5">
+            <Card className="bg-gradient-to-br from-violet-500/10 to-fuchsia-500/10 backdrop-blur-md border border-white/10 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-fuchsia-500/10 rounded-full blur-2xl pointer-events-none" />
+              <CardContent className="p-5 relative">
+                <div className="flex items-start gap-2 mb-2">
+                  <span className="text-lg">💬</span>
+                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Quote of the Day</p>
+                </div>
                 <p className="text-sm italic leading-relaxed">&ldquo;{quote.text}&rdquo;</p>
                 <p className="text-xs text-muted-foreground mt-2">— {quote.author}</p>
               </CardContent>
