@@ -222,6 +222,11 @@ export default function LoginPage() {
                                             {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
                                         </button>
                                     </div>
+                                    {mode === 'signup' && (
+                                        <p className="text-[10px] text-white/30 pt-1">
+                                            Minimum 8 characters, with at least one letter and one number.
+                                        </p>
+                                    )}
                                 </div>
                             </motion.div>
                         </AnimatePresence>
