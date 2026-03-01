@@ -42,7 +42,20 @@ export function EvolvingAvatar({ level }: EvolvingAvatarProps) {
                     </div>
                 </motion.div>
             </AnimatePresence>
-
+            {/* Level Badge Overlay (Anchored to character) */}
+            <div className="absolute bottom-16 sm:bottom-20 left-4 sm:left-8 z-30 drop-shadow-2xl pointer-events-auto cursor-help group-hover:scale-110 transition-transform animate-float">
+                <div className="relative w-10 h-10 sm:w-14 sm:h-14">
+                    {/* Outer hexagon/circle shape glow */}
+                    <div className={`absolute inset-0 bg-gradient-to-br ${stage.gradient} rounded-xl rotate-45 opacity-60 blur-md`} />
+                    <div className={`absolute inset-0 bg-gradient-to-br ${stage.gradient} rounded-xl rotate-45 border border-white/20 flex items-center justify-center shadow-inner backdrop-blur-sm`} />
+                    <div className="absolute inset-0 flex flex-col items-center justify-center -rotate-45">
+                        <span className="text-white/60 text-[8px] sm:text-[10px] uppercase font-bold leading-none mb-0.5">Lv</span>
+                        <span className="text-white font-black text-sm sm:text-xl drop-shadow-md leading-none">
+                            {level}
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

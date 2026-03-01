@@ -113,19 +113,22 @@ export default function DashboardPage() {
           </div>
 
           {/* User Info (Right - approx 2/3) */}
-          <div className="flex-1 p-6 pb-8 sm:p-8 sm:pb-12 relative z-20 flex flex-col justify-end items-start w-full pr-8">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 mb-2 drop-shadow-md">
-              <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-                {greeting}
-              </h1>
+          <div className="flex-1 p-6 sm:p-8 relative z-20 flex flex-col justify-between items-start h-full w-full pr-8">
+            {/* Top Info Block */}
+            <div className="w-full mt-4 sm:mt-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 mb-2 drop-shadow-md">
+                <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+                  {greeting}
+                </h1>
+              </div>
+              <p className="text-sm text-white/80 max-w-sm drop-shadow">
+                {avatar.description}
+              </p>
             </div>
-            <p className="text-sm text-white/80 mb-6 max-w-sm drop-shadow">
-              {avatar.description}
-            </p>
 
 
-            {/* XP Bar Header with Sub-label */}
-            <div className="max-w-md w-full mt-6 sm:mt-8">
+            {/* Bottom XP Bar Header */}
+            <div className="max-w-md w-full mb-2 sm:mb-6">
               <div className="flex justify-between items-end mb-2 drop-shadow">
                 <div className="flex flex-col">
                   <span className="text-white/80 flex items-center gap-1.5 text-sm font-medium mb-1">
