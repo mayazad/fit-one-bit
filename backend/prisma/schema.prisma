@@ -20,8 +20,9 @@ model User {
   createdAt    DateTime        @default(now())
   updatedAt    DateTime        @updatedAt
 
-  profile        Profile?
-  completedQuests CompletedQuest[]
+  profile          Profile?
+  completedQuests  CompletedQuest[]
+  questCompletions QuestCompletion[]
 
   @@map("users")
 }
@@ -82,4 +83,15 @@ model CompletedQuest {
 
   @@unique([userId, questId, completedAt])
   @@map("completed_quests")
+}
+
+// ─── Quest Completion (from prompt) ─────────────────
+
+model QuestCompletion {
+  id        String   @id @default(uuid())
+  userId    String
+  questId   String
+  earnedXp  Int
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
 }
