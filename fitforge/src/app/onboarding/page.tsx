@@ -87,7 +87,9 @@ export default function OnboardingPage() {
 
     // Route Guard
     useEffect(() => {
-        if (profile?.primaryClass) {
+        if (!profile?.id) {
+            router.replace('/login');
+        } else if (profile?.primaryClass) {
             router.replace('/dashboard');
         }
     }, [profile, router]);
@@ -98,6 +100,7 @@ export default function OnboardingPage() {
     const [focusAreas, setFocusAreas] = useState<string[]>([]);
     const [dietPref, setDietPref] = useState('');
     const [forging, setForging] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const next = useCallback(() => { setDirection(1); setStep(s => Math.min(s + 1, TOTAL_STEPS)); }, []);
     const back = useCallback(() => { setDirection(-1); setStep(s => Math.max(s - 1, 1)); }, []);
@@ -107,6 +110,7 @@ export default function OnboardingPage() {
     };
 
     const handleFinish = async () => {
+        setError(null);
         setForging(true);
         try {
             const res = await fetch(`http://localhost:3001/users/${profile.id}/profile`, {
@@ -135,8 +139,9 @@ export default function OnboardingPage() {
             });
             setOnboarded(true);
             setTimeout(() => router.push('/dashboard'), 2500);
-        } catch (err) {
+        } catch (err: any) {
             console.error('Failed to forge profile:', err);
+            setError(err.message || 'Failed to finish forging profile.');
             setForging(false);
         }
     };
@@ -418,6 +423,13 @@ export default function OnboardingPage() {
                                                 </div>
                                             ))}
                                         </div>
+
+                                        {error && (
+                                            <div className="mb-6 text-rose-400 text-sm font-medium bg-rose-500/10 border border-rose-500/20 p-4 rounded-xl text-left flex items-start gap-2 max-w-md mx-auto">
+                                                <Target size={16} className="mt-0.5 flex-shrink-0" />
+                                                <p>{error}</p>
+                                            </div>
+                                        )}
 
                                         <Button
                                             onClick={handleFinish}

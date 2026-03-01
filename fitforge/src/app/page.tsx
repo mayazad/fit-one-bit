@@ -100,7 +100,7 @@ export default function LandingPage() {
               Login
             </Link>
             <Link
-              href="/onboarding"
+              href="/login"
               className="relative text-sm font-semibold px-5 py-2.5 rounded-xl bg-gradient-to-r from-teal-500 to-violet-600 text-white hover:shadow-lg hover:shadow-teal-500/25 transition-all duration-300 group"
             >
               <span className="relative z-10 flex items-center gap-1.5">
@@ -131,7 +131,7 @@ export default function LandingPage() {
                     {l.label}
                   </a>
                 ))}
-                <Link href="/onboarding" onClick={() => setMobileNav(false)} className="block w-full text-center text-sm font-semibold px-5 py-2.5 rounded-xl bg-gradient-to-r from-teal-500 to-violet-600 text-white mt-3">
+                <Link href="/login" onClick={() => setMobileNav(false)} className="block w-full text-center text-sm font-semibold px-5 py-2.5 rounded-xl bg-gradient-to-r from-teal-500 to-violet-600 text-white mt-3">
                   Start Quest
                 </Link>
               </div>
@@ -176,7 +176,7 @@ export default function LandingPage() {
 
               <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
                 <Link
-                  href="/onboarding"
+                  href="/login"
                   className="relative text-base font-bold px-8 py-3.5 rounded-xl bg-gradient-to-r from-teal-500 to-violet-600 text-white shadow-lg shadow-teal-500/20 hover:shadow-teal-500/40 hover:scale-[1.02] transition-all duration-300 group"
                 >
                   <span className="relative z-10 flex items-center gap-2">
@@ -522,7 +522,7 @@ export default function LandingPage() {
                 Join FitForge and start earning XP from your very first workout. Your Level 1 avatar is waiting.
               </p>
               <Link
-                href="/onboarding"
+                href="/login"
                 className="relative inline-flex items-center gap-2 text-base font-bold px-8 py-3.5 rounded-xl bg-gradient-to-r from-teal-500 to-violet-600 text-white shadow-lg shadow-teal-500/20 hover:shadow-teal-500/40 hover:scale-[1.02] transition-all duration-300 group"
               >
                 Begin Your Journey <ChevronRight size={18} className="transition-transform group-hover:translate-x-1" />
