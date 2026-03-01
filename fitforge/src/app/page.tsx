@@ -230,7 +230,7 @@ export default function LandingPage() {
               </div>
 
               {/* avatar */}
-              <div className="relative w-64 h-80 sm:w-72 sm:h-96">
+              <div className="relative w-64 h-80 sm:w-72 sm:h-96 lg:w-[500px] lg:h-[500px]">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeAvatar}
@@ -244,7 +244,7 @@ export default function LandingPage() {
                       src={avatarStages[activeAvatar].src}
                       alt={avatarStages[activeAvatar].label}
                       fill
-                      className="object-contain object-bottom "
+                      className="object-contain object-bottom lg:scale-125 lg:origin-bottom"
                       priority
                     />
                   </motion.div>

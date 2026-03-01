@@ -263,9 +263,9 @@ export default function DashboardPage() {
       {/* ═══════════════════════════════════════════════ */}
       {/* MAIN GRID                                      */}
       {/* ═══════════════════════════════════════════════ */}
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
         {/* Left Column */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2 h-full flex flex-col space-y-6">
 
           {/* ─── DAILY QUESTS (Interactive) ─── */}
           <motion.div custom={5} initial="hidden" animate="visible" variants={fadeUp}>
@@ -402,8 +402,8 @@ export default function DashboardPage() {
           </motion.div>
 
           {/* ─── WEEKLY PROGRESS PLACEHOLDER ─── */}
-          <motion.div custom={7} initial="hidden" animate="visible" variants={fadeUp}>
-            <Card className="bg-zinc-900/30 backdrop-blur-md border border-zinc-800/50 border-dashed h-[180px] flex items-center justify-center relative overflow-hidden group">
+          <motion.div custom={7} initial="hidden" animate="visible" variants={fadeUp} className="flex-grow flex flex-col min-h-[180px]">
+            <Card className="bg-zinc-900/30 backdrop-blur-md border border-zinc-800/50 border-dashed h-full flex items-center justify-center relative overflow-hidden group">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.02)_0%,transparent_100%)] pointer-events-none" />
               <CardContent className="p-6 text-center z-10 w-full flex flex-col items-center justify-center opacity-50 group-hover:opacity-100 transition-opacity duration-500 pb-0">
                 <div className="p-3 bg-zinc-900/50 rounded-full mb-3 border border-zinc-800/50">

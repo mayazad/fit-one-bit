@@ -38,7 +38,7 @@ const iconMap: Record<string, LucideIcon> = {
     heartpulse: HeartPulse,
     move: Move,
     // fallback mappings for exercise-specific labels
-    diamond: Gem,
+    diamond: Activity,
     angle: Activity,
     jump: Zap,
     triangle: Activity,
