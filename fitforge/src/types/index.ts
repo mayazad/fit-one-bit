@@ -29,7 +29,7 @@ export interface Exercise {
     instructions: string[];
     benefits: string[];
     commonMistakes: string[];
-    icon: string;
+    icon: any;
     calories: number;
 }
 
@@ -92,7 +92,7 @@ export interface Badge {
     id: string;
     name: string;
     description: string;
-    icon: string;
+    icon: any;
     requirement: string;
     unlocked: boolean;
     unlockedAt?: string;
@@ -141,6 +141,6 @@ export interface SleepLog {
 export interface HabitEntry {
     id: string;
     name: string;
-    icon: string;
+    icon: any;
     completed: boolean;
 }

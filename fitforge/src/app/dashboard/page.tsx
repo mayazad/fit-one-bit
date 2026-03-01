@@ -381,7 +381,9 @@ export default function DashboardPage() {
                       const isDone = today.completedExercises.includes(exId);
                       return (
                         <div key={exId} className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-300 ${isDone ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-white/15'}`}>
-                          <span className="text-xl">{ex.icon}</span>
+                          <div className={isDone ? 'text-emerald-400' : 'text-cyan-400'}>
+                            <ex.icon size={20} />
+                          </div>
                           <div className="flex-1">
                             <p className={`text-sm font-medium transition-all duration-300 ${isDone ? 'line-through text-muted-foreground/60' : ''}`}>{ex.name}</p>
                             <p className="text-xs text-muted-foreground">{ex.sets} × {ex.reps}</p>
@@ -395,6 +397,20 @@ export default function DashboardPage() {
                     )}
                   </div>
                 )}
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* ─── WEEKLY PROGRESS PLACEHOLDER ─── */}
+          <motion.div custom={7} initial="hidden" animate="visible" variants={fadeUp}>
+            <Card className="bg-slate-900/30 backdrop-blur-sm border border-white/10 border-dashed h-[180px] flex items-center justify-center relative overflow-hidden group">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.02)_0%,transparent_100%)] pointer-events-none" />
+              <CardContent className="p-6 text-center z-10 w-full flex flex-col items-center justify-center opacity-50 group-hover:opacity-100 transition-opacity duration-500 pb-0">
+                <div className="p-3 bg-white/5 rounded-full mb-3 border border-white/10">
+                  <TrendingUp size={20} className="text-muted-foreground group-hover:text-cyan-400 transition-colors" />
+                </div>
+                <p className="font-medium text-sm text-foreground mb-1">Weekly Progress Chart</p>
+                <Badge variant="secondary" className="text-[10px] bg-white/5 mt-1 border border-white/10">Coming Soon</Badge>
               </CardContent>
             </Card>
           </motion.div>

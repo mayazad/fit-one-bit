@@ -317,12 +317,12 @@ export default function LandingPage() {
             whileInView="visible"
             viewport={{ once: true, margin: '-80px' }}
             variants={stagger}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             {/* card 1 — AI Coach (spans 2 on lg) */}
             <motion.div
               variants={fadeUp}
-              className="lg:col-span-2 group relative p-6 sm:p-8 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/10 transition-all duration-500 overflow-hidden"
+              className="lg:col-span-2 h-full flex flex-col group relative p-6 sm:p-8 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/10 transition-all duration-500 overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-40 h-40 bg-purple-500/[0.06] rounded-full blur-3xl pointer-events-none group-hover:bg-purple-500/10 transition-all" />
               <div className="relative z-10">
@@ -346,7 +346,7 @@ export default function LandingPage() {
             {/* card 2 — Gamification */}
             <motion.div
               variants={fadeUp}
-              className="group relative p-6 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/10 transition-all duration-500 overflow-hidden"
+              className="h-full flex flex-col group relative p-6 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/10 transition-all duration-500 overflow-hidden"
             >
               <div className="absolute bottom-0 left-0 w-32 h-32 bg-orange-500/[0.06] rounded-full blur-3xl pointer-events-none group-hover:bg-orange-500/10 transition-all" />
               <div className="relative z-10">
@@ -363,7 +363,7 @@ export default function LandingPage() {
             {/* card 3 — Targeted Transformation */}
             <motion.div
               variants={fadeUp}
-              className="group relative p-6 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/10 transition-all duration-500 overflow-hidden"
+              className="h-full flex flex-col group relative p-6 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/10 transition-all duration-500 overflow-hidden"
             >
               <div className="absolute top-0 left-0 w-32 h-32 bg-teal-500/[0.06] rounded-full blur-3xl pointer-events-none group-hover:bg-teal-500/10 transition-all" />
               <div className="relative z-10">
@@ -380,7 +380,7 @@ export default function LandingPage() {
             {/* card 4 — Diet Planning */}
             <motion.div
               variants={fadeUp}
-              className="group relative p-6 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/10 transition-all duration-500 overflow-hidden"
+              className="h-full flex flex-col group relative p-6 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/10 transition-all duration-500 overflow-hidden"
             >
               <div className="absolute bottom-0 right-0 w-32 h-32 bg-amber-500/[0.06] rounded-full blur-3xl pointer-events-none group-hover:bg-amber-500/10 transition-all" />
               <div className="relative z-10">
@@ -397,7 +397,7 @@ export default function LandingPage() {
             {/* card 5 — Progress (spans 2 on lg) */}
             <motion.div
               variants={fadeUp}
-              className="lg:col-span-2 group relative p-6 sm:p-8 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/10 transition-all duration-500 overflow-hidden"
+              className="lg:col-span-2 h-full flex flex-col group relative p-6 sm:p-8 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/10 transition-all duration-500 overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-40 h-40 bg-cyan-500/[0.06] rounded-full blur-3xl pointer-events-none group-hover:bg-cyan-500/10 transition-all" />
               <div className="relative z-10">

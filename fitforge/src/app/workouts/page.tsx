@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, ChevronRight, CheckCircle2, Circle, Dumbbell, RotateCcw, Play, SkipForward, X, Trophy, Flame, ShieldCheck, AlertTriangle } from 'lucide-react';
-import { ExerciseIcon, getCategoryIconMeta, getIconComponent } from '@/components/ExerciseIcon';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -184,7 +183,7 @@ export default function WorkoutsPage() {
                             </div>
                             <Progress value={((currentExerciseIndex) / guidedExercises.length) * 100} className="h-1.5 mb-5" />
                             <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-violet-600/20 flex items-center justify-center mx-auto mb-4">
-                                <ExerciseIcon icon={currentEx.icon} size={28} className="text-cyan-400" />
+                                <currentEx.icon size={28} className="text-cyan-400" />
                             </div>
                             <div className="text-center mb-5">
                                 <p className="text-2xl font-black">{currentEx.sets} sets × {currentEx.reps}</p>
@@ -355,10 +354,10 @@ export default function WorkoutsPage() {
                                                                     </motion.div>
                                                                 )}
                                                                 {(() => {
-                                                                    const { Icon: CatIcon, colorClass } = getCategoryIconMeta(ex.category, ex.icon);
+                                                                    const CatIcon = ex.icon;
                                                                     return (
                                                                         <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110">
-                                                                            <CatIcon size={15} className={colorClass} />
+                                                                            <CatIcon size={15} className="text-cyan-400" />
                                                                         </div>
                                                                     );
                                                                 })()}
@@ -412,7 +411,7 @@ export default function WorkoutsPage() {
                             All
                         </Button>
                         {categories.map((cat) => {
-                            const CatIcon = getIconComponent(cat.icon);
+                            const CatIcon = cat.icon;
                             return (
                                 <Button
                                     key={cat.id}
@@ -438,8 +437,8 @@ export default function WorkoutsPage() {
                                 >
                                     <CardContent className="p-4">
                                         <div className="flex items-start gap-3">
-                                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500/20 to-violet-600/20 flex items-center justify-center text-2xl flex-shrink-0">
-                                                {ex.icon}
+                                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500/20 to-violet-600/20 flex items-center justify-center flex-shrink-0">
+                                                <ex.icon size={24} className="text-cyan-400" />
                                             </div>
                                             <div className="flex-1 min-w-0">
                                                 <h3 className="font-medium text-sm">{ex.name}</h3>
