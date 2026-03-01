@@ -106,31 +106,31 @@ export default function DashboardPage() {
         <div className="absolute left-10 bottom-0 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
 
         {/* Unified Flex Container */}
-        <div className="relative w-full flex flex-col md:flex-row items-center overflow-hidden rounded-2xl pt-6 px-4 md:p-0 md:h-[300px] gap-4 md:gap-0">
-          {/* Left Column (The Avatar - Moves to BOTTOM on mobile) */}
-          <div className="relative order-2 md:order-1 w-full md:w-1/3 h-[140px] sm:h-[160px] md:h-full flex items-end justify-center md:justify-end md:pr-8 z-10">
+        <div className="relative w-full flex flex-col md:flex-row items-center overflow-hidden rounded-2xl pt-6 pb-6 px-4 md:p-0 md:h-[300px] gap-2 md:gap-0">
+          {/* Left Column (The Avatar - Middle on mobile, Left on Desktop) */}
+          <div className="relative order-2 md:order-1 w-full md:w-1/3 h-[150px] sm:h-[180px] md:h-full flex items-end justify-center md:justify-end md:pr-8 z-10">
             <EvolvingAvatar level={level} />
           </div>
 
-          {/* Right Column (The Text & Progress - Moves to TOP on mobile) */}
-          <div className="relative order-1 md:order-2 w-full md:w-2/3 flex flex-col items-center md:items-start text-center md:text-left md:justify-center md:pr-12 z-10">
-            {/* The Header Row */}
-            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 mb-2">
-              <h1 className="text-4xl font-bold text-white">
+          {/* Right Column (Uses 'contents' on mobile to participate in main flex container ordering) */}
+          <div className="contents md:flex md:relative md:w-2/3 md:flex-col md:items-start md:text-left md:justify-center md:pr-12 z-10">
+            {/* The Header Row (Top on mobile) */}
+            <div className="order-1 flex flex-col sm:flex-row items-center gap-2 sm:gap-4 mb-1 md:mb-2 z-10">
+              <h1 className="text-3xl lg:text-4xl font-bold text-white text-center md:text-left">
                 {greeting}
               </h1>
-              <Badge variant="secondary" className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30 text-sm">
+              <Badge variant="secondary" className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30 text-xs sm:text-sm">
                 Lv. {level} {avatar.name}
               </Badge>
             </div>
 
-            {/* The Subtitle */}
-            <p className="text-sm text-white/80 max-w-sm drop-shadow mb-8">
+            {/* The Subtitle (Top on mobile) */}
+            <p className="order-1 text-sm text-white/80 max-w-sm drop-shadow mb-2 md:mb-8 text-center md:text-left z-10">
               Just getting started
             </p>
 
-            {/* The XP Bar */}
-            <div className="w-full max-w-md mx-auto md:mx-0 mt-4">
+            {/* The XP Bar (Bottom on mobile) */}
+            <div className="order-3 w-full max-w-md mx-auto md:mx-0 mt-3 md:mt-4 z-10">
               <div className="flex justify-between items-end mb-2 drop-shadow">
                 <div className="flex flex-col text-left">
                   <span className="text-white/80 flex items-center gap-1.5 text-sm font-medium mb-1">
