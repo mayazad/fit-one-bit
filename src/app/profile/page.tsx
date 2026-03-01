@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { User, Target, Save, Edit2 } from 'lucide-react';
+import { User, Target, Save, Edit2, Star, Flame, Zap, Dumbbell, Trophy, Award } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -47,7 +47,7 @@ export default function ProfilePage() {
         <div className="max-w-3xl mx-auto space-y-6">
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
                 <h1 className="text-2xl font-bold mb-1">Profile</h1>
-                <p className="text-sm text-muted-foreground">Your fitness identity 👤</p>
+                <p className="text-sm text-muted-foreground">Your fitness identity and progress.</p>
             </motion.div>
 
             {/* Profile Card */}
@@ -55,8 +55,8 @@ export default function ProfilePage() {
                 <Card className="bg-gradient-to-br from-cyan-500/10 via-violet-600/10 to-fuchsia-500/10 border-white/5">
                     <CardContent className="p-6">
                         <div className="flex items-center gap-4 mb-6">
-                            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-500 to-violet-600 flex items-center justify-center text-4xl glow">
-                                {avatar.emoji}
+                            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-500 to-violet-600 flex items-center justify-center glow">
+                                <User size={32} className="text-white" />
                             </div>
                             <div>
                                 <h2 className="text-xl font-bold">{profile.name}</h2>
@@ -134,7 +134,7 @@ export default function ProfilePage() {
                         <div className="flex flex-wrap gap-2">
                             {profile.goals.map((goal) => (
                                 <Badge key={goal} variant="secondary" className="bg-cyan-500/10 text-cyan-400 border-cyan-500/20 text-xs">
-                                    🎯 {goal}
+                                    <Target size={10} className="mr-1" />{goal}
                                 </Badge>
                             ))}
                         </div>
@@ -150,16 +150,18 @@ export default function ProfilePage() {
                     </CardHeader>
                     <CardContent>
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                            {[
-                                { label: 'Total XP', value: xp.toString(), icon: '✨' },
-                                { label: 'Current Streak', value: `${streak} days`, icon: '🔥' },
-                                { label: 'Longest Streak', value: `${longestStreak} days`, icon: '⚡' },
-                                { label: 'Workouts Done', value: completedWorkouts.toString(), icon: '💪' },
-                                { label: 'Exercises Done', value: totalExercisesCompleted.toString(), icon: '🏋️' },
-                                { label: 'Badges Earned', value: `${badges.filter(b => b.unlocked).length}`, icon: '🏅' },
-                            ].map((stat) => (
+                            {([
+                                { label: 'Total XP', value: xp.toString(), Icon: Star, color: 'text-violet-400' },
+                                { label: 'Current Streak', value: `${streak} days`, Icon: Flame, color: 'text-orange-400' },
+                                { label: 'Longest Streak', value: `${longestStreak} days`, Icon: Zap, color: 'text-yellow-400' },
+                                { label: 'Workouts Done', value: completedWorkouts.toString(), Icon: Dumbbell, color: 'text-cyan-400' },
+                                { label: 'Exercises Done', value: totalExercisesCompleted.toString(), Icon: Trophy, color: 'text-emerald-400' },
+                                { label: 'Badges Earned', value: `${badges.filter(b => b.unlocked).length}`, Icon: Award, color: 'text-amber-400' },
+                            ] as const).map((stat) => (
                                 <div key={stat.label} className="p-3 rounded-xl bg-white/3 border border-white/5 text-center">
-                                    <p className="text-2xl mb-1">{stat.icon}</p>
+                                    <div className="flex items-center justify-center mb-1">
+                                        <stat.Icon size={20} className={stat.color} />
+                                    </div>
                                     <p className="text-lg font-bold">{stat.value}</p>
                                     <p className="text-xs text-muted-foreground">{stat.label}</p>
                                 </div>

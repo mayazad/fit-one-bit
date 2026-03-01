@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, ChevronRight, CheckCircle2, Circle, Dumbbell, RotateCcw, Play, SkipForward, Timer, X, Trophy, Flame } from 'lucide-react';
+import { Search, ChevronRight, CheckCircle2, Circle, Dumbbell, RotateCcw, Play, SkipForward, X, Trophy, Flame, ShieldCheck, AlertTriangle } from 'lucide-react';
+import { ExerciseIcon, getIconComponent } from '@/components/ExerciseIcon';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -182,8 +183,8 @@ export default function WorkoutsPage() {
                                 <Button size="icon" variant="ghost" onClick={() => setWorkoutActive(false)}><X size={18} /></Button>
                             </div>
                             <Progress value={((currentExerciseIndex) / guidedExercises.length) * 100} className="h-1.5 mb-5" />
-                            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-violet-600/20 flex items-center justify-center text-5xl mx-auto mb-4">
-                                {currentEx.icon}
+                            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-violet-600/20 flex items-center justify-center mx-auto mb-4">
+                                <ExerciseIcon icon={currentEx.icon} size={28} className="text-cyan-400" />
                             </div>
                             <div className="text-center mb-5">
                                 <p className="text-2xl font-black">{currentEx.sets} sets × {currentEx.reps}</p>
@@ -257,7 +258,7 @@ export default function WorkoutsPage() {
             {/* ── PAGE HEADER ────────────────────── */}
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
                 <h1 className="text-2xl font-bold mb-1">Workouts</h1>
-                <p className="text-sm text-muted-foreground">Build your body, one rep at a time 💪</p>
+                <p className="text-sm text-muted-foreground">Build your body, one rep at a time.</p>
             </motion.div>
 
             <Tabs defaultValue="planner" className="space-y-4">
@@ -325,7 +326,7 @@ export default function WorkoutsPage() {
                                         </CardHeader>
                                         <CardContent className="px-4 pb-3">
                                             {day.isRestDay ? (
-                                                <p className="text-xs text-muted-foreground py-2">Recovery day — let your muscles grow! 💤</p>
+                                                <p className="text-xs text-muted-foreground py-2">Recovery day — rest and let your muscles recover.</p>
                                             ) : (
                                                 <div className="space-y-1.5">
                                                     {day.exercises.map((exId) => {
@@ -344,18 +345,18 @@ export default function WorkoutsPage() {
                                                                     : 'bg-white/3 border border-white/5 hover:border-white/10'
                                                                     }`}
                                                             >
-                                                                <AnimatePresence mode="wait">
-                                                                    {isDone ? (
-                                                                        <motion.div key="done" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
-                                                                            <CheckCircle2 size={16} className="text-emerald-400 flex-shrink-0" />
-                                                                        </motion.div>
-                                                                    ) : (
-                                                                        <motion.div key="undone" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
-                                                                            <Circle size={16} className="text-muted-foreground flex-shrink-0" />
-                                                                        </motion.div>
-                                                                    )}
-                                                                </AnimatePresence>
-                                                                <span className="text-lg">{ex.icon}</span>
+                                                                {isDone ? (
+                                                                    <motion.div key="done" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
+                                                                        <CheckCircle2 size={16} className="text-emerald-400 flex-shrink-0" />
+                                                                    </motion.div>
+                                                                ) : (
+                                                                    <motion.div key="undone" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
+                                                                        <Circle size={16} className="text-muted-foreground flex-shrink-0" />
+                                                                    </motion.div>
+                                                                )}
+                                                                <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
+                                                                    <ExerciseIcon icon={ex.icon} size={15} className="text-cyan-400" />
+                                                                </div>
                                                                 <div className="flex-1 min-w-0">
                                                                     <p className={`text-sm ${isDone ? 'line-through text-muted-foreground' : ''}`}>{ex.name}</p>
                                                                     <p className="text-[10px] text-muted-foreground">{ex.sets} × {ex.reps}</p>
@@ -405,17 +406,21 @@ export default function WorkoutsPage() {
                         >
                             All
                         </Button>
-                        {categories.map((cat) => (
-                            <Button
-                                key={cat.id}
-                                variant={selectedCategory === cat.id ? 'default' : 'outline'}
-                                size="sm"
-                                onClick={() => setSelectedCategory(cat.id)}
-                                className="text-xs flex-shrink-0 border-white/10"
-                            >
-                                {cat.icon} {cat.name}
-                            </Button>
-                        ))}
+                        {categories.map((cat) => {
+                            const CatIcon = getIconComponent(cat.icon);
+                            return (
+                                <Button
+                                    key={cat.id}
+                                    variant={selectedCategory === cat.id ? 'default' : 'outline'}
+                                    size="sm"
+                                    onClick={() => setSelectedCategory(cat.id)}
+                                    className="text-xs flex-shrink-0 border-white/10 flex items-center gap-1.5"
+                                >
+                                    <CatIcon size={12} />
+                                    {cat.name}
+                                </Button>
+                            );
+                        })}
                     </div>
 
                     {/* Exercise Grid */}

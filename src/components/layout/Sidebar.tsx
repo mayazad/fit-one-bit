@@ -115,7 +115,7 @@ export default function Sidebar({ isOpen, onClose, desktopOpen = true }: Sidebar
                 {/* Bottom section */}
                 <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border">
                     <div className="glass-card rounded-xl p-3">
-                        <p className="text-xs text-muted-foreground">Built with 💪</p>
+                        <p className="text-xs text-muted-foreground">Powered by FitForge AI</p>
                         <p className="text-xs font-medium gradient-text">FitForge v1.0</p>
                     </div>
                 </div>

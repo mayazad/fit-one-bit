@@ -1,6 +1,6 @@
 'use client';
 
-import { Menu, Flame, Zap } from 'lucide-react';
+import { Menu, Flame, Zap, User } from 'lucide-react';
 import { useGamificationStore } from '@/stores/gamificationStore';
 import { Progress } from '@/components/ui/progress';
 
@@ -59,8 +59,8 @@ export default function Topbar({ onMenuClick, onDesktopMenuClick }: TopbarProps)
                     </div>
 
                     {/* Avatar */}
-                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500 to-violet-600 flex items-center justify-center text-lg glow cursor-pointer">
-                        {avatar.emoji}
+                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500 to-violet-600 flex items-center justify-center glow cursor-pointer">
+                        <User size={18} className="text-white" />
                     </div>
                 </div>
             </div>

@@ -4,9 +4,9 @@ import { ChatMessage } from '@/types';
 
 const aiResponses: Record<string, string[]> = {
     workout: [
-        "Based on your progress, I recommend focusing on compound movements today. Try push-ups, squats, and planks for a balanced workout! 💪",
+        "Based on your progress, I recommend focusing on compound movements today. Try push-ups, squats, and planks for a balanced workout.",
         "You've been doing great with chest exercises! Let's add some core work to help with belly fat reduction. Mountain climbers and bicycle crunches would be perfect.",
-        "Remember, consistency beats intensity. Even a 20-minute workout is better than skipping entirely! Keep that streak going! 🔥",
+        "Remember, consistency beats intensity. Even a 20-minute workout is better than skipping entirely! Keep that streak going.",
     ],
     diet: [
         "For your goals of losing belly fat while building muscle, aim for 1.6-2g of protein per kg of body weight. That's about 90-112g protein daily for you!",
@@ -14,12 +14,12 @@ const aiResponses: Record<string, string[]> = {
         "Budget tip: Eggs, lentils (dal), and peanuts are some of the cheapest high-protein options. Mix them throughout the day for complete nutrition.",
     ],
     motivation: [
-        "You've been consistent for {streak} days! That's incredible discipline. Every day you show up, you're building the body you want. 🌟",
+        "You've been consistent for {streak} days! That's incredible discipline. Every day you show up, you're building the body you want.",
         "Remember why you started this journey. Visualize your transformed physique — wider chest, flatter belly, better posture. You're getting there!",
-        "Progress isn't always visible in the mirror, but it's happening inside. Your muscles are getting stronger, your endurance is improving. Trust the process! 💯",
+        "Progress isn't always visible in the mirror, but it's happening inside. Your muscles are getting stronger, your endurance is improving. Trust the process.",
     ],
     progress: [
-        "Looking at your data, you've lost about 1.2kg this month while maintaining muscle. That's the perfect rate for sustainable fat loss! 📊",
+        "Looking at your data, you've lost about 1.2kg this month while maintaining muscle. That's the perfect rate for sustainable fat loss.",
         "Your consistency rate this week is impressive! Keep tracking your measurements — chest should gradually increase while waist decreases.",
         "I notice you might benefit from more flexibility work. Adding 10 minutes of stretching after workouts can improve recovery by 30%!",
     ],
@@ -68,7 +68,7 @@ export const useChatStore = create<ChatStore>()(
                 {
                     id: 'welcome',
                     role: 'assistant',
-                    content: "Hey there, warrior! 🏋️ I'm your AI Fitness Coach. I can help you with workout plans, diet tips, progress analysis, and motivation. What would you like to work on today?",
+                    content: "Hey there, warrior! I'm your AI Fitness Coach. I can help you with workout plans, diet tips, progress analysis, and motivation. What would you like to work on today?",
                     timestamp: new Date().toISOString(),
                 },
             ],
@@ -94,7 +94,7 @@ export const useChatStore = create<ChatStore>()(
                         {
                             id: 'welcome',
                             role: 'assistant',
-                            content: "Chat cleared! How can I help you today? 💪",
+                            content: "Chat cleared! How can I help you today?",
                             timestamp: new Date().toISOString(),
                         },
                     ],

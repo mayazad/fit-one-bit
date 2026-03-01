@@ -200,8 +200,8 @@ export const meals: Meal[] = [
 ];
 
 export const mealTypes = [
-    { id: 'breakfast', name: 'Breakfast', icon: '🌅', time: '7:00 - 8:30 AM' },
-    { id: 'lunch', name: 'Lunch', icon: '☀️', time: '12:30 - 1:30 PM' },
-    { id: 'snack', name: 'Snack', icon: '🍎', time: '4:00 - 5:00 PM' },
-    { id: 'dinner', name: 'Dinner', icon: '🌙', time: '7:30 - 8:30 PM' },
+    { id: 'breakfast', name: 'Breakfast', icon: 'sunrise', time: '7:00 - 8:30 AM' },
+    { id: 'lunch', name: 'Lunch', icon: 'sun', time: '12:30 - 1:30 PM' },
+    { id: 'snack', name: 'Snack', icon: 'apple', time: '4:00 - 5:00 PM' },
+    { id: 'dinner', name: 'Dinner', icon: 'moon', time: '7:30 - 8:30 PM' },
 ];

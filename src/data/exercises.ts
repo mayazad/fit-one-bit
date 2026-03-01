@@ -19,7 +19,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Builds chest and tricep strength', 'No equipment needed', 'Improves core stability'],
         commonMistakes: ['Flaring elbows too wide', 'Sagging hips', 'Not going low enough'],
-        icon: '💪',
+        icon: 'dumbbell',
         calories: 50,
     },
     {
@@ -38,7 +38,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Targets outer chest', 'Helps build wider chest', 'Improves chest definition'],
         commonMistakes: ['Hands too far forward', 'Incomplete range of motion'],
-        icon: '🏋️',
+        icon: 'weight',
         calories: 55,
     },
     {
@@ -57,7 +57,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Targets inner chest', 'Excellent for triceps', 'Helps reduce chest fat appearance'],
         commonMistakes: ['Hands too far forward', 'Elbows flaring out'],
-        icon: '💎',
+        icon: 'diamond',
         calories: 60,
     },
     {
@@ -76,7 +76,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Great for beginners', 'Targets lower chest', 'Builds foundational strength'],
         commonMistakes: ['Sagging hips', 'Using too high a surface'],
-        icon: '📐',
+        icon: 'angle',
         calories: 40,
     },
     {
@@ -95,7 +95,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Targets upper chest', 'Helps build fullness', 'Increases difficulty'],
         commonMistakes: ['Hips too high', 'Not enough depth'],
-        icon: '🔽',
+        icon: 'chevron-down',
         calories: 65,
     },
     // === CORE ===
@@ -116,7 +116,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Strengthens entire core', 'Improves posture', 'Reduces belly fat over time'],
         commonMistakes: ['Hips too high or too low', 'Holding breath', 'Looking up instead of down'],
-        icon: '🧱',
+        icon: 'layers',
         calories: 30,
     },
     {
@@ -135,7 +135,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Isolates upper abs', 'Easy to perform', 'Good for beginners'],
         commonMistakes: ['Pulling neck with hands', 'Using momentum', 'Not engaging core'],
-        icon: '🔥',
+        icon: 'flame',
         calories: 35,
     },
     {
@@ -154,7 +154,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Targets obliques and abs', 'Burns belly fat', 'Improves coordination'],
         commonMistakes: ['Moving too fast', 'Not fully extending legs', 'Pulling neck'],
-        icon: '🚴',
+        icon: 'bike',
         calories: 45,
     },
     {
@@ -173,7 +173,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Burns calories fast', 'Full body engagement', 'Improves cardio'],
         commonMistakes: ['Hips bouncing up', 'Not bringing knees far enough', 'Losing form when tired'],
-        icon: '⛰️',
+        icon: 'mountain',
         calories: 70,
     },
     {
@@ -192,7 +192,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Targets lower belly fat area', 'Strengthens hip flexors', 'Improves core control'],
         commonMistakes: ['Arching lower back', 'Using momentum to swing legs', 'Going too fast'],
-        icon: '🦵',
+        icon: 'activity',
         calories: 40,
     },
     // === LEGS ===
@@ -212,7 +212,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Builds leg strength', 'Burns significant calories', 'Boosts testosterone'],
         commonMistakes: ['Knees caving inward', 'Leaning too far forward', 'Not going deep enough'],
-        icon: '🏋️',
+        icon: 'weight',
         calories: 55,
     },
     {
@@ -231,7 +231,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Improves balance', 'Builds single-leg strength', 'Functional movement'],
         commonMistakes: ['Front knee going past toes', 'Leaning forward', 'Steps too short'],
-        icon: '🚶',
+        icon: 'footprints',
         calories: 50,
     },
     {
@@ -250,7 +250,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Builds explosive power', 'Burns maximum calories', 'Improves athletic performance'],
         commonMistakes: ['Landing with stiff knees', 'Not squatting deep enough before jump', 'Bad landing form'],
-        icon: '🦘',
+        icon: 'jump',
         calories: 80,
     },
     {
@@ -269,7 +269,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Builds calf definition', 'Improves ankle stability', 'Easy to do anywhere'],
         commonMistakes: ['Going too fast', 'Not full range of motion', 'Leaning forward'],
-        icon: '🔺',
+        icon: 'triangle',
         calories: 25,
     },
     // === FULL BODY ===
@@ -290,7 +290,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Ultimate full body exercise', 'Burns maximum calories', 'Builds stamina'],
         commonMistakes: ['Skipping the push-up', 'Not jumping high enough', 'Poor landing form'],
-        icon: '🔥',
+        icon: 'flame',
         calories: 100,
     },
     {
@@ -309,7 +309,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Great warm-up', 'Improves cardiovascular health', 'Burns calories'],
         commonMistakes: ['Not fully extending arms', 'Landing flat-footed', 'Going too slow'],
-        icon: '⭐',
+        icon: 'star',
         calories: 45,
     },
     {
@@ -329,7 +329,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Great cardio exercise', 'Strengthens hip flexors', 'Burns belly fat'],
         commonMistakes: ['Not bringing knees high enough', 'Leaning back', 'Flat-footed landing'],
-        icon: '🏃',
+        icon: 'run',
         calories: 60,
     },
     // === FLEXIBILITY ===
@@ -350,7 +350,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Improves flexibility', 'Reduces lower back pain', 'Prevents injury'],
         commonMistakes: ['Bouncing', 'Rounding upper back', 'Locking knees completely'],
-        icon: '🧘',
+        icon: 'lotus',
         calories: 10,
     },
     {
@@ -370,7 +370,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Loosens tight hips from sitting', 'Improves posture', 'Reduces lower back strain'],
         commonMistakes: ['Leaning forward', 'Not engaging glute', 'Pushing too hard too fast'],
-        icon: '🙆',
+        icon: 'stretch',
         calories: 8,
     },
     {
@@ -389,7 +389,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Improves spinal flexibility', 'Relieves back tension', 'Great warm-up'],
         commonMistakes: ['Moving too quickly', 'Not coordinating breath', 'Straining neck'],
-        icon: '🐱',
+        icon: 'cat-pose',
         calories: 12,
     },
     // === POSTURE ===
@@ -409,7 +409,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Corrects rounded shoulders', 'Improves shoulder mobility', 'Strengthens upper back'],
         commonMistakes: ['Arching lower back off wall', 'Arms losing contact with wall', 'Shrugging shoulders'],
-        icon: '👼',
+        icon: 'angel',
         calories: 15,
     },
     {
@@ -428,7 +428,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Fixes forward head posture', 'Reduces neck pain', 'Strengthens neck muscles'],
         commonMistakes: ['Tilting head down instead of tucking', 'Not holding long enough', 'Tensing jaw'],
-        icon: '🗣️',
+        icon: 'neck',
         calories: 5,
     },
     {
@@ -447,7 +447,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Opens up chest', 'Counteracts sitting posture', 'Improves breathing'],
         commonMistakes: ['Pushing from lower back', 'Going too far too fast', 'Holding breath'],
-        icon: '🪑',
+        icon: 'chair',
         calories: 10,
     },
     // === PERFORMANCE ===
@@ -468,7 +468,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Improves pelvic floor strength', 'Enhances stamina', 'Can be done anywhere discreetly'],
         commonMistakes: ['Using abs instead of pelvic floor', 'Holding breath', 'Overdoing it initially'],
-        icon: '🎯',
+        icon: 'target',
         calories: 5,
     },
     {
@@ -488,7 +488,7 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Decompresses spine', 'Improves grip strength', 'Stretches upper body'],
         commonMistakes: ['Passive hanging (not engaging shoulders)', 'Swinging', 'Gripping too tight'],
-        icon: '🧗',
+        icon: 'climb',
         calories: 15,
     },
     {
@@ -509,17 +509,17 @@ export const exercises: Exercise[] = [
         ],
         benefits: ['Burns fat rapidly including belly fat', 'Builds explosive speed', 'Improves cardiovascular health'],
         commonMistakes: ['Not warming up', 'Going 100% on first sprint', 'Skipping cool down'],
-        icon: '⚡',
+        icon: 'zap',
         calories: 150,
     },
 ];
 
 export const categories: { id: string; name: string; icon: string; color: string }[] = [
-    { id: 'chest', name: 'Chest', icon: '💪', color: 'from-rose-500 to-pink-600' },
-    { id: 'core', name: 'Core', icon: '🔥', color: 'from-amber-500 to-orange-600' },
-    { id: 'legs', name: 'Legs', icon: '🦵', color: 'from-emerald-500 to-green-600' },
-    { id: 'full-body', name: 'Full Body', icon: '⚡', color: 'from-blue-500 to-indigo-600' },
-    { id: 'flexibility', name: 'Flexibility', icon: '🧘', color: 'from-violet-500 to-purple-600' },
-    { id: 'posture', name: 'Posture', icon: '👼', color: 'from-cyan-500 to-teal-600' },
-    { id: 'performance', name: 'Performance', icon: '🎯', color: 'from-fuchsia-500 to-pink-600' },
+    { id: 'chest', name: 'Chest', icon: 'dumbbell', color: 'from-rose-500 to-pink-600' },
+    { id: 'core', name: 'Core', icon: 'flame', color: 'from-amber-500 to-orange-600' },
+    { id: 'legs', name: 'Legs', icon: 'activity', color: 'from-emerald-500 to-green-600' },
+    { id: 'full-body', name: 'Full Body', icon: 'zap', color: 'from-blue-500 to-indigo-600' },
+    { id: 'flexibility', name: 'Flexibility', icon: 'lotus', color: 'from-violet-500 to-purple-600' },
+    { id: 'posture', name: 'Posture', icon: 'angel', color: 'from-cyan-500 to-teal-600' },
+    { id: 'performance', name: 'Performance', icon: 'target', color: 'from-fuchsia-500 to-pink-600' },
 ];

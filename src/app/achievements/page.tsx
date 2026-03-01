@@ -1,7 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Trophy, Lock, Star, Zap } from 'lucide-react';
+import { Trophy, Lock, Star, Zap, Flame, Award, User } from 'lucide-react';
+import { getIconComponent } from '@/components/ExerciseIcon';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -26,7 +27,7 @@ export default function AchievementsPage() {
         <div className="max-w-5xl mx-auto space-y-6">
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
                 <h1 className="text-2xl font-bold mb-1">Achievements</h1>
-                <p className="text-sm text-muted-foreground">Level up and unlock rewards 🏆</p>
+                <p className="text-sm text-muted-foreground">Level up and unlock rewards.</p>
             </motion.div>
 
             {/* Level Progress */}
@@ -35,8 +36,8 @@ export default function AchievementsPage() {
                     <CardContent className="p-6">
                         <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center gap-3">
-                                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500 to-violet-600 flex items-center justify-center text-3xl glow">
-                                    {avatarStages.find(s => level >= s.level)?.emoji || '🌱'}
+                                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500 to-violet-600 flex items-center justify-center glow">
+                                    <User size={24} className="text-white" />
                                 </div>
                                 <div>
                                     <h2 className="text-lg font-bold">Level {level}</h2>
@@ -86,14 +87,14 @@ export default function AchievementsPage() {
                                 return (
                                     <div key={stage.stage} className="flex flex-col items-center flex-shrink-0">
                                         <div
-                                            className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-2 transition-all ${isCurrent
-                                                    ? 'bg-gradient-to-br from-cyan-500 to-violet-600 glow scale-110'
-                                                    : isUnlocked
-                                                        ? 'bg-gradient-to-br from-cyan-500/20 to-violet-600/20'
-                                                        : 'bg-white/5 grayscale opacity-40'
+                                            className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-2 transition-all ${isCurrent
+                                                ? 'bg-gradient-to-br from-cyan-500 to-violet-600 glow scale-110'
+                                                : isUnlocked
+                                                    ? 'bg-gradient-to-br from-cyan-500/20 to-violet-600/20'
+                                                    : 'bg-white/5 grayscale opacity-40'
                                                 }`}
                                         >
-                                            {isUnlocked ? stage.emoji : <Lock size={20} />}
+                                            {isUnlocked ? <Star size={22} className={isCurrent ? 'text-white' : 'text-cyan-400'} /> : <Lock size={20} />}
                                         </div>
                                         <p className={`text-xs font-medium ${isCurrent ? 'text-cyan-400' : isUnlocked ? '' : 'text-muted-foreground'}`}>
                                             {stage.name}
@@ -109,15 +110,17 @@ export default function AchievementsPage() {
 
             {/* Stats Row */}
             <div className="grid grid-cols-3 gap-3">
-                {[
-                    { label: 'Current Streak', value: `${streak} days`, icon: '🔥' },
-                    { label: 'Longest Streak', value: `${longestStreak} days`, icon: '⚡' },
-                    { label: 'Badges Earned', value: `${unlockedCount}/${badges.length}`, icon: '🏅' },
-                ].map((stat, i) => (
+                {([
+                    { label: 'Current Streak', value: `${streak} days`, Icon: Flame, color: 'text-orange-400' },
+                    { label: 'Longest Streak', value: `${longestStreak} days`, Icon: Zap, color: 'text-yellow-400' },
+                    { label: 'Badges Earned', value: `${unlockedCount}/${badges.length}`, Icon: Award, color: 'text-amber-400' },
+                ] as const).map((stat, i) => (
                     <motion.div key={stat.label} custom={i + 2} initial="hidden" animate="visible" variants={fadeUp}>
                         <Card className="glass-card border-white/5 text-center">
                             <CardContent className="p-4">
-                                <p className="text-2xl mb-1">{stat.icon}</p>
+                                <div className="flex items-center justify-center mb-1">
+                                    <stat.Icon size={20} className={stat.color} />
+                                </div>
                                 <p className="text-lg font-bold">{stat.value}</p>
                                 <p className="text-xs text-muted-foreground">{stat.label}</p>
                             </CardContent>
@@ -142,30 +145,40 @@ export default function AchievementsPage() {
                     </CardHeader>
                     <CardContent>
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                            {badges.map((badge, i) => (
-                                <motion.div
-                                    key={badge.id}
-                                    custom={i + 6}
-                                    initial="hidden"
-                                    animate="visible"
-                                    variants={fadeUp}
-                                    className={`p-4 rounded-xl text-center transition-all ${badge.unlocked
+                            {badges.map((badge, i) => {
+                                const BadgeIcon = getIconComponent(badge.icon);
+                                return (
+                                    <motion.div
+                                        key={badge.id}
+                                        custom={i + 6}
+                                        initial="hidden"
+                                        animate="visible"
+                                        variants={fadeUp}
+                                        className={`p-4 rounded-xl text-center transition-all ${badge.unlocked
                                             ? 'bg-gradient-to-br from-yellow-500/10 to-amber-500/10 border border-yellow-500/20'
                                             : 'bg-white/3 border border-white/5 opacity-50'
-                                        }`}
-                                >
-                                    <p className="text-3xl mb-2">{badge.unlocked ? badge.icon : '🔒'}</p>
-                                    <p className={`text-sm font-medium mb-0.5 ${badge.unlocked ? '' : 'text-muted-foreground'}`}>
-                                        {badge.name}
-                                    </p>
-                                    <p className="text-[10px] text-muted-foreground">{badge.description}</p>
-                                    {badge.unlocked && badge.unlockedAt && (
-                                        <Badge variant="secondary" className="text-[10px] mt-2">
-                                            ✓ Unlocked
-                                        </Badge>
-                                    )}
-                                </motion.div>
-                            ))}
+                                            }`}
+                                    >
+                                        <div className="flex items-center justify-center mb-2">
+                                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${badge.unlocked ? 'bg-yellow-500/20' : 'bg-white/5'}`}>
+                                                {badge.unlocked
+                                                    ? <BadgeIcon size={20} className="text-yellow-400" />
+                                                    : <Lock size={18} className="text-muted-foreground" />
+                                                }
+                                            </div>
+                                        </div>
+                                        <p className={`text-sm font-medium mb-0.5 ${badge.unlocked ? '' : 'text-muted-foreground'}`}>
+                                            {badge.name}
+                                        </p>
+                                        <p className="text-[10px] text-muted-foreground">{badge.description}</p>
+                                        {badge.unlocked && badge.unlockedAt && (
+                                            <Badge variant="secondary" className="text-[10px] mt-2">
+                                                Unlocked
+                                            </Badge>
+                                        )}
+                                    </motion.div>
+                                );
+                            })}
                         </div>
                     </CardContent>
                 </Card>

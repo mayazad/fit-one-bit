@@ -24,29 +24,29 @@ export function getDailyQuote() {
 }
 
 export const defaultBadges = [
-    { id: 'first-workout', name: 'First Steps', description: 'Complete your first workout', icon: '🎯', requirement: 'Complete 1 workout', unlocked: false },
-    { id: 'streak-3', name: 'On Fire', description: '3-day workout streak', icon: '🔥', requirement: '3-day streak', unlocked: false },
-    { id: 'streak-7', name: 'Iron Will', description: '7-day workout streak', icon: '⚡', requirement: '7-day streak', unlocked: false },
-    { id: 'streak-14', name: 'Unstoppable', description: '14-day workout streak', icon: '💪', requirement: '14-day streak', unlocked: false },
-    { id: 'streak-30', name: 'Legendary', description: '30-day workout streak', icon: '🏆', requirement: '30-day streak', unlocked: false },
-    { id: 'level-5', name: 'Rising Warrior', description: 'Reach Level 5', icon: '⚔️', requirement: 'Level 5', unlocked: false },
-    { id: 'level-10', name: 'Champion', description: 'Reach Level 10', icon: '👑', requirement: 'Level 10', unlocked: false },
-    { id: 'meals-7', name: 'Clean Eater', description: 'Track meals for 7 days', icon: '🥗', requirement: '7 days of meal tracking', unlocked: false },
-    { id: 'water-master', name: 'Hydrated', description: 'Hit water goal 7 days in a row', icon: '💧', requirement: '7-day water streak', unlocked: false },
-    { id: 'all-categories', name: 'Well Rounded', description: 'Complete exercises from all categories', icon: '🌟', requirement: 'All categories done', unlocked: false },
-    { id: 'xp-1000', name: 'XP Hunter', description: 'Earn 1000 total XP', icon: '✨', requirement: '1000 XP', unlocked: false },
-    { id: 'xp-5000', name: 'XP Master', description: 'Earn 5000 total XP', icon: '💎', requirement: '5000 XP', unlocked: false },
-    { id: 'early-bird', name: 'Early Bird', description: 'Log activity before 7 AM', icon: '🌅', requirement: 'Activity before 7 AM', unlocked: false },
-    { id: 'fleximaster', name: 'Flexible', description: 'Complete 10 flexibility exercises', icon: '🧘', requirement: '10 flexibility workouts', unlocked: false },
-    { id: 'posture-pro', name: 'Posture Pro', description: 'Complete 10 posture exercises', icon: '🧍', requirement: '10 posture workouts', unlocked: false },
+    { id: 'first-workout', name: 'First Steps', description: 'Complete your first workout', icon: 'target', requirement: 'Complete 1 workout', unlocked: false },
+    { id: 'streak-3', name: 'On Fire', description: '3-day workout streak', icon: 'flame', requirement: '3-day streak', unlocked: false },
+    { id: 'streak-7', name: 'Iron Will', description: '7-day workout streak', icon: 'zap', requirement: '7-day streak', unlocked: false },
+    { id: 'streak-14', name: 'Unstoppable', description: '14-day workout streak', icon: 'dumbbell', requirement: '14-day streak', unlocked: false },
+    { id: 'streak-30', name: 'Legendary', description: '30-day workout streak', icon: 'trophy', requirement: '30-day streak', unlocked: false },
+    { id: 'level-5', name: 'Rising Warrior', description: 'Reach Level 5', icon: 'sword', requirement: 'Level 5', unlocked: false },
+    { id: 'level-10', name: 'Champion', description: 'Reach Level 10', icon: 'crown', requirement: 'Level 10', unlocked: false },
+    { id: 'meals-7', name: 'Clean Eater', description: 'Track meals for 7 days', icon: 'salad', requirement: '7 days of meal tracking', unlocked: false },
+    { id: 'water-master', name: 'Hydrated', description: 'Hit water goal 7 days in a row', icon: 'droplets', requirement: '7-day water streak', unlocked: false },
+    { id: 'all-categories', name: 'Well Rounded', description: 'Complete exercises from all categories', icon: 'star', requirement: 'All categories done', unlocked: false },
+    { id: 'xp-1000', name: 'XP Hunter', description: 'Earn 1000 total XP', icon: 'sparkles', requirement: '1000 XP', unlocked: false },
+    { id: 'xp-5000', name: 'XP Master', description: 'Earn 5000 total XP', icon: 'gem', requirement: '5000 XP', unlocked: false },
+    { id: 'early-bird', name: 'Early Bird', description: 'Log activity before 7 AM', icon: 'sunrise', requirement: 'Activity before 7 AM', unlocked: false },
+    { id: 'fleximaster', name: 'Flexible', description: 'Complete 10 flexibility exercises', icon: 'activity', requirement: '10 flexibility workouts', unlocked: false },
+    { id: 'posture-pro', name: 'Posture Pro', description: 'Complete 10 posture exercises', icon: 'shield', requirement: '10 posture workouts', unlocked: false },
 ];
 
 export const avatarStages = [
-    { level: 0, stage: 'beginner', name: 'Novice', emoji: '🌱', description: 'Just getting started' },
-    { level: 5, stage: 'rookie', name: 'Rookie', emoji: '🏃', description: 'Building momentum' },
-    { level: 10, stage: 'warrior', name: 'Warrior', emoji: '⚔️', description: 'Strong and determined' },
-    { level: 20, stage: 'champion', name: 'Champion', emoji: '👑', description: 'Elite performer' },
-    { level: 35, stage: 'legend', name: 'Legend', emoji: '🔱', description: 'Transcended limits' },
+    { level: 0, stage: 'beginner', name: 'Novice', description: 'Just getting started' },
+    { level: 5, stage: 'rookie', name: 'Rookie', description: 'Building momentum' },
+    { level: 10, stage: 'warrior', name: 'Warrior', description: 'Strong and determined' },
+    { level: 20, stage: 'champion', name: 'Champion', description: 'Elite performer' },
+    { level: 35, stage: 'legend', name: 'Legend', description: 'Transcended limits' },
 ];
 
 export function getAvatarForLevel(level: number) {

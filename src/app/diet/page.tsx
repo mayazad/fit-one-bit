@@ -1,7 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { CheckCircle2, Circle, Flame, Apple, Clock } from 'lucide-react';
+import { CheckCircle2, Circle, Flame, Clock } from 'lucide-react';
+import { ExerciseIcon } from '@/components/ExerciseIcon';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -56,7 +57,7 @@ export default function DietPage() {
         <div className="max-w-4xl mx-auto space-y-6">
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
                 <h1 className="text-2xl font-bold mb-1">Diet Planner</h1>
-                <p className="text-sm text-muted-foreground">Fuel your transformation with the right nutrition 🍽️</p>
+                <p className="text-sm text-muted-foreground">Fuel your transformation with the right nutrition.</p>
             </motion.div>
 
             <Tabs defaultValue={todayName} className="space-y-4">
@@ -135,7 +136,9 @@ export default function DietPage() {
                                                     )}
                                                     <div className="flex-1">
                                                         <div className="flex items-center gap-2 mb-1">
-                                                            <span className="text-lg">{typeInfo?.icon}</span>
+                                                            <div className="w-7 h-7 rounded-md bg-white/5 flex items-center justify-center flex-shrink-0">
+                                                                <ExerciseIcon icon={typeInfo?.icon ?? 'sun'} size={14} className="text-cyan-400" />
+                                                            </div>
                                                             <h3 className="font-medium text-sm">{typeInfo?.name}</h3>
                                                             <span className="text-[10px] text-muted-foreground flex items-center gap-1">
                                                                 <Clock size={10} /> {typeInfo?.time}
@@ -147,14 +150,14 @@ export default function DietPage() {
                                                         <p className="text-xs text-muted-foreground mb-2">
                                                             {meal.ingredients.join(' • ')}
                                                         </p>
-                                                        <div className="flex items-center gap-3">
-                                                            <span className="text-[10px] text-orange-400">🔥 {meal.calories} kcal</span>
-                                                            <span className="text-[10px] text-emerald-400">💪 {meal.protein}g protein</span>
-                                                            <span className="text-[10px] text-blue-400">🌾 {meal.carbs}g carbs</span>
-                                                            <span className="text-[10px] text-amber-400">🥑 {meal.fat}g fat</span>
+                                                        <div className="flex items-center gap-3 flex-wrap">
+                                                            <span className="text-[10px] text-orange-400 flex items-center gap-1"><Flame size={10} /> {meal.calories} kcal</span>
+                                                            <span className="text-[10px] text-emerald-400">{meal.protein}g protein</span>
+                                                            <span className="text-[10px] text-blue-400">{meal.carbs}g carbs</span>
+                                                            <span className="text-[10px] text-amber-400">{meal.fat}g fat</span>
                                                         </div>
                                                         {meal.isLocal && (
-                                                            <Badge variant="secondary" className="text-[10px] mt-2">🇧🇩 Local</Badge>
+                                                            <Badge variant="secondary" className="text-[10px] mt-2">Local</Badge>
                                                         )}
                                                     </div>
                                                 </div>
