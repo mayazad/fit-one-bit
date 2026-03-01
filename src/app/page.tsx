@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { EvolvingAvatar } from '@/components/EvolvingAvatar';
 import {
   Flame, Zap, Dumbbell, Target, Droplets, Moon,
   ChevronRight, Trophy, Utensils, TrendingUp,
   CheckCircle2, Circle, Star, Sparkles, MessageSquareQuote,
+  BedDouble, Plus, Minus, Activity,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -67,14 +68,22 @@ export default function DashboardPage() {
   const isQuestDone = (quest: typeof quests[0]) => quest.done || questToggles[quest.id];
   const questsDone = quests.filter(q => isQuestDone(q)).length;
 
-  const toggleQuest = (id: string) => {
+  const toggleQuest = useCallback((id: string) => {
     const quest = quests.find(q => q.id === id);
-    if (quest?.done) return; // Already done by real data
+    if (quest?.done) return;
     const newState = !questToggles[id];
     setQuestToggles(prev => ({ ...prev, [id]: newState }));
-    if (newState) {
-      addXp(quest?.xp ?? 0);
+    if (newState && quest) {
+      addXp(quest.xp);
+      showXpToast(quest.xp);
     }
+  }, [quests, questToggles, addXp]);
+
+  // XP Toast notification
+  const [xpToast, setXpToast] = useState<number | null>(null);
+  const showXpToast = (amount: number) => {
+    setXpToast(amount);
+    setTimeout(() => setXpToast(null), 2000);
   };
 
   // Water splash animation state
@@ -82,12 +91,46 @@ export default function DashboardPage() {
   const handleAddWater = () => {
     addWater();
     addXp(5);
+    showXpToast(5);
     setWaterSplash(true);
     setTimeout(() => setWaterSplash(false), 600);
   };
 
+  // Sleep tracker
+  const { setSleep } = useGamificationStore();
+  const handleSleepChange = (h: number) => {
+    const clamped = Math.max(0, Math.min(12, h));
+    setSleep(clamped);
+  };
+
+  // Weekly heatmap (mock: active on days with completed exercises)
+  const heatmapDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const heatmapActivity = weeklyPlan.map(d => d.completedExercises.length / Math.max(d.exercises.length, 1));
+
+  const sleepQuality = sleepHours >= 8 ? { label: 'Excellent', color: 'text-emerald-400' }
+    : sleepHours >= 7 ? { label: 'Good', color: 'text-cyan-400' }
+      : sleepHours >= 6 ? { label: 'Fair', color: 'text-yellow-400' }
+        : { label: 'Poor', color: 'text-red-400' };
+
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="max-w-6xl mx-auto space-y-6 relative">
+      {/* ═══════════════════════════════════════════════ */}
+      {/* XP TOAST NOTIFICATION (Fixed overlay)         */}
+      {/* ═══════════════════════════════════════════════ */}
+      <AnimatePresence>
+        {xpToast !== null && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -30, scale: 0.8 }}
+            className="fixed bottom-24 right-6 z-50 bg-gradient-to-r from-cyan-500/20 to-violet-600/20 backdrop-blur-md border border-cyan-500/30 text-white px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2"
+          >
+            <Sparkles size={14} className="text-cyan-400" />
+            <span className="text-sm font-bold text-cyan-300">+{xpToast} XP</span>
+            <span className="text-xs text-muted-foreground">earned!</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {/* ═══════════════════════════════════════════════ */}
       {/* HERO SECTION with DiceBear Avatar              */}
       {/* ═══════════════════════════════════════════════ */}
@@ -427,6 +470,102 @@ export default function DashboardPage() {
                       </Button>
                     </motion.div>
                   </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* ─── SLEEP TRACKER ─── */}
+          <motion.div custom={8} initial="hidden" animate="visible" variants={fadeUp}>
+            <Card className="bg-slate-900/50 backdrop-blur-md border border-white/10">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-indigo-500/10">
+                    <BedDouble size={16} className="text-indigo-400" />
+                  </div>
+                  Sleep Tracker
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center">
+                  <motion.p
+                    key={sleepHours}
+                    initial={{ scale: 1.2, opacity: 0.7 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    className="text-3xl font-bold text-indigo-400 mb-0.5"
+                  >
+                    {sleepHours}h
+                  </motion.p>
+                  <p className={`text-xs font-medium mb-3 ${sleepQuality.color}`}>{sleepQuality.label}</p>
+                  <div className="h-2.5 rounded-full bg-white/5 overflow-hidden mb-3 border border-white/5">
+                    <motion.div
+                      animate={{ width: `${Math.min((sleepHours / 10) * 100, 100)}%` }}
+                      transition={{ duration: 0.4, ease: 'easeOut' }}
+                      className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-400"
+                    />
+                  </div>
+                  <div className="flex gap-2 justify-center items-center">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleSleepChange(sleepHours - 0.5)}
+                      className="text-xs border-white/10 hover:bg-white/5 h-7 w-7 p-0 rounded-lg"
+                    >
+                      <Minus size={12} />
+                    </Button>
+                    <span className="text-sm font-medium w-16 text-center">{sleepHours}h sleep</span>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleSleepChange(sleepHours + 0.5)}
+                      className="text-xs border-white/10 hover:bg-white/5 h-7 w-7 p-0 rounded-lg"
+                    >
+                      <Plus size={12} />
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* ─── WEEKLY ACTIVITY HEATMAP ─── */}
+          <motion.div custom={9} initial="hidden" animate="visible" variants={fadeUp}>
+            <Card className="bg-slate-900/50 backdrop-blur-md border border-white/10">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-emerald-500/10">
+                    <Activity size={16} className="text-emerald-400" />
+                  </div>
+                  Weekly Activity
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex justify-between gap-1">
+                  {heatmapDays.map((day, i) => {
+                    const activity = heatmapActivity[i] ?? 0;
+                    const isToday = i === todayIndex;
+                    const bg = activity >= 1 ? 'bg-emerald-500'
+                      : activity > 0.5 ? 'bg-emerald-500/60'
+                        : activity > 0 ? 'bg-emerald-500/30'
+                          : 'bg-white/5';
+                    return (
+                      <div key={day} className="flex flex-col items-center gap-1.5 flex-1">
+                        <motion.div
+                          whileHover={{ scale: 1.2 }}
+                          className={`w-full aspect-square rounded-md ${bg} ${isToday ? 'ring-1 ring-cyan-400' : ''} transition-colors cursor-default`}
+                          title={`${day}: ${Math.round(activity * 100)}% complete`}
+                        />
+                        <span className={`text-[9px] uppercase tracking-widest ${isToday ? 'text-cyan-400 font-bold' : 'text-muted-foreground'}`}>
+                          {day}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="flex items-center gap-2 mt-3 justify-end">
+                  <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-sm bg-white/5" /><span className="text-[9px] text-muted-foreground">None</span></div>
+                  <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-sm bg-emerald-500/30" /><span className="text-[9px] text-muted-foreground">Some</span></div>
+                  <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-sm bg-emerald-500" /><span className="text-[9px] text-muted-foreground">Full</span></div>
                 </div>
               </CardContent>
             </Card>
