@@ -93,6 +93,17 @@ let UsersService = class UsersService {
         const { passwordHash, ...userWithoutPassword } = user;
         return userWithoutPassword;
     }
+    async updateProfile(userId, updateData) {
+        return this.prisma.profile.update({
+            where: { userId },
+            data: {
+                baseStats: updateData.baseStats,
+                primaryClass: updateData.primaryClass,
+                focusAreas: updateData.focusAreas,
+                dietPref: updateData.dietPreference,
+            },
+        });
+    }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([

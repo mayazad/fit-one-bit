@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, Param } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param, Patch } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { RegisterDto } from './dto/register.dto';
 
@@ -14,5 +14,10 @@ export class UsersController {
     @Get(':id/profile')
     async getProfile(@Param('id') id: string) {
         return this.usersService.getUserProfile(id);
+    }
+
+    @Patch(':id/profile')
+    async updateProfile(@Param('id') id: string, @Body() updateData: any) {
+        return this.usersService.updateProfile(id, updateData);
     }
 }

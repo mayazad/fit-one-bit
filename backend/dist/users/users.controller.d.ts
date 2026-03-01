@@ -15,6 +15,7 @@ export declare class UsersController {
             id: string;
             createdAt: Date;
             updatedAt: Date;
+            userId: string;
             level: number;
             currentXp: number;
             streak: number;
@@ -25,12 +26,27 @@ export declare class UsersController {
             waterGlasses: number;
             waterGoal: number;
             sleepHours: number;
-            userId: string;
         } | null;
         name: string | null;
         email: string;
         id: string;
         createdAt: Date;
         updatedAt: Date;
+    }>;
+    updateProfile(id: string, updateData: any): Promise<{
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: string;
+        level: number;
+        currentXp: number;
+        streak: number;
+        baseStats: import("@prisma/client/runtime/library").JsonValue | null;
+        primaryClass: string | null;
+        focusAreas: import("@prisma/client/runtime/library").JsonValue | null;
+        dietPref: string | null;
+        waterGlasses: number;
+        waterGoal: number;
+        sleepHours: number;
     }>;
 }
