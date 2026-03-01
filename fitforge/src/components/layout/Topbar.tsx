@@ -29,12 +29,14 @@ export default function Topbar({ onMenuClick, onDesktopMenuClick }: TopbarProps)
     const handleLogout = () => {
         // Clear Zustand stores
         setUserProfile({
+            id: '',
             name: '',
             age: 0,
             height: '',
             weight: 0,
             goals: [],
             avatar: 'beginner',
+            primaryClass: undefined,
             createdAt: '',
         });
         setOnboarded(false);

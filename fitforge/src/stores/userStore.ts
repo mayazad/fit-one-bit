@@ -14,12 +14,14 @@ export const useUserStore = create<UserStore>()(
     persist(
         (set) => ({
             profile: {
+                id: '',
                 name: '',
                 age: 0,
                 height: '',
                 weight: 0,
                 goals: [],
                 avatar: 'beginner',
+                primaryClass: undefined,
                 createdAt: new Date().toISOString(),
             },
             isOnboarded: false,

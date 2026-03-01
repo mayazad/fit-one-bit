@@ -1,11 +1,13 @@
 // ===== USER PROFILE =====
 export interface UserProfile {
+    id: string;
     name: string;
     age: number;
     height: string;
     weight: number;
     goals: string[];
     avatar: AvatarStage;
+    primaryClass?: string;
     createdAt: string;
 }
 

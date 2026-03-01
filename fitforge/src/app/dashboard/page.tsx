@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { EvolvingAvatar } from '@/components/EvolvingAvatar';
 import {
@@ -17,6 +18,7 @@ import Link from 'next/link';
 import { useGamificationStore } from '@/stores/gamificationStore';
 import { useWorkoutStore } from '@/stores/workoutStore';
 import { useDietStore } from '@/stores/dietStore';
+import { useUserStore } from '@/stores/userStore';
 import { getDailyQuote, getAvatarForLevel } from '@/data/gamification';
 import { exercises } from '@/data/exercises';
 
@@ -42,6 +44,14 @@ function getTimeGreetingAndGradient() {
 
 
 export default function DashboardPage() {
+  const router = useRouter();
+  const { profile } = useUserStore();
+
+  useEffect(() => {
+    if (!profile?.primaryClass) {
+      router.replace('/onboarding');
+    }
+  }, [profile, router]);
   const { level, streak, xp, waterGlasses, waterGoal, sleepHours, getProgress, addWater, removeWater, addXp } = useGamificationStore();
   const { weeklyPlan, completedWorkouts } = useWorkoutStore();
   const { getTodayCompletion } = useDietStore();

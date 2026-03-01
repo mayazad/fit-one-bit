@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useUserStore } from '@/stores/userStore';
 
 /* ───── animation variants ───── */
 const slideVariants = {
@@ -80,8 +81,16 @@ const dietOptions = [
 ═══════════════════════════════════════════════ */
 export default function OnboardingPage() {
     const router = useRouter();
+    const { profile, updateProfile, setOnboarded } = useUserStore();
     const [step, setStep] = useState(1);
     const [direction, setDirection] = useState(1);
+
+    // Route Guard
+    useEffect(() => {
+        if (profile?.primaryClass) {
+            router.replace('/dashboard');
+        }
+    }, [profile, router]);
 
     /* form data */
     const [baseStats, setBaseStats] = useState({ age: '', height: '', weight: '' });
@@ -97,9 +106,39 @@ export default function OnboardingPage() {
         setFocusAreas(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
     };
 
-    const handleFinish = () => {
+    const handleFinish = async () => {
         setForging(true);
-        setTimeout(() => router.push('/dashboard'), 2500);
+        try {
+            const res = await fetch(`http://localhost:3001/users/${profile.id}/profile`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    baseStats: {
+                        age: parseInt(baseStats.age) || 0,
+                        height: baseStats.height,
+                        weight: parseFloat(baseStats.weight) || 0
+                    },
+                    primaryClass,
+                    focusAreas,
+                    dietPreference: dietPref,
+                }),
+            });
+
+            if (!res.ok) {
+                const data = await res.json();
+                throw new Error(data.message || 'Failed to save profile');
+            }
+
+            updateProfile({
+                primaryClass,
+                goals: focusAreas,
+            });
+            setOnboarded(true);
+            setTimeout(() => router.push('/dashboard'), 2500);
+        } catch (err) {
+            console.error('Failed to forge profile:', err);
+            setForging(false);
+        }
     };
 
     const canAdvance = () => {
@@ -218,8 +257,8 @@ export default function OnboardingPage() {
                                                 whileTap={{ scale: 0.98 }}
                                                 onClick={() => setPrimaryClass(cls.id)}
                                                 className={`group w-full text-left p-5 rounded-2xl border transition-all duration-300 ${selected
-                                                        ? `ring-2 ${cls.ring}`
-                                                        : 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04] hover:border-white/10'
+                                                    ? `ring-2 ${cls.ring}`
+                                                    : 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04] hover:border-white/10'
                                                     }`}
                                             >
                                                 <div className="flex items-start gap-4">
@@ -269,8 +308,8 @@ export default function OnboardingPage() {
                                                 whileTap={{ scale: 0.96 }}
                                                 onClick={() => toggleFocus(w.id)}
                                                 className={`group flex items-center gap-3 p-4 rounded-xl border transition-all duration-300 text-left ${selected
-                                                        ? 'ring-2 ring-teal-400/60 bg-teal-400/10 border-teal-400/30'
-                                                        : 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04] hover:border-white/10'
+                                                    ? 'ring-2 ring-teal-400/60 bg-teal-400/10 border-teal-400/30'
+                                                    : 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04] hover:border-white/10'
                                                     }`}
                                             >
                                                 <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110 ${selected ? 'bg-teal-500/20' : 'bg-white/5'
@@ -315,8 +354,8 @@ export default function OnboardingPage() {
                                                 whileTap={{ scale: 0.98 }}
                                                 onClick={() => setDietPref(d.id)}
                                                 className={`group w-full text-left p-4 rounded-xl border transition-all duration-300 relative ${selected
-                                                        ? `ring-2 ${d.ring}`
-                                                        : 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04] hover:border-white/10'
+                                                    ? `ring-2 ${d.ring}`
+                                                    : 'bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04] hover:border-white/10'
                                                     }`}
                                             >
                                                 {d.featured && (

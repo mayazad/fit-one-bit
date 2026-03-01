@@ -62,12 +62,14 @@ export default function LoginPage() {
 
                 // Hydrate Zustand stores with the real DB data
                 setUserProfile({
+                    id: user.id || '',
                     name: user.name || '',
                     age: user.profile?.baseStats?.age || 0,
                     height: user.profile?.baseStats?.height || '',
                     weight: user.profile?.baseStats?.weight || 0,
                     goals: user.profile?.focusAreas || [],
                     avatar: 'beginner',
+                    primaryClass: user.profile?.primaryClass || undefined,
                     createdAt: user.createdAt,
                 });
 
