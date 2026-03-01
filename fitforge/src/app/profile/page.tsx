@@ -52,16 +52,16 @@ export default function ProfilePage() {
 
             {/* Profile Card */}
             <motion.div custom={0} initial="hidden" animate="visible" variants={fadeUp}>
-                <Card className="bg-gradient-to-br from-cyan-500/10 via-violet-600/10 to-fuchsia-500/10 border-white/5">
+                <Card className="bg-zinc-900 border border-zinc-80010 border-zinc-800/50">
                     <CardContent className="p-6">
                         <div className="flex items-center gap-4 mb-6">
-                            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-500 to-violet-600 flex items-center justify-center glow">
-                                <User size={32} className="text-white" />
+                            <div className="w-20 h-20 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center glow">
+                                <User size={32} className="text-zinc-50" />
                             </div>
                             <div>
                                 <h2 className="text-xl font-bold">{profile.name}</h2>
                                 <div className="flex items-center gap-2 mt-1">
-                                    <Badge className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30">{avatar.name}</Badge>
+                                    <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30">{avatar.name}</Badge>
                                     <Badge variant="secondary">Level {level}</Badge>
                                 </div>
                                 <p className="text-xs text-muted-foreground mt-1">Member since {new Date(profile.createdAt).toLocaleDateString()}</p>
@@ -73,26 +73,26 @@ export default function ProfilePage() {
                                 <div className="grid sm:grid-cols-2 gap-3">
                                     <div>
                                         <label className="text-xs text-muted-foreground mb-1 block">Name</label>
-                                        <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-white/5 border-white/10" />
+                                        <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="bg-zinc-900/50 border-zinc-800/50" />
                                     </div>
                                     <div>
                                         <label className="text-xs text-muted-foreground mb-1 block">Age</label>
-                                        <Input type="number" value={form.age} onChange={(e) => setForm({ ...form, age: e.target.value })} className="bg-white/5 border-white/10" />
+                                        <Input type="number" value={form.age} onChange={(e) => setForm({ ...form, age: e.target.value })} className="bg-zinc-900/50 border-zinc-800/50" />
                                     </div>
                                     <div>
                                         <label className="text-xs text-muted-foreground mb-1 block">Height</label>
-                                        <Input value={form.height} onChange={(e) => setForm({ ...form, height: e.target.value })} className="bg-white/5 border-white/10" />
+                                        <Input value={form.height} onChange={(e) => setForm({ ...form, height: e.target.value })} className="bg-zinc-900/50 border-zinc-800/50" />
                                     </div>
                                     <div>
                                         <label className="text-xs text-muted-foreground mb-1 block">Weight (kg)</label>
-                                        <Input type="number" step="0.1" value={form.weight} onChange={(e) => setForm({ ...form, weight: e.target.value })} className="bg-white/5 border-white/10" />
+                                        <Input type="number" step="0.1" value={form.weight} onChange={(e) => setForm({ ...form, weight: e.target.value })} className="bg-zinc-900/50 border-zinc-800/50" />
                                     </div>
                                 </div>
                                 <div className="flex gap-2">
-                                    <Button onClick={handleSave} size="sm" className="bg-gradient-to-r from-cyan-500 to-violet-600 text-white border-0">
+                                    <Button onClick={handleSave} size="sm" className="bg-orange-500 hover:bg-orange-600 hover:scale-105 transition-all text-zinc-50 border-0">
                                         <Save size={14} className="mr-1" /> Save
                                     </Button>
-                                    <Button onClick={() => setEditing(false)} variant="outline" size="sm" className="border-white/10">
+                                    <Button onClick={() => setEditing(false)} variant="outline" size="sm" className="border-zinc-800/50">
                                         Cancel
                                     </Button>
                                 </div>
@@ -106,13 +106,13 @@ export default function ProfilePage() {
                                         { label: 'Weight', value: `${profile.weight} kg` },
                                         { label: 'Level', value: `Level ${level}` },
                                     ].map((item) => (
-                                        <div key={item.label} className="p-3 rounded-xl bg-white/5 border border-white/5 text-center">
+                                        <div key={item.label} className="p-3 rounded-xl bg-zinc-900/50 border border-zinc-800/50 text-center">
                                             <p className="text-xs text-muted-foreground">{item.label}</p>
                                             <p className="text-sm font-medium mt-0.5">{item.value}</p>
                                         </div>
                                     ))}
                                 </div>
-                                <Button onClick={() => setEditing(true)} variant="outline" size="sm" className="mt-3 border-white/10">
+                                <Button onClick={() => setEditing(true)} variant="outline" size="sm" className="mt-3 border-zinc-800/50">
                                     <Edit2 size={14} className="mr-1" /> Edit Profile
                                 </Button>
                             </div>
@@ -123,17 +123,17 @@ export default function ProfilePage() {
 
             {/* Goals */}
             <motion.div custom={1} initial="hidden" animate="visible" variants={fadeUp}>
-                <Card className="glass-card border-white/5">
+                <Card className="glass-card border-zinc-800/50">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-base flex items-center gap-2">
-                            <Target size={18} className="text-cyan-400" />
+                            <Target size={18} className="text-orange-400" />
                             Goals
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="flex flex-wrap gap-2">
                             {profile.goals.map((goal) => (
-                                <Badge key={goal} variant="secondary" className="bg-cyan-500/10 text-cyan-400 border-cyan-500/20 text-xs">
+                                <Badge key={goal} variant="secondary" className="bg-orange-500/10 text-orange-400 border-orange-500/20 text-xs">
                                     <Target size={10} className="mr-1" />{goal}
                                 </Badge>
                             ))}
@@ -144,21 +144,21 @@ export default function ProfilePage() {
 
             {/* Lifetime Stats */}
             <motion.div custom={2} initial="hidden" animate="visible" variants={fadeUp}>
-                <Card className="glass-card border-white/5">
+                <Card className="glass-card border-zinc-800/50">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-base">Lifetime Stats</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                             {([
-                                { label: 'Total XP', value: xp.toString(), Icon: Star, color: 'text-violet-400' },
+                                { label: 'Total XP', value: xp.toString(), Icon: Star, color: 'text-orange-400' },
                                 { label: 'Current Streak', value: `${streak} days`, Icon: Flame, color: 'text-orange-400' },
                                 { label: 'Longest Streak', value: `${longestStreak} days`, Icon: Zap, color: 'text-yellow-400' },
-                                { label: 'Workouts Done', value: completedWorkouts.toString(), Icon: Dumbbell, color: 'text-cyan-400' },
+                                { label: 'Workouts Done', value: completedWorkouts.toString(), Icon: Dumbbell, color: 'text-orange-400' },
                                 { label: 'Exercises Done', value: totalExercisesCompleted.toString(), Icon: Trophy, color: 'text-emerald-400' },
-                                { label: 'Badges Earned', value: `${badges.filter(b => b.unlocked).length}`, Icon: Award, color: 'text-amber-400' },
+                                { label: 'Badges Earned', value: `${badges.filter(b => b.unlocked).length}`, Icon: Award, color: 'text-orange-400' },
                             ] as const).map((stat) => (
-                                <div key={stat.label} className="p-3 rounded-xl bg-white/3 border border-white/5 text-center">
+                                <div key={stat.label} className="p-3 rounded-xl bg-zinc-900/50 border border-zinc-800/50 text-center">
                                     <div className="flex items-center justify-center mb-1">
                                         <stat.Icon size={20} className={stat.color} />
                                     </div>

@@ -64,18 +64,18 @@ export function getCategoryIconMeta(category: string, iconKey: string): {
         case 'legs':
             return { Icon: Footprints, colorClass: 'text-blue-400' };
         case 'core':
-            return { Icon: Activity, colorClass: 'text-purple-400' };
+            return { Icon: Activity, colorClass: 'text-orange-400' };
         case 'full-body':
             return { Icon: HeartPulse, colorClass: 'text-orange-400' };
         case 'flexibility':
-            return { Icon: Move, colorClass: 'text-teal-400' };
+            return { Icon: Move, colorClass: 'text-orange-400' };
         case 'posture':
-            return { Icon: Move, colorClass: 'text-teal-400' };
+            return { Icon: Move, colorClass: 'text-orange-400' };
         case 'performance':
             return { Icon: Zap, colorClass: 'text-yellow-400' };
         case 'chest':
         default:
-            return { Icon: iconMap[iconKey] ?? Dumbbell, colorClass: 'text-cyan-400' };
+            return { Icon: iconMap[iconKey] ?? Dumbbell, colorClass: 'text-orange-400' };
     }
 }
 

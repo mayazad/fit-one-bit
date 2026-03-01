@@ -63,7 +63,7 @@ export default function ProgressPage() {
                     </div>
                     <Button
                         onClick={() => setShowForm(!showForm)}
-                        className="bg-gradient-to-r from-cyan-500 to-violet-600 text-white border-0"
+                        className="bg-orange-500 hover:bg-orange-600 hover:scale-105 transition-all text-zinc-50 border-0"
                         size="sm"
                     >
                         <Plus size={16} className="mr-1" /> Log Entry
@@ -74,7 +74,7 @@ export default function ProgressPage() {
             {/* Add Entry Form */}
             {showForm && (
                 <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}>
-                    <Card className="glass-card border-white/5">
+                    <Card className="glass-card border-zinc-800/50">
                         <CardContent className="p-4">
                             <div className="grid sm:grid-cols-3 gap-3">
                                 <div>
@@ -85,7 +85,7 @@ export default function ProgressPage() {
                                         placeholder="56.0"
                                         value={newWeight}
                                         onChange={(e) => setNewWeight(e.target.value)}
-                                        className="bg-white/5 border-white/10"
+                                        className="bg-zinc-900/50 border-zinc-800/50"
                                     />
                                 </div>
                                 <div>
@@ -96,7 +96,7 @@ export default function ProgressPage() {
                                         placeholder="36.0"
                                         value={newChest}
                                         onChange={(e) => setNewChest(e.target.value)}
-                                        className="bg-white/5 border-white/10"
+                                        className="bg-zinc-900/50 border-zinc-800/50"
                                     />
                                 </div>
                                 <div>
@@ -107,7 +107,7 @@ export default function ProgressPage() {
                                         placeholder="31.0"
                                         value={newWaist}
                                         onChange={(e) => setNewWaist(e.target.value)}
-                                        className="bg-white/5 border-white/10"
+                                        className="bg-zinc-900/50 border-zinc-800/50"
                                     />
                                 </div>
                             </div>
@@ -126,8 +126,8 @@ export default function ProgressPage() {
                         label: 'Current Weight',
                         value: latest?.weight ? `${latest.weight} kg` : '—',
                         icon: Scale,
-                        color: 'text-cyan-400',
-                        bg: 'from-cyan-500/10 to-blue-500/10',
+                        color: 'text-orange-400',
+                        bg: 'from-orange-500/10 to-blue-500/10',
                     },
                     {
                         label: 'Weight Change',
@@ -140,19 +140,19 @@ export default function ProgressPage() {
                         label: 'Chest',
                         value: latest?.chest ? `${latest.chest}"` : '—',
                         icon: Maximize2,
-                        color: 'text-violet-400',
-                        bg: 'from-violet-500/10 to-purple-500/10',
+                        color: 'text-orange-400',
+                        bg: 'from-orange-500/10 to-orange-500/10',
                     },
                     {
                         label: 'Waist',
                         value: latest?.waist ? `${latest.waist}"` : '—',
                         icon: Ratio,
-                        color: 'text-amber-400',
-                        bg: 'from-amber-500/10 to-orange-500/10',
+                        color: 'text-orange-400',
+                        bg: 'from-orange-500/10 to-orange-500/10',
                     },
                 ].map((stat, i) => (
                     <motion.div key={stat.label} custom={i + 1} initial="hidden" animate="visible" variants={fadeUp}>
-                        <Card className={`group bg-gradient-to-br ${stat.bg} border-white/5`}>
+                        <Card className={`group bg-gradient-to-br ${stat.bg} border-zinc-800/50`}>
                             <CardContent className="p-4">
                                 <div className="flex items-center gap-2 mb-2">
                                     <stat.icon size={16} className={`${stat.color} transition-transform duration-300 group-hover:scale-110`} />
@@ -167,10 +167,10 @@ export default function ProgressPage() {
 
             {/* Weight Chart */}
             <motion.div custom={5} initial="hidden" animate="visible" variants={fadeUp}>
-                <Card className="glass-card border-white/5">
+                <Card className="glass-card border-zinc-800/50">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-base flex items-center gap-2">
-                            <Scale size={18} className="text-cyan-400" />
+                            <Scale size={18} className="text-orange-400" />
                             Weight Trend
                         </CardTitle>
                     </CardHeader>
@@ -211,10 +211,10 @@ export default function ProgressPage() {
 
             {/* Measurements Chart */}
             <motion.div custom={6} initial="hidden" animate="visible" variants={fadeUp}>
-                <Card className="glass-card border-white/5">
+                <Card className="glass-card border-zinc-800/50">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-base flex items-center gap-2">
-                            <Ruler size={18} className="text-violet-400" />
+                            <Ruler size={18} className="text-orange-400" />
                             Body Measurements
                         </CardTitle>
                     </CardHeader>
@@ -244,28 +244,28 @@ export default function ProgressPage() {
 
             {/* History */}
             <motion.div custom={7} initial="hidden" animate="visible" variants={fadeUp}>
-                <Card className="glass-card border-white/5">
+                <Card className="glass-card border-zinc-800/50">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-base">History</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="space-y-2">
                             {[...entries].reverse().map((entry, i) => (
-                                <div key={i} className="flex items-center gap-3 flex-wrap p-3 rounded-xl bg-white/3 border border-white/5">
+                                <div key={i} className="flex items-center gap-3 flex-wrap p-3 rounded-xl bg-zinc-900/50 border border-zinc-800/50">
                                     <span className="text-xs text-muted-foreground w-20">{entry.date}</span>
                                     {entry.weight && (
                                         <Badge variant="secondary" className="text-[10px] flex items-center gap-1">
-                                            <Scale size={10} className="text-cyan-400" />{entry.weight} kg
+                                            <Scale size={10} className="text-orange-400" />{entry.weight} kg
                                         </Badge>
                                     )}
                                     {entry.chest && (
                                         <Badge variant="secondary" className="text-[10px] flex items-center gap-1">
-                                            <Maximize2 size={10} className="text-violet-400" />Chest: {entry.chest}&quot;
+                                            <Maximize2 size={10} className="text-orange-400" />Chest: {entry.chest}&quot;
                                         </Badge>
                                     )}
                                     {entry.waist && (
                                         <Badge variant="secondary" className="text-[10px] flex items-center gap-1">
-                                            <Ratio size={10} className="text-amber-400" />Waist: {entry.waist}&quot;
+                                            <Ratio size={10} className="text-orange-400" />Waist: {entry.waist}&quot;
                                         </Badge>
                                     )}
                                 </div>

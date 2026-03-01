@@ -32,12 +32,12 @@ export default function AchievementsPage() {
 
             {/* Level Progress */}
             <motion.div custom={0} initial="hidden" animate="visible" variants={fadeUp}>
-                <Card className="bg-gradient-to-br from-cyan-500/10 via-violet-600/10 to-fuchsia-500/10 border-white/5">
+                <Card className="bg-zinc-900 border border-zinc-80010 border-zinc-800/50">
                     <CardContent className="p-6">
                         <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center gap-3">
-                                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500 to-violet-600 flex items-center justify-center glow">
-                                    <User size={24} className="text-white" />
+                                <div className="w-14 h-14 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center glow">
+                                    <User size={24} className="text-zinc-50" />
                                 </div>
                                 <div>
                                     <h2 className="text-lg font-bold">Level {level}</h2>
@@ -55,14 +55,14 @@ export default function AchievementsPage() {
                         <div>
                             <div className="flex justify-between text-xs mb-1">
                                 <span className="text-muted-foreground">Next Level</span>
-                                <span className="text-cyan-400">{progress.xp}/{progress.xpNeeded} XP</span>
+                                <span className="text-orange-400">{progress.xp}/{progress.xpNeeded} XP</span>
                             </div>
-                            <div className="h-3 rounded-full bg-white/5 overflow-hidden">
+                            <div className="h-3 rounded-full bg-zinc-900/50 overflow-hidden">
                                 <motion.div
                                     initial={{ width: 0 }}
                                     animate={{ width: `${progress.percentage}%` }}
                                     transition={{ duration: 1, delay: 0.3 }}
-                                    className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-violet-600"
+                                    className="h-full rounded-full bg-orange-500 hover:bg-orange-600 hover:scale-105 transition-all"
                                 />
                             </div>
                         </div>
@@ -72,7 +72,7 @@ export default function AchievementsPage() {
 
             {/* Avatar Evolution */}
             <motion.div custom={1} initial="hidden" animate="visible" variants={fadeUp}>
-                <Card className="glass-card border-white/5">
+                <Card className="glass-card border-zinc-800/50">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-base flex items-center gap-2">
                             <Star size={18} className="text-yellow-400" />
@@ -88,15 +88,15 @@ export default function AchievementsPage() {
                                     <div key={stage.stage} className="flex flex-col items-center flex-shrink-0">
                                         <div
                                             className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-2 transition-all ${isCurrent
-                                                ? 'bg-gradient-to-br from-cyan-500 to-violet-600 glow scale-110'
+                                                ? 'bg-zinc-900 border border-zinc-800 glow scale-110'
                                                 : isUnlocked
-                                                    ? 'bg-gradient-to-br from-cyan-500/20 to-violet-600/20'
-                                                    : 'bg-white/5 grayscale opacity-40'
+                                                    ? 'bg-zinc-900 border border-zinc-80020'
+                                                    : 'bg-zinc-900/50 grayscale opacity-40'
                                                 }`}
                                         >
-                                            {isUnlocked ? <Star size={22} className={isCurrent ? 'text-white' : 'text-cyan-400'} /> : <Lock size={20} />}
+                                            {isUnlocked ? <Star size={22} className={isCurrent ? 'text-zinc-50' : 'text-orange-400'} /> : <Lock size={20} />}
                                         </div>
-                                        <p className={`text-xs font-medium ${isCurrent ? 'text-cyan-400' : isUnlocked ? '' : 'text-muted-foreground'}`}>
+                                        <p className={`text-xs font-medium ${isCurrent ? 'text-orange-400' : isUnlocked ? '' : 'text-muted-foreground'}`}>
                                             {stage.name}
                                         </p>
                                         <p className="text-[10px] text-muted-foreground">Lv.{stage.level}+</p>
@@ -113,10 +113,10 @@ export default function AchievementsPage() {
                 {([
                     { label: 'Current Streak', value: `${streak} days`, Icon: Flame, color: 'text-orange-400' },
                     { label: 'Longest Streak', value: `${longestStreak} days`, Icon: Zap, color: 'text-yellow-400' },
-                    { label: 'Badges Earned', value: `${unlockedCount}/${badges.length}`, Icon: Award, color: 'text-amber-400' },
+                    { label: 'Badges Earned', value: `${unlockedCount}/${badges.length}`, Icon: Award, color: 'text-orange-400' },
                 ] as const).map((stat, i) => (
                     <motion.div key={stat.label} custom={i + 2} initial="hidden" animate="visible" variants={fadeUp}>
-                        <Card className="glass-card border-white/5 text-center">
+                        <Card className="glass-card border-zinc-800/50 text-center">
                             <CardContent className="p-4">
                                 <div className="flex items-center justify-center mb-1">
                                     <stat.Icon size={20} className={stat.color} />
@@ -131,7 +131,7 @@ export default function AchievementsPage() {
 
             {/* Badges */}
             <motion.div custom={5} initial="hidden" animate="visible" variants={fadeUp}>
-                <Card className="glass-card border-white/5">
+                <Card className="glass-card border-zinc-800/50">
                     <CardHeader className="pb-3">
                         <div className="flex items-center justify-between">
                             <CardTitle className="text-base flex items-center gap-2">
@@ -155,12 +155,12 @@ export default function AchievementsPage() {
                                         animate="visible"
                                         variants={fadeUp}
                                         className={`p-4 rounded-xl text-center transition-all ${badge.unlocked
-                                            ? 'bg-gradient-to-br from-yellow-500/10 to-amber-500/10 border border-yellow-500/20'
-                                            : 'bg-white/3 border border-white/5 opacity-50'
+                                            ? 'bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border border-yellow-500/20'
+                                            : 'bg-zinc-900/50 border border-zinc-800/50 opacity-50'
                                             }`}
                                     >
                                         <div className="flex items-center justify-center mb-2">
-                                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${badge.unlocked ? 'bg-yellow-500/20' : 'bg-white/5'}`}>
+                                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${badge.unlocked ? 'bg-yellow-500/20' : 'bg-zinc-900/50'}`}>
                                                 {badge.unlocked
                                                     ? <BadgeIcon size={20} className="text-yellow-400" />
                                                     : <Lock size={18} className="text-muted-foreground" />

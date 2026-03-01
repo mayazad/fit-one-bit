@@ -46,18 +46,18 @@ export default function AiCoachPage() {
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-2xl font-bold mb-1 flex items-center gap-2">
-                            AI Coach <Sparkles size={20} className="text-cyan-400" />
+                            AI Coach <Sparkles size={20} className="text-orange-400" />
                         </h1>
                         <p className="text-sm text-muted-foreground">Your personal fitness & nutrition advisor 🤖</p>
                     </div>
-                    <Button variant="outline" size="sm" onClick={clearChat} className="text-xs border-white/10">
+                    <Button variant="outline" size="sm" onClick={clearChat} className="text-xs border-zinc-800/50">
                         <Trash2 size={14} className="mr-1" /> Clear
                     </Button>
                 </div>
             </motion.div>
 
             {/* Chat Messages */}
-            <Card className="glass-card border-white/5 flex-1 flex flex-col overflow-hidden">
+            <Card className="glass-card border-zinc-800/50 flex-1 flex flex-col overflow-hidden">
                 <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-4">
                     {messages.map((msg, i) => (
                         <motion.div
@@ -68,14 +68,14 @@ export default function AiCoachPage() {
                             className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}
                         >
                             <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${msg.role === 'assistant'
-                                    ? 'bg-gradient-to-br from-cyan-500 to-violet-600 text-white'
-                                    : 'bg-white/10'
+                                    ? 'bg-zinc-900 border border-zinc-800 text-zinc-50'
+                                    : 'bg-zinc-900/50'
                                 }`}>
                                 {msg.role === 'assistant' ? <Bot size={16} /> : <User size={16} />}
                             </div>
                             <div className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm ${msg.role === 'user'
-                                    ? 'bg-gradient-to-r from-cyan-500/20 to-violet-600/20 border border-cyan-500/20'
-                                    : 'bg-white/5 border border-white/5'
+                                    ? 'bg-gradient-to-r from-orange-500/20 to-orange-600/20 border border-orange-500/20'
+                                    : 'bg-zinc-900/50 border border-zinc-800/50'
                                 }`}>
                                 <p className="leading-relaxed whitespace-pre-wrap">{msg.content}</p>
                                 <p className="text-[10px] text-muted-foreground mt-1.5">
@@ -95,7 +95,7 @@ export default function AiCoachPage() {
                                 <button
                                     key={s}
                                     onClick={() => handleSuggestion(s)}
-                                    className="text-xs px-3 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-cyan-500/30 hover:bg-cyan-500/10 transition-all"
+                                    className="text-xs px-3 py-1.5 rounded-full bg-zinc-900/50 border border-zinc-800/50 hover:border-orange-500/30 hover:bg-orange-500/10 transition-all"
                                 >
                                     {s}
                                 </button>
@@ -105,19 +105,19 @@ export default function AiCoachPage() {
                 )}
 
                 {/* Input */}
-                <div className="p-4 border-t border-white/5">
+                <div className="p-4 border-t border-zinc-800/50">
                     <div className="flex gap-2">
                         <Input
                             placeholder="Ask your AI coach anything..."
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                            className="bg-white/5 border-white/10"
+                            className="bg-zinc-900/50 border-zinc-800/50"
                         />
                         <Button
                             onClick={handleSend}
                             disabled={!input.trim()}
-                            className="bg-gradient-to-r from-cyan-500 to-violet-600 text-white border-0 px-4"
+                            className="bg-orange-500 hover:bg-orange-600 hover:scale-105 transition-all text-zinc-50 border-0 px-4"
                         >
                             <Send size={16} />
                         </Button>

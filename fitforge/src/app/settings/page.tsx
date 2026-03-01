@@ -67,14 +67,14 @@ export default function SettingsPage() {
 
             {/* Appearance */}
             <motion.div custom={0} initial="hidden" animate="visible" variants={fadeUp}>
-                <Card className="glass-card border-white/5">
+                <Card className="glass-card border-zinc-800/50">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-base">Appearance</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                                {isDark ? <Moon size={18} className="text-violet-400" /> : <Sun size={18} className="text-yellow-400" />}
+                                {isDark ? <Moon size={18} className="text-orange-400" /> : <Sun size={18} className="text-yellow-400" />}
                                 <div>
                                     <p className="text-sm font-medium">Theme</p>
                                     <p className="text-xs text-muted-foreground">{isDark ? 'Dark mode' : 'Light mode'}</p>
@@ -84,7 +84,7 @@ export default function SettingsPage() {
                                 variant="outline"
                                 size="sm"
                                 onClick={() => setIsDark(!isDark)}
-                                className="border-white/10"
+                                className="border-zinc-800/50"
                             >
                                 {isDark ? <Sun size={14} className="mr-1" /> : <Moon size={14} className="mr-1" />}
                                 {isDark ? 'Light' : 'Dark'}
@@ -96,14 +96,14 @@ export default function SettingsPage() {
 
             {/* Notifications */}
             <motion.div custom={1} initial="hidden" animate="visible" variants={fadeUp}>
-                <Card className="glass-card border-white/5">
+                <Card className="glass-card border-zinc-800/50">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-base">Notifications</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                                <Bell size={18} className={notifications ? 'text-cyan-400' : 'text-muted-foreground'} />
+                                <Bell size={18} className={notifications ? 'text-orange-400' : 'text-muted-foreground'} />
                                 <div>
                                     <p className="text-sm font-medium">Reminders</p>
                                     <p className="text-xs text-muted-foreground">Workout & meal reminders</p>
@@ -113,7 +113,7 @@ export default function SettingsPage() {
                                 variant="outline"
                                 size="sm"
                                 onClick={() => setNotifications(!notifications)}
-                                className={`border-white/10 ${notifications ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30' : ''}`}
+                                className={`border-zinc-800/50 ${notifications ? 'bg-orange-500/20 text-orange-400 border-orange-500/30' : ''}`}
                             >
                                 {notifications ? 'On' : 'Off'}
                             </Button>
@@ -124,7 +124,7 @@ export default function SettingsPage() {
 
             {/* Data */}
             <motion.div custom={2} initial="hidden" animate="visible" variants={fadeUp}>
-                <Card className="glass-card border-white/5">
+                <Card className="glass-card border-zinc-800/50">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-base">Data Management</CardTitle>
                     </CardHeader>
@@ -137,11 +137,11 @@ export default function SettingsPage() {
                                     <p className="text-xs text-muted-foreground">Download all your progress as JSON</p>
                                 </div>
                             </div>
-                            <Button variant="outline" size="sm" onClick={handleExport} className="border-white/10">
+                            <Button variant="outline" size="sm" onClick={handleExport} className="border-zinc-800/50">
                                 Export
                             </Button>
                         </div>
-                        <Separator className="bg-white/5" />
+                        <Separator className="bg-zinc-900/50" />
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
                                 <Trash2 size={18} className="text-red-400" />
@@ -160,9 +160,9 @@ export default function SettingsPage() {
 
             {/* About */}
             <motion.div custom={3} initial="hidden" animate="visible" variants={fadeUp}>
-                <Card className="bg-gradient-to-br from-cyan-500/10 to-violet-600/10 border-white/5">
+                <Card className="bg-zinc-900 border border-zinc-80010 border-zinc-800/50">
                     <CardContent className="p-5 text-center">
-                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-violet-600 flex items-center justify-center text-white font-bold text-lg mx-auto mb-3 glow">
+                        <div className="w-12 h-12 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-50 font-bold text-lg mx-auto mb-3 glow">
                             F
                         </div>
                         <h3 className="font-bold gradient-text text-lg">FitForge</h3>

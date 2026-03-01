@@ -61,7 +61,7 @@ export default function DietPage() {
             </motion.div>
 
             <Tabs defaultValue={todayName} className="space-y-4">
-                <TabsList className="bg-white/5 border border-white/10 flex-wrap h-auto gap-1 p-1">
+                <TabsList className="bg-zinc-900/50 border border-zinc-800/50 flex-wrap h-auto gap-1 p-1">
                     {days.filter(d => d !== 'Sunday').map((day) => (
                         <TabsTrigger key={day} value={day} className="text-xs">
                             {day.slice(0, 3)}
@@ -81,14 +81,14 @@ export default function DietPage() {
                         <TabsContent key={day} value={day} className="space-y-4">
                             {/* Macro Summary */}
                             <motion.div custom={0} initial="hidden" animate="visible" variants={fadeUp}>
-                                <Card className="bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border-white/5">
+                                <Card className="bg-gradient-to-br from-emerald-500/10 to-orange-500/10 border-zinc-800/50">
                                     <CardContent className="p-4">
                                         <div className="flex items-center justify-between mb-3">
                                             <div className="flex items-center gap-2">
                                                 <Flame size={16} className="text-orange-400" />
                                                 <span className="text-sm font-medium">Daily Summary</span>
                                             </div>
-                                            <Badge className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30 text-xs">
+                                            <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30 text-xs">
                                                 {mealsCompleted}/4 meals tracked
                                             </Badge>
                                         </div>
@@ -97,7 +97,7 @@ export default function DietPage() {
                                                 { label: 'Calories', value: macros.calories, unit: 'kcal', color: 'text-orange-400' },
                                                 { label: 'Protein', value: macros.protein, unit: 'g', color: 'text-emerald-400' },
                                                 { label: 'Carbs', value: macros.carbs, unit: 'g', color: 'text-blue-400' },
-                                                { label: 'Fat', value: macros.fat, unit: 'g', color: 'text-amber-400' },
+                                                { label: 'Fat', value: macros.fat, unit: 'g', color: 'text-orange-400' },
                                             ].map((macro) => (
                                                 <div key={macro.label} className="text-center">
                                                     <p className={`text-lg font-bold ${macro.color}`}>{macro.value}</p>
@@ -123,7 +123,7 @@ export default function DietPage() {
                                 return (
                                     <motion.div key={mealType} custom={i + 1} initial="hidden" animate="visible" variants={fadeUp}>
                                         <Card
-                                            className={`glass-card border-white/5 cursor-pointer transition-all ${isDone ? 'ring-1 ring-emerald-500/30' : 'hover:border-white/10'
+                                            className={`glass-card border-zinc-800/50 cursor-pointer transition-all ${isDone ? 'ring-1 ring-emerald-500/30' : 'hover:border-zinc-800/50'
                                                 }`}
                                             onClick={() => handleToggle(day, mealType)}
                                         >
@@ -136,8 +136,8 @@ export default function DietPage() {
                                                     )}
                                                     <div className="flex-1">
                                                         <div className="flex items-center gap-2 mb-1">
-                                                            <div className="w-7 h-7 rounded-md bg-white/5 flex items-center justify-center flex-shrink-0">
-                                                                <ExerciseIcon icon={typeInfo?.icon ?? 'sun'} size={14} className="text-cyan-400" />
+                                                            <div className="w-7 h-7 rounded-md bg-zinc-900/50 flex items-center justify-center flex-shrink-0">
+                                                                <ExerciseIcon icon={typeInfo?.icon ?? 'sun'} size={14} className="text-orange-400" />
                                                             </div>
                                                             <h3 className="font-medium text-sm">{typeInfo?.name}</h3>
                                                             <span className="text-[10px] text-muted-foreground flex items-center gap-1">
@@ -154,7 +154,7 @@ export default function DietPage() {
                                                             <span className="text-[10px] text-orange-400 flex items-center gap-1"><Flame size={10} /> {meal.calories} kcal</span>
                                                             <span className="text-[10px] text-emerald-400">{meal.protein}g protein</span>
                                                             <span className="text-[10px] text-blue-400">{meal.carbs}g carbs</span>
-                                                            <span className="text-[10px] text-amber-400">{meal.fat}g fat</span>
+                                                            <span className="text-[10px] text-orange-400">{meal.fat}g fat</span>
                                                         </div>
                                                         {meal.isLocal && (
                                                             <Badge variant="secondary" className="text-[10px] mt-2">Local</Badge>

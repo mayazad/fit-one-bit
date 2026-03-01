@@ -53,7 +53,7 @@ export default function Sidebar({ isOpen, onClose, desktopOpen = true }: Sidebar
                 {/* Logo */}
                 <div className="p-6 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-3" onClick={onClose}>
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-violet-600 flex items-center justify-center text-white font-bold text-lg glow">
+                        <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-50 font-bold text-lg glow">
                             F
                         </div>
                         <div>
@@ -82,24 +82,17 @@ export default function Sidebar({ isOpen, onClose, desktopOpen = true }: Sidebar
                                         onClick={onClose}
                                         className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 relative group
                       ${isActive
-                                                ? 'text-primary-foreground'
-                                                : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+                                                ? 'text-orange-500 bg-orange-500/10'
+                                                : 'text-zinc-400 hover:text-zinc-50 hover:bg-zinc-900/50'
                                             }
                     `}
                                     >
-                                        {isActive && (
-                                            <motion.div
-                                                layoutId="sidebar-active"
-                                                className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-violet-600/20 border border-cyan-500/30 rounded-xl"
-                                                transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
-                                            />
-                                        )}
-                                        <Icon size={18} className={`relative z-10 transition-transform duration-300 group-hover:scale-110 ${isActive ? 'text-cyan-400' : ''}`} />
+                                        <Icon size={18} className={`relative z-10 transition-transform duration-300 group-hover:scale-110 ${isActive ? 'text-orange-500' : ''}`} />
                                         <span className="relative z-10">{item.label}</span>
                                         {isActive && (
                                             <motion.div
                                                 layoutId="sidebar-dot"
-                                                className="absolute right-3 w-1.5 h-1.5 rounded-full bg-cyan-400"
+                                                className="absolute right-3 w-1.5 h-1.5 rounded-full bg-orange-500"
                                                 transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
                                             />
                                         )}

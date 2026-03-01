@@ -31,16 +31,16 @@ export default function MobileNav() {
                             {isActive && (
                                 <motion.div
                                     layoutId="mobile-nav-active"
-                                    className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full bg-gradient-to-r from-cyan-500 to-violet-600"
+                                    className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full bg-orange-500 hover:bg-orange-600 hover:scale-105 transition-all"
                                     transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
                                 />
                             )}
                             <Icon
                                 size={20}
-                                className={isActive ? 'text-cyan-400' : 'text-muted-foreground'}
+                                className={isActive ? 'text-orange-400' : 'text-muted-foreground'}
                             />
                             <span
-                                className={`text-[10px] ${isActive ? 'text-cyan-400 font-medium' : 'text-muted-foreground'
+                                className={`text-[10px] ${isActive ? 'text-orange-400 font-medium' : 'text-muted-foreground'
                                     }`}
                             >
                                 {item.label}

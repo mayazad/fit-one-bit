@@ -53,11 +53,11 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white overflow-x-hidden">
+    <div className="min-h-screen bg-zinc-950 text-zinc-50 overflow-x-hidden">
       {/* ── gradient orbs (bg depth) ── */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-teal-500/[0.07] rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-violet-600/[0.07] rounded-full blur-[120px]" />
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-orange-500/[0.07] rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-orange-600/[0.07] rounded-full blur-[120px]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-blue-600/[0.04] rounded-full blur-[140px]" />
       </div>
 
@@ -66,17 +66,17 @@ export default function LandingPage() {
       ════════════════════════════════════════════ */}
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
-          ? 'bg-slate-950/80 backdrop-blur-xl border-b border-white/5 shadow-lg shadow-black/20'
+          ? 'bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/50  shadow-black/20'
           : 'bg-transparent'
           }`}
       >
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           {/* logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="p-1.5 rounded-lg bg-teal-500/10 border border-teal-500/20 group-hover:bg-teal-500/20 transition-colors">
-              <Zap size={20} className="text-teal-400" />
+            <div className="p-1.5 rounded-lg bg-orange-500/10 border border-orange-500/20 group-hover:bg-orange-500/20 transition-colors">
+              <Zap size={20} className="text-orange-400" />
             </div>
-            <span className="text-lg font-bold bg-gradient-to-r from-teal-400 to-violet-400 bg-clip-text text-transparent">
+            <span className="text-lg font-bold bg-orange-500 hover:bg-orange-600 hover:scale-105 transition-all bg-clip-text text-transparent">
               FitForge
             </span>
           </Link>
@@ -87,7 +87,7 @@ export default function LandingPage() {
               <a
                 key={l.label}
                 href={l.href}
-                className="text-sm text-white/60 hover:text-white transition-colors"
+                className="text-sm text-zinc-50/60 hover:text-zinc-50 transition-colors"
               >
                 {l.label}
               </a>
@@ -96,22 +96,22 @@ export default function LandingPage() {
 
           {/* cta buttons */}
           <div className="hidden md:flex items-center gap-3">
-            <Link href="/login" className="text-sm text-white/60 hover:text-white transition-colors px-4 py-2">
+            <Link href="/login" className="text-sm text-zinc-50/60 hover:text-zinc-50 transition-colors px-4 py-2">
               Login
             </Link>
             <Link
               href="/login"
-              className="relative text-sm font-semibold px-5 py-2.5 rounded-xl bg-gradient-to-r from-teal-500 to-violet-600 text-white hover:shadow-lg hover:shadow-teal-500/25 transition-all duration-300 group"
+              className="relative text-sm font-semibold px-5 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 hover:scale-105 transition-all text-zinc-50 hover: hover: transition-all duration-300 group"
             >
               <span className="relative z-10 flex items-center gap-1.5">
                 Start Quest <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
               </span>
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-teal-400 to-violet-500 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500" />
+              <div className="absolute inset-0 rounded-xl bg-orange-500 hover:bg-orange-600 hover:scale-105 transition-all opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500" />
             </Link>
           </div>
 
           {/* mobile hamburger */}
-          <button onClick={() => setMobileNav(!mobileNav)} className="md:hidden text-white/70 hover:text-white">
+          <button onClick={() => setMobileNav(!mobileNav)} className="md:hidden text-zinc-50/70 hover:text-zinc-50">
             {mobileNav ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
@@ -123,15 +123,15 @@ export default function LandingPage() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-slate-950/95 backdrop-blur-xl border-b border-white/5 overflow-hidden"
+              className="md:hidden bg-zinc-950/95 backdrop-blur-md border-b border-zinc-800/50 overflow-hidden"
             >
               <div className="px-6 py-4 space-y-3">
                 {navLinks.map(l => (
-                  <a key={l.label} href={l.href} onClick={() => setMobileNav(false)} className="block text-sm text-white/60 hover:text-white py-1.5">
+                  <a key={l.label} href={l.href} onClick={() => setMobileNav(false)} className="block text-sm text-zinc-50/60 hover:text-zinc-50 py-1.5">
                     {l.label}
                   </a>
                 ))}
-                <Link href="/login" onClick={() => setMobileNav(false)} className="block w-full text-center text-sm font-semibold px-5 py-2.5 rounded-xl bg-gradient-to-r from-teal-500 to-violet-600 text-white mt-3">
+                <Link href="/login" onClick={() => setMobileNav(false)} className="block w-full text-center text-sm font-semibold px-5 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 hover:scale-105 transition-all text-zinc-50 mt-3">
                   Start Quest
                 </Link>
               </div>
@@ -156,20 +156,20 @@ export default function LandingPage() {
               variants={stagger}
               className="text-center lg:text-left"
             >
-              <motion.div variants={fadeUp} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-500/10 border border-teal-500/20 text-xs text-teal-400 font-medium mb-6">
+              <motion.div variants={fadeUp} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-xs text-orange-400 font-medium mb-6">
                 <Sparkles size={12} /> AI-Powered Fitness RPG
               </motion.div>
 
               <motion.h1 variants={fadeUp} className="text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tight mb-6">
                 Level Up Your{' '}
-                <span className="bg-gradient-to-r from-teal-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-orange-400 via-orange-400 to-orange-400 bg-clip-text text-transparent">
                   Real-Life
                 </span>
                 <br />
                 Physique.
               </motion.h1>
 
-              <motion.p variants={fadeUp} className="text-base sm:text-lg text-white/50 max-w-lg mx-auto lg:mx-0 mb-8 leading-relaxed">
+              <motion.p variants={fadeUp} className="text-base sm:text-lg text-zinc-50/50 max-w-lg mx-auto lg:mx-0 mb-8 leading-relaxed">
                 Stop tracking, start evolving. FitForge combines data-driven AI coaching with RPG gamification
                 to transform your body, fix your posture, and build lasting habits.
               </motion.p>
@@ -177,7 +177,7 @@ export default function LandingPage() {
               <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
                 <Link
                   href="/login"
-                  className="relative text-base font-bold px-8 py-3.5 rounded-xl bg-gradient-to-r from-teal-500 to-violet-600 text-white shadow-lg shadow-teal-500/20 hover:shadow-teal-500/40 hover:scale-[1.02] transition-all duration-300 group"
+                  className="relative text-base font-bold px-8 py-3.5 rounded-xl bg-orange-500 hover:bg-orange-600 hover:scale-105 transition-all text-zinc-50   hover: hover:scale-[1.02] transition-all duration-300 group"
                 >
                   <span className="relative z-10 flex items-center gap-2">
                     Begin Your Journey <ChevronRight size={18} className="transition-transform group-hover:translate-x-1" />
@@ -186,10 +186,10 @@ export default function LandingPage() {
                   <motion.div
                     animate={{ opacity: [0.4, 0.8, 0.4] }}
                     transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                    className="absolute inset-0 rounded-xl bg-gradient-to-r from-teal-400 to-violet-500 blur-xl -z-10"
+                    className="absolute inset-0 rounded-xl bg-orange-500 hover:bg-orange-600 hover:scale-105 transition-all blur-xl -z-10"
                   />
                 </Link>
-                <a href="#features" className="text-sm text-white/50 hover:text-white/80 flex items-center gap-1 transition-colors">
+                <a href="#features" className="text-sm text-zinc-50/50 hover:text-zinc-50/80 flex items-center gap-1 transition-colors">
                   See features <ArrowRight size={14} />
                 </a>
               </motion.div>
@@ -202,8 +202,8 @@ export default function LandingPage() {
                   { value: 'RPG', label: 'Leveling' },
                 ].map(s => (
                   <div key={s.label} className="text-center">
-                    <p className="text-lg font-bold text-white">{s.value}</p>
-                    <p className="text-[10px] uppercase tracking-widest text-white/30">{s.label}</p>
+                    <p className="text-lg font-bold text-zinc-50">{s.value}</p>
+                    <p className="text-[10px] uppercase tracking-widest text-zinc-50/30">{s.label}</p>
                   </div>
                 ))}
               </motion.div>
@@ -221,12 +221,12 @@ export default function LandingPage() {
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-                  className="w-72 h-72 sm:w-80 sm:h-80 rounded-full border border-teal-500/10"
+                  className="w-72 h-72 sm:w-80 sm:h-80 rounded-full border border-orange-500/10"
                   style={{ borderStyle: 'dashed' }}
                 />
               </div>
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-56 h-56 sm:w-64 sm:h-64 rounded-full bg-gradient-to-br from-teal-500/5 to-violet-600/5 blur-2xl" />
+                <div className="w-56 h-56 sm:w-64 sm:h-64 rounded-full bg-zinc-900 border border-zinc-8005 blur-2xl" />
               </div>
 
               {/* avatar */}
@@ -244,7 +244,7 @@ export default function LandingPage() {
                       src={avatarStages[activeAvatar].src}
                       alt={avatarStages[activeAvatar].label}
                       fill
-                      className="object-contain object-bottom drop-shadow-[0_0_40px_rgba(20,184,166,0.15)]"
+                      className="object-contain object-bottom "
                       priority
                     />
                   </motion.div>
@@ -255,7 +255,7 @@ export default function LandingPage() {
                   key={`label-${activeAvatar}`}
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="absolute -bottom-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-slate-900/90 backdrop-blur-md border border-white/10 text-xs text-white/70 font-medium whitespace-nowrap"
+                  className="absolute -bottom-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-zinc-900/90 backdrop-blur-md border border-zinc-800/50 text-xs text-zinc-50/70 font-medium whitespace-nowrap"
                 >
                   Stage {activeAvatar + 1}: {avatarStages[activeAvatar].label}
                 </motion.div>
@@ -267,7 +267,7 @@ export default function LandingPage() {
                   <button
                     key={i}
                     onClick={() => setActiveAvatar(i)}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${i === activeAvatar ? 'bg-teal-400 w-6' : 'bg-white/20 hover:bg-white/40'
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${i === activeAvatar ? 'bg-orange-400 w-6' : 'bg-zinc-900/50 hover:bg-zinc-900/50'
                       }`}
                   />
                 ))}
@@ -282,9 +282,9 @@ export default function LandingPage() {
           transition={{ duration: 2, repeat: Infinity }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         >
-          <span className="text-[10px] uppercase tracking-widest text-white/20">Scroll</span>
-          <div className="w-5 h-8 rounded-full border border-white/10 flex items-start justify-center p-1">
-            <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 2, repeat: Infinity }} className="w-1 h-2 bg-teal-400/60 rounded-full" />
+          <span className="text-[10px] uppercase tracking-widest text-zinc-50/20">Scroll</span>
+          <div className="w-5 h-8 rounded-full border border-zinc-800/50 flex items-start justify-center p-1">
+            <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 2, repeat: Infinity }} className="w-1 h-2 bg-orange-400/60 rounded-full" />
           </div>
         </motion.div>
       </section>
@@ -301,12 +301,12 @@ export default function LandingPage() {
             variants={stagger}
             className="text-center mb-16"
           >
-            <motion.p variants={fadeUp} className="text-xs uppercase tracking-[0.2em] text-teal-400/80 mb-3">Features</motion.p>
+            <motion.p variants={fadeUp} className="text-xs uppercase tracking-[0.2em] text-orange-400/80 mb-3">Features</motion.p>
             <motion.h2 variants={fadeUp} className="text-3xl sm:text-4xl font-black mb-4">
               Your Personal{' '}
-              <span className="bg-gradient-to-r from-teal-400 to-violet-400 bg-clip-text text-transparent">AI Forge</span>
+              <span className="bg-orange-500 hover:bg-orange-600 hover:scale-105 transition-all bg-clip-text text-transparent">AI Forge</span>
             </motion.h2>
-            <motion.p variants={fadeUp} className="text-white/40 max-w-md mx-auto">
+            <motion.p variants={fadeUp} className="text-zinc-50/40 max-w-md mx-auto">
               Everything you need to transform — intelligently crafted, beautifully gamified.
             </motion.p>
           </motion.div>
@@ -322,20 +322,20 @@ export default function LandingPage() {
             {/* card 1 — AI Coach (spans 2 on lg) */}
             <motion.div
               variants={fadeUp}
-              className="lg:col-span-2 h-full flex flex-col group relative p-6 sm:p-8 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/10 transition-all duration-500 overflow-hidden"
+              className="lg:col-span-2 h-full flex flex-col group relative p-6 sm:p-8 rounded-2xl bg-zinc-900/50 backdrop-blur-md border border-zinc-800/50 hover:bg-zinc-900/50 hover:border-zinc-800/50 transition-all duration-500 overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-40 h-40 bg-purple-500/[0.06] rounded-full blur-3xl pointer-events-none group-hover:bg-purple-500/10 transition-all" />
+              <div className="absolute top-0 right-0 w-40 h-40 bg-orange-500/[0.06] rounded-full blur-3xl pointer-events-none group-hover:bg-orange-500/10 transition-all" />
               <div className="relative z-10">
-                <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110">
-                  <Bot size={22} className="text-purple-400" />
+                <div className="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110">
+                  <Bot size={22} className="text-orange-400" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">Adaptive AI Coach</h3>
-                <p className="text-white/40 text-sm leading-relaxed max-w-md">
+                <p className="text-zinc-50/40 text-sm leading-relaxed max-w-md">
                   Your plans evolve with you. The AI builds personalized workout routines for chest growth, belly fat loss, and posture correction — adjusting intensity based on your real progress.
                 </p>
                 <div className="flex flex-wrap gap-2 mt-5">
                   {['Smart Scheduling', 'Progressive Overload', 'Recovery Aware'].map(t => (
-                    <span key={t} className="text-[10px] px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-300/80 border border-purple-500/15">
+                    <span key={t} className="text-[10px] px-2.5 py-1 rounded-full bg-orange-500/10 text-purple-300/80 border border-orange-500/15">
                       {t}
                     </span>
                   ))}
@@ -346,7 +346,7 @@ export default function LandingPage() {
             {/* card 2 — Gamification */}
             <motion.div
               variants={fadeUp}
-              className="h-full flex flex-col group relative p-6 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/10 transition-all duration-500 overflow-hidden"
+              className="h-full flex flex-col group relative p-6 rounded-2xl bg-zinc-900/50 backdrop-blur-md border border-zinc-800/50 hover:bg-zinc-900/50 hover:border-zinc-800/50 transition-all duration-500 overflow-hidden"
             >
               <div className="absolute bottom-0 left-0 w-32 h-32 bg-orange-500/[0.06] rounded-full blur-3xl pointer-events-none group-hover:bg-orange-500/10 transition-all" />
               <div className="relative z-10">
@@ -354,7 +354,7 @@ export default function LandingPage() {
                   <Trophy size={22} className="text-orange-400" />
                 </div>
                 <h3 className="text-lg font-bold mb-2">RPG Gamification</h3>
-                <p className="text-white/40 text-sm leading-relaxed">
+                <p className="text-zinc-50/40 text-sm leading-relaxed">
                   Earn XP, unlock badges, maintain streaks, and watch your avatar evolve from Novice to Legend. Every rep counts.
                 </p>
               </div>
@@ -363,15 +363,15 @@ export default function LandingPage() {
             {/* card 3 — Targeted Transformation */}
             <motion.div
               variants={fadeUp}
-              className="h-full flex flex-col group relative p-6 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/10 transition-all duration-500 overflow-hidden"
+              className="h-full flex flex-col group relative p-6 rounded-2xl bg-zinc-900/50 backdrop-blur-md border border-zinc-800/50 hover:bg-zinc-900/50 hover:border-zinc-800/50 transition-all duration-500 overflow-hidden"
             >
-              <div className="absolute top-0 left-0 w-32 h-32 bg-teal-500/[0.06] rounded-full blur-3xl pointer-events-none group-hover:bg-teal-500/10 transition-all" />
+              <div className="absolute top-0 left-0 w-32 h-32 bg-orange-500/[0.06] rounded-full blur-3xl pointer-events-none group-hover:bg-orange-500/10 transition-all" />
               <div className="relative z-10">
-                <div className="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110">
-                  <Move size={22} className="text-teal-400" />
+                <div className="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110">
+                  <Move size={22} className="text-orange-400" />
                 </div>
                 <h3 className="text-lg font-bold mb-2">Targeted Transformation</h3>
-                <p className="text-white/40 text-sm leading-relaxed">
+                <p className="text-zinc-50/40 text-sm leading-relaxed">
                   Posture correction, belly fat reduction, chest building, and flexibility — all baked into one holistic program.
                 </p>
               </div>
@@ -380,15 +380,15 @@ export default function LandingPage() {
             {/* card 4 — Diet Planning */}
             <motion.div
               variants={fadeUp}
-              className="h-full flex flex-col group relative p-6 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/10 transition-all duration-500 overflow-hidden"
+              className="h-full flex flex-col group relative p-6 rounded-2xl bg-zinc-900/50 backdrop-blur-md border border-zinc-800/50 hover:bg-zinc-900/50 hover:border-zinc-800/50 transition-all duration-500 overflow-hidden"
             >
-              <div className="absolute bottom-0 right-0 w-32 h-32 bg-amber-500/[0.06] rounded-full blur-3xl pointer-events-none group-hover:bg-amber-500/10 transition-all" />
+              <div className="absolute bottom-0 right-0 w-32 h-32 bg-orange-500/[0.06] rounded-full blur-3xl pointer-events-none group-hover:bg-orange-500/10 transition-all" />
               <div className="relative z-10">
-                <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110">
-                  <UtensilsCrossed size={22} className="text-amber-400" />
+                <div className="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110">
+                  <UtensilsCrossed size={22} className="text-orange-400" />
                 </div>
                 <h3 className="text-lg font-bold mb-2">Smart Diet Planner</h3>
-                <p className="text-white/40 text-sm leading-relaxed">
+                <p className="text-zinc-50/40 text-sm leading-relaxed">
                   Balanced, calorie-aware meals with local options. Track macros, protein, and calories with one tap.
                 </p>
               </div>
@@ -397,20 +397,20 @@ export default function LandingPage() {
             {/* card 5 — Progress (spans 2 on lg) */}
             <motion.div
               variants={fadeUp}
-              className="lg:col-span-2 h-full flex flex-col group relative p-6 sm:p-8 rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/10 transition-all duration-500 overflow-hidden"
+              className="lg:col-span-2 h-full flex flex-col group relative p-6 sm:p-8 rounded-2xl bg-zinc-900/50 backdrop-blur-md border border-zinc-800/50 hover:bg-zinc-900/50 hover:border-zinc-800/50 transition-all duration-500 overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-40 h-40 bg-cyan-500/[0.06] rounded-full blur-3xl pointer-events-none group-hover:bg-cyan-500/10 transition-all" />
+              <div className="absolute top-0 right-0 w-40 h-40 bg-orange-500/[0.06] rounded-full blur-3xl pointer-events-none group-hover:bg-orange-500/10 transition-all" />
               <div className="relative z-10">
-                <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110">
-                  <TrendingUp size={22} className="text-cyan-400" />
+                <div className="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110">
+                  <TrendingUp size={22} className="text-orange-400" />
                 </div>
                 <h3 className="text-xl font-bold mb-2">Visual Progress Tracking</h3>
-                <p className="text-white/40 text-sm leading-relaxed max-w-md">
+                <p className="text-zinc-50/40 text-sm leading-relaxed max-w-md">
                   Beautiful charts for weight, measurements, and body composition. See your transformation unfold week by week with data you can trust.
                 </p>
                 <div className="flex flex-wrap gap-2 mt-5">
                   {['Weight Charts', 'Body Measurements', 'Streak History', 'XP Timeline'].map(t => (
-                    <span key={t} className="text-[10px] px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-300/80 border border-cyan-500/15">
+                    <span key={t} className="text-[10px] px-2.5 py-1 rounded-full bg-orange-500/10 text-cyan-300/80 border border-orange-500/15">
                       {t}
                     </span>
                   ))}
@@ -433,10 +433,10 @@ export default function LandingPage() {
             variants={stagger}
             className="text-center mb-16"
           >
-            <motion.p variants={fadeUp} className="text-xs uppercase tracking-[0.2em] text-violet-400/80 mb-3">How It Works</motion.p>
+            <motion.p variants={fadeUp} className="text-xs uppercase tracking-[0.2em] text-orange-400/80 mb-3">How It Works</motion.p>
             <motion.h2 variants={fadeUp} className="text-3xl sm:text-4xl font-black mb-4">
               Three Steps to{' '}
-              <span className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">Transformation</span>
+              <span className="bg-orange-500 hover:bg-orange-600 hover:scale-105 transition-all bg-clip-text text-transparent">Transformation</span>
             </motion.h2>
           </motion.div>
 
@@ -453,33 +453,33 @@ export default function LandingPage() {
                 icon: Target,
                 title: 'Set Your Goals',
                 desc: 'Tell FitForge what you want — posture fix, muscle gain, fat loss, or all of the above. The AI builds your plan.',
-                iconWrap: 'bg-teal-500/10 border-teal-500/20',
-                iconColor: 'text-teal-400',
-                stepColor: 'text-teal-500/[0.06]',
+                iconWrap: 'bg-orange-500/10 border-orange-500/20',
+                iconColor: 'text-orange-400',
+                stepColor: 'text-orange-500/[0.06]',
               },
               {
                 step: '02',
                 icon: Dumbbell,
                 title: 'Train & Track',
                 desc: 'Follow guided workouts, track each set, log your meals, and hydrate. Every action earns XP and grows your streak.',
-                iconWrap: 'bg-violet-500/10 border-violet-500/20',
-                iconColor: 'text-violet-400',
-                stepColor: 'text-violet-500/[0.06]',
+                iconWrap: 'bg-orange-500/10 border-orange-500/20',
+                iconColor: 'text-orange-400',
+                stepColor: 'text-orange-500/[0.06]',
               },
               {
                 step: '03',
                 icon: TrendingUp,
                 title: 'Level Up',
                 desc: 'Watch your avatar evolve, unlock badges, and see your real transformation in charts. Consistency is the game.',
-                iconWrap: 'bg-cyan-500/10 border-cyan-500/20',
-                iconColor: 'text-cyan-400',
-                stepColor: 'text-cyan-500/[0.06]',
+                iconWrap: 'bg-orange-500/10 border-orange-500/20',
+                iconColor: 'text-orange-400',
+                stepColor: 'text-orange-500/[0.06]',
               },
             ].map((item) => (
               <motion.div
                 key={item.step}
                 variants={fadeUp}
-                className="group relative text-center p-8 rounded-2xl bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] hover:border-white/10 transition-all duration-500"
+                className="group relative text-center p-8 rounded-2xl bg-zinc-900/50 border border-zinc-800/50 hover:bg-zinc-900/50 hover:border-zinc-800/50 transition-all duration-500"
               >
                 <div className={`text-[64px] font-black ${item.stepColor} absolute top-4 right-6 leading-none select-none`}>
                   {item.step}
@@ -488,7 +488,7 @@ export default function LandingPage() {
                   <item.icon size={24} className={item.iconColor} />
                 </div>
                 <h3 className="text-lg font-bold mb-2">{item.title}</h3>
-                <p className="text-white/40 text-sm leading-relaxed">{item.desc}</p>
+                <p className="text-zinc-50/40 text-sm leading-relaxed">{item.desc}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -505,31 +505,31 @@ export default function LandingPage() {
             whileInView="visible"
             viewport={{ once: true }}
             variants={stagger}
-            className="relative text-center p-10 sm:p-16 rounded-3xl bg-gradient-to-br from-teal-500/10 via-violet-600/10 to-fuchsia-500/10 border border-white/[0.06] overflow-hidden"
+            className="relative text-center p-10 sm:p-16 rounded-3xl bg-zinc-900 border border-zinc-80010 border border-zinc-800/50 overflow-hidden"
           >
             {/* floating orbs */}
-            <div className="absolute top-0 left-0 w-48 h-48 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute bottom-0 right-0 w-48 h-48 bg-violet-500/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-0 left-0 w-48 h-48 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 right-0 w-48 h-48 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
 
             <motion.div variants={fadeUp} className="relative z-10">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-white/60 font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900/50 border border-zinc-800/50 text-xs text-zinc-50/60 font-medium mb-6">
                 <HeartPulse size={12} className="text-rose-400" /> Free to start, no credit card
               </div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-4 leading-tight">
                 Ready to Transform?
               </h2>
-              <p className="text-white/40 max-w-lg mx-auto mb-8 text-sm sm:text-base">
+              <p className="text-zinc-50/40 max-w-lg mx-auto mb-8 text-sm sm:text-base">
                 Join FitForge and start earning XP from your very first workout. Your Level 1 avatar is waiting.
               </p>
               <Link
                 href="/login"
-                className="relative inline-flex items-center gap-2 text-base font-bold px-8 py-3.5 rounded-xl bg-gradient-to-r from-teal-500 to-violet-600 text-white shadow-lg shadow-teal-500/20 hover:shadow-teal-500/40 hover:scale-[1.02] transition-all duration-300 group"
+                className="relative inline-flex items-center gap-2 text-base font-bold px-8 py-3.5 rounded-xl bg-orange-500 hover:bg-orange-600 hover:scale-105 transition-all text-zinc-50   hover: hover:scale-[1.02] transition-all duration-300 group"
               >
                 Begin Your Journey <ChevronRight size={18} className="transition-transform group-hover:translate-x-1" />
                 <motion.div
                   animate={{ opacity: [0.3, 0.6, 0.3] }}
                   transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                  className="absolute inset-0 rounded-xl bg-gradient-to-r from-teal-400 to-violet-500 blur-xl -z-10"
+                  className="absolute inset-0 rounded-xl bg-orange-500 hover:bg-orange-600 hover:scale-105 transition-all blur-xl -z-10"
                 />
               </Link>
             </motion.div>
@@ -540,19 +540,19 @@ export default function LandingPage() {
       {/* ════════════════════════════════════════════
           FOOTER
       ════════════════════════════════════════════ */}
-      <footer className="border-t border-white/5 py-8">
+      <footer className="border-t border-zinc-800/50 py-8">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <Zap size={16} className="text-teal-400" />
-              <span className="text-sm font-semibold text-white/60">FitForge</span>
+              <Zap size={16} className="text-orange-400" />
+              <span className="text-sm font-semibold text-zinc-50/60">FitForge</span>
             </div>
             <div className="flex items-center gap-6">
-              <a href="#" className="text-xs text-white/30 hover:text-white/60 transition-colors">Privacy</a>
-              <a href="#" className="text-xs text-white/30 hover:text-white/60 transition-colors">Terms</a>
-              <a href="#" className="text-xs text-white/30 hover:text-white/60 transition-colors">Contact</a>
+              <a href="#" className="text-xs text-zinc-50/30 hover:text-zinc-50/60 transition-colors">Privacy</a>
+              <a href="#" className="text-xs text-zinc-50/30 hover:text-zinc-50/60 transition-colors">Terms</a>
+              <a href="#" className="text-xs text-zinc-50/30 hover:text-zinc-50/60 transition-colors">Contact</a>
             </div>
-            <p className="text-xs text-white/20">&copy; {new Date().getFullYear()} FitForge. All rights reserved.</p>
+            <p className="text-xs text-zinc-50/20">&copy; {new Date().getFullYear()} FitForge. All rights reserved.</p>
           </div>
         </div>
       </footer>
