@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Core User ──────────────────────────────────────
+
+model User {
+  id           String          @id @default(cuid())
+  email        String          @unique
+  passwordHash String
+  name         String?
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  profile        Profile?
+  completedQuests CompletedQuest[]
+
+  @@map("users")
+}
+
+// ─── Gamification Profile ───────────────────────────
+
+model Profile {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  level        Int      @default(1)
+  currentXp    Int      @default(0)
+  streak       Int      @default(0)
+
+  // flexible JSON blobs for evolving data
+  baseStats    Json?    // { age, height, weight }
+  primaryClass String?  // 'striker' | 'vanguard' | 'ranger'
+  focusAreas   Json?    // string[]
+  dietPref     String?  // 'balanced' | 'high-protein' | 'local-budget' | 'clean'
+
+  waterGlasses Int      @default(0)
+  waterGoal    Int      @default(8)
+  sleepHours   Float    @default(0)
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("profiles")
+}
+
+// ─── Quests ─────────────────────────────────────────
+
+model Quest {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  xpReward    Int
+  type        String   // 'daily' | 'weekly' | 'milestone'
+  category    String?  // 'workout' | 'diet' | 'hydration' | 'streak'
+
+  completedBy CompletedQuest[]
+
+  createdAt   DateTime @default(now())
+
+  @@map("quests")
+}
+
+// ─── Completed Quest (join table) ───────────────────
+
+model CompletedQuest {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questId     String
+  quest       Quest    @relation(fields: [questId], references: [id], onDelete: Cascade)
+  completedAt DateTime @default(now())
+
+  @@unique([userId, questId, completedAt])
+  @@map("completed_quests")
+}

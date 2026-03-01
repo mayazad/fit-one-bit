@@ -1,0 +1,66 @@
+import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import * as bcrypt from 'bcrypt';
+import { RegisterDto } from './dto/register.dto';
+
+@Injectable()
+export class UsersService {
+    constructor(private readonly prisma: PrismaService) { }
+
+    async createUser(data: RegisterDto) {
+        const { email, password, name } = data;
+
+        const existing = await this.prisma.user.findUnique({
+            where: { email },
+        });
+
+        if (existing) {
+            throw new ConflictException('User with this email already exists');
+        }
+
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Use Prisma transaction to ensure both User and Profile are created together
+        return this.prisma.$transaction(async (tx) => {
+            // 1. Create User
+            const user = await tx.user.create({
+                data: {
+                    email,
+                    passwordHash: hashedPassword,
+                    name,
+                },
+            });
+
+            // 2. Create Gamification Profile
+            await tx.profile.create({
+                data: {
+                    userId: user.id,
+                    level: 1,
+                    currentXp: 0,
+                    streak: 0,
+                    primaryClass: 'Novice',
+                },
+            });
+
+            // Exclude passwordHash from the returned object for security
+            const { passwordHash, ...userWithoutPassword } = user;
+            return userWithoutPassword;
+        });
+    }
+
+    async getUserProfile(userId: string) {
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId },
+            include: { profile: true }, // Include the gamification stats
+        });
+
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+
+        // Exclude passwordHash from the returned profile read
+        const { passwordHash, ...userWithoutPassword } = user;
+        return userWithoutPassword;
+    }
+}
