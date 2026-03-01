@@ -21,6 +21,7 @@ import { useDietStore } from '@/stores/dietStore';
 import { useUserStore } from '@/stores/userStore';
 import { getDailyQuote, getAvatarForLevel } from '@/data/gamification';
 import { exercises } from '@/data/exercises';
+import confetti from 'canvas-confetti';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -45,7 +46,7 @@ function getTimeGreetingAndGradient() {
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { profile } = useUserStore();
+  const { profile, completedDailyQuests, completeQuestLocally } = useUserStore();
 
   useEffect(() => {
     if (!profile?.primaryClass) {
@@ -65,8 +66,7 @@ export default function DashboardPage() {
   const todayMeals = getTodayCompletion();
   const mealsCompleted = Object.values(todayMeals).filter(Boolean).length;
 
-  // Interactive quests state
-  const [questToggles, setQuestToggles] = useState<Record<string, boolean>>({});
+  const todayStr = new Date().toISOString().split('T')[0];
 
   const quests = [
     { id: 'workout', title: 'Complete today\'s workout', xp: 50, done: today?.completed ?? false, icon: Dumbbell },
@@ -75,19 +75,40 @@ export default function DashboardPage() {
     { id: 'sleep', title: 'Log sleep (7+ hours)', xp: 10, done: sleepHours >= 7, icon: Moon },
   ];
 
-  const isQuestDone = (quest: typeof quests[0]) => quest.done || questToggles[quest.id];
+  const isQuestDone = (quest: typeof quests[0]) => quest.done || completedDailyQuests[quest?.id] === todayStr;
   const questsDone = quests.filter(q => isQuestDone(q)).length;
 
-  const toggleQuest = useCallback((id: string) => {
+  const toggleQuest = useCallback(async (id: string) => {
     const quest = quests.find(q => q.id === id);
-    if (quest?.done) return;
-    const newState = !questToggles[id];
-    setQuestToggles(prev => ({ ...prev, [id]: newState }));
-    if (newState && quest) {
-      addXp(quest.xp);
-      showXpToast(quest.xp);
+    if (!quest) return;
+
+    if (isQuestDone(quest)) return;
+
+    const initialLevel = useGamificationStore.getState().level;
+
+    completeQuestLocally(id, quest.xp);
+    showXpToast(quest.xp);
+
+    try {
+      const res = await fetch(`http://localhost:3001/quests/${id}/complete`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: profile?.id, xpReward: quest.xp })
+      });
+      if (res.ok) {
+        const newLevel = useGamificationStore.getState().level;
+        if (newLevel > initialLevel) {
+          confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 }
+          });
+        }
+      }
+    } catch (e) {
+      console.error(e);
     }
-  }, [quests, questToggles, addXp]);
+  }, [quests, completedDailyQuests, completeQuestLocally, profile?.id]);
 
   // XP Toast notification
   const [xpToast, setXpToast] = useState<number | null>(null);

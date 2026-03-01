@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { UserProfile } from '@/types';
+import { useGamificationStore } from './gamificationStore';
 
 interface UserStore {
     profile: UserProfile;
@@ -8,6 +9,8 @@ interface UserStore {
     updateProfile: (updates: Partial<UserProfile>) => void;
     setOnboarded: (value: boolean) => void;
     setUserProfile: (profile: UserProfile) => void;
+    completedDailyQuests: Record<string, string>;
+    completeQuestLocally: (questId: string, xpAmount: number) => void;
 }
 
 export const useUserStore = create<UserStore>()(
@@ -31,6 +34,17 @@ export const useUserStore = create<UserStore>()(
                 })),
             setOnboarded: (value) => set({ isOnboarded: value }),
             setUserProfile: (profile) => set({ profile }),
+            completedDailyQuests: {},
+            completeQuestLocally: (questId, xpAmount) => {
+                useGamificationStore.getState().addXp(xpAmount);
+                const todayStr = new Date().toISOString().split('T')[0];
+                set((state) => ({
+                    completedDailyQuests: {
+                        ...state.completedDailyQuests,
+                        [questId]: todayStr,
+                    },
+                }));
+            },
         }),
         { name: 'fitforge-user' }
     )

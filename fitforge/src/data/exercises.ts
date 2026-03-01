@@ -516,7 +516,7 @@ export const exercises: Exercise[] = [
     },
 ];
 
-export const categories: { id: string; name: string; icon: string; color: string }[] = [
+export const categories: { id: string; name: string; icon: any; color: string }[] = [
     { id: 'chest', name: 'Chest', icon: Dumbbell, color: 'from-rose-500 to-pink-600' },
     { id: 'core', name: 'Core', icon: Flame, color: 'from-amber-500 to-orange-600' },
     { id: 'legs', name: 'Legs', icon: Activity, color: 'from-emerald-500 to-green-600' },
