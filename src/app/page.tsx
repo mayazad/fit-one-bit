@@ -113,7 +113,7 @@ export default function DashboardPage() {
           </div>
 
           {/* User Info (Right - approx 2/3) */}
-          <div className="flex-1 p-6 sm:p-8 relative z-20 flex flex-col justify-center items-start w-full pr-8">
+          <div className="flex-1 p-6 pb-8 sm:p-8 sm:pb-12 relative z-20 flex flex-col justify-end items-start w-full pr-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 mb-2 drop-shadow-md">
               <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
                 {greeting}
@@ -125,7 +125,7 @@ export default function DashboardPage() {
 
 
             {/* XP Bar Header with Sub-label */}
-            <div className="max-w-md w-full mt-auto sm:mt-8">
+            <div className="max-w-md w-full mt-6 sm:mt-8">
               <div className="flex justify-between items-end mb-2 drop-shadow">
                 <div className="flex flex-col">
                   <span className="text-white/80 flex items-center gap-1.5 text-sm font-medium mb-1">
