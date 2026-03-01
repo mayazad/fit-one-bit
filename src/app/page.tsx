@@ -106,16 +106,16 @@ export default function DashboardPage() {
         <div className="absolute left-10 bottom-0 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
 
         {/* Unified Flex Container */}
-        <div className="relative w-full h-[300px] flex flex-row items-center overflow-hidden rounded-2xl">
+        <div className="relative w-full min-h-[350px] md:h-[300px] flex flex-col md:flex-row items-center overflow-hidden rounded-2xl pt-8 md:pt-0">
           {/* Left Column (The Avatar - 30% width) */}
-          <div className="relative w-1/3 h-full flex items-end justify-end pr-8 z-10">
+          <div className="relative order-2 md:order-1 w-full md:w-1/3 h-[220px] md:h-full flex items-end justify-center md:justify-end md:pr-8 z-10 mt-6 md:mt-0">
             <EvolvingAvatar level={level} />
           </div>
 
           {/* Right Column (The Text & Progress - 70% width) */}
-          <div className="relative w-2/3 flex flex-col items-start justify-center pr-12 z-10">
+          <div className="relative order-1 md:order-2 w-full md:w-2/3 flex flex-col items-center md:items-start text-center md:text-left px-6 md:px-0 md:pr-12 z-10">
             {/* The Header Row */}
-            <div className="flex flex-row items-center gap-4 mb-2">
+            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 mb-2">
               <h1 className="text-4xl font-bold text-white">
                 {greeting}
               </h1>
@@ -125,12 +125,12 @@ export default function DashboardPage() {
             </div>
 
             {/* The Subtitle */}
-            <p className="text-sm text-white/80 max-w-sm drop-shadow mb-8 text-left">
+            <p className="text-sm text-white/80 max-w-sm drop-shadow mb-8">
               Just getting started
             </p>
 
             {/* The XP Bar */}
-            <div className="w-full max-w-md">
+            <div className="w-full max-w-md mx-auto md:mx-0 mt-4">
               <div className="flex justify-between items-end mb-2 drop-shadow">
                 <div className="flex flex-col text-left">
                   <span className="text-white/80 flex items-center gap-1.5 text-sm font-medium mb-1">
