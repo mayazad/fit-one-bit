@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import { EvolvingAvatar } from '@/components/EvolvingAvatar';
 import {
   Flame, Zap, Dumbbell, Target, Droplets, Moon,
   ChevronRight, Trophy, Utensils, TrendingUp,
@@ -30,8 +30,7 @@ const fadeUp = {
 
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-// DiceBear avatar URL
-const AVATAR_URL = 'https://api.dicebear.com/9.x/adventurer/svg?seed=FitForgeWarrior&backgroundColor=transparent';
+
 
 export default function DashboardPage() {
   const { level, streak, xp, waterGlasses, waterGoal, sleepHours, getProgress, addWater, removeWater, addXp } = useGamificationStore();
@@ -95,32 +94,7 @@ export default function DashboardPage() {
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-fuchsia-500/15 to-cyan-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4 pointer-events-none" />
 
         <div className="relative flex flex-col sm:flex-row items-start sm:items-center gap-6">
-          {/* DiceBear Avatar with glowing border */}
-          <motion.div
-            whileHover={{ scale: 1.08, rotate: 3 }}
-            whileTap={{ scale: 0.95 }}
-            className="relative group cursor-pointer"
-          >
-            {/* Outer neon glow ring */}
-            <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-cyan-400 via-violet-500 to-fuchsia-500 opacity-70 blur-md group-hover:opacity-100 group-hover:blur-lg transition-all duration-500" />
-            {/* Avatar container */}
-            <div className="relative w-22 h-22 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-cyan-500 to-violet-600 p-[2px] shadow-2xl">
-              <div className="w-full h-full rounded-[14px] bg-slate-900/80 backdrop-blur-sm flex items-center justify-center overflow-hidden">
-                <Image
-                  src={AVATAR_URL}
-                  alt="User Avatar"
-                  width={80}
-                  height={80}
-                  className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
-                  unoptimized
-                />
-              </div>
-            </div>
-            {/* Level badge on avatar */}
-            <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-gradient-to-r from-cyan-500 to-violet-600 flex items-center justify-center text-[10px] font-bold text-white ring-2 ring-slate-900 shadow-lg">
-              {level}
-            </div>
-          </motion.div>
+          <EvolvingAvatar level={level} />
 
           {/* Info */}
           <div className="flex-1">
@@ -226,8 +200,8 @@ export default function DashboardPage() {
                       onClick={() => toggleQuest(quest.id)}
                       whileTap={{ scale: 0.98 }}
                       className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-300 cursor-pointer text-left ${done
-                          ? 'bg-emerald-500/10 border border-emerald-500/20'
-                          : 'bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-white/15'
+                        ? 'bg-emerald-500/10 border border-emerald-500/20'
+                        : 'bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-white/15'
                         }`}
                     >
                       <motion.div
