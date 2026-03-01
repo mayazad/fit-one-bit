@@ -170,25 +170,30 @@ export default function DashboardPage() {
         initial="hidden"
         animate="visible"
         variants={fadeUp}
-        className={`relative overflow-hidden rounded-2xl bg-gradient-to-r ${gradient} backdrop-blur-md border border-zinc-800/50 `}
+        className="relative overflow-hidden rounded-2xl bg-zinc-950 backdrop-blur-md border border-zinc-800/50"
       >
-        {/* Deep grid background pattern overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+        {/* Realistic Obsidian Radial Glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-orange-500/10 via-transparent to-transparent pointer-events-none" />
 
-        {/* Ambient glow blobs & Spotlight for Avatar */}
+        {/* Subtle Noise Texture */}
+        <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }} />
+
+        {/* Deep grid receding floor pattern overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)', WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)' }} />
+
+        {/* Ambient glow blobs */}
         <div className="absolute top-0 right-0 w-72 h-72 bg-zinc-900/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-        <div className="absolute left-10 bottom-0 w-64 h-64 bg-zinc-900/50 rounded-full blur-3xl pointer-events-none" />
 
         {/* Unified Flex Container */}
-        <div className="relative w-full flex flex-col md:flex-row items-center overflow-hidden rounded-2xl pt-6 pb-6 px-4 md:p-0 min-h-[350px] md:h-[300px] gap-2 md:gap-0">
+        <div className="relative w-full flex flex-col lg:flex-row items-center justify-center overflow-hidden rounded-2xl pt-6 pb-6 px-4 md:p-6 lg:p-0 min-h-[350px] lg:min-h-[300px] gap-6 lg:gap-16">
 
-          {/* Avatar Area (Middle on mobile, Left on Desktop) */}
-          <div className="relative order-2 md:order-1 w-full md:w-[40%] h-[150px] sm:h-[180px] md:h-full flex items-end justify-center md:justify-end md:pr-8 z-10 shrink-0">
+          {/* Avatar Area (Middle on mobile, Center-Left on Desktop) */}
+          <div className="relative order-2 lg:order-1 w-full sm:w-[50%] lg:w-64 h-[180px] lg:h-64 flex items-center justify-center z-10 shrink-0">
             <EvolvingAvatar level={level} />
           </div>
 
-          {/* Text Area (Top on mobile, Right on Desktop) */}
-          <div className="relative order-1 md:order-2 flex-1 flex flex-col items-center md:items-start text-center md:text-left md:justify-center md:pr-12 md:pl-4 z-10 w-full">
+          {/* Text Area (Top on mobile, Center-Right on Desktop) */}
+          <div className="relative order-1 lg:order-2 flex flex-col items-center lg:items-start text-center lg:text-left justify-center z-10 w-full max-w-lg">
             {/* The Header Row */}
             <div className="flex flex-col flex-wrap sm:flex-row items-center gap-2 sm:gap-4 mb-2 z-10 w-full justify-center md:justify-start">
               <h1 className="text-3xl lg:text-4xl font-bold text-zinc-50">
