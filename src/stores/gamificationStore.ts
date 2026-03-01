@@ -22,19 +22,20 @@ interface GamificationStore {
     setSleep: (hours: number) => void;
     getProgress: () => { xp: number; xpNeeded: number; percentage: number };
     getAvatarStage: () => ReturnType<typeof getAvatarForLevel>;
+    hydrateGamification: (data: Partial<GamificationStore>) => void;
 }
 
 export const useGamificationStore = create<GamificationStore>()(
     persist(
         (set, get) => ({
-            xp: 450,
-            level: 3,
-            streak: 4,
-            longestStreak: 7,
-            badges: defaultBadges.map((b, i) => ({ ...b, unlocked: i < 2 })),
-            waterGlasses: 3,
+            xp: 0,
+            level: 1,
+            streak: 0,
+            longestStreak: 0,
+            badges: defaultBadges.map((b) => ({ ...b, unlocked: false })),
+            waterGlasses: 0,
             waterGoal: 8,
-            sleepHours: 7,
+            sleepHours: 0,
             lastActiveDate: new Date().toISOString().split('T')[0],
             addXp: (amount) =>
                 set((state) => {
@@ -74,6 +75,7 @@ export const useGamificationStore = create<GamificationStore>()(
             getAvatarStage: () => {
                 return getAvatarForLevel(get().level);
             },
+            hydrateGamification: (data) => set((state) => ({ ...state, ...data })),
         }),
         { name: 'fitforge-gamification' }
     )

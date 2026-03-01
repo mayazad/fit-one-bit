@@ -9,6 +9,8 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useUserStore } from '@/stores/userStore';
+import { useGamificationStore } from '@/stores/gamificationStore';
 
 const fadeSlide = {
     initial: { opacity: 0, y: 12 },
@@ -20,6 +22,11 @@ export default function LoginPage() {
     const router = useRouter();
     const [mode, setMode] = useState<'login' | 'signup'>('login');
     const [showPw, setShowPw] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+
+    const setUserProfile = useUserStore(state => state.setUserProfile);
+    const hydrateGamification = useGamificationStore(state => state.hydrateGamification);
 
     const [form, setForm] = useState({
         name: '',
@@ -29,10 +36,58 @@ export default function LoginPage() {
 
     const set = (key: string, val: string) => setForm(prev => ({ ...prev, [key]: val }));
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // placeholder — redirect to onboarding on signup, dashboard on login
-        router.push(mode === 'signup' ? '/onboarding' : '/dashboard');
+        setError('');
+        setLoading(true);
+
+        try {
+            if (mode === 'signup') {
+                const res = await fetch('http://localhost:3001/users/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: form.name,
+                        email: form.email,
+                        password: form.password,
+                    }),
+                });
+
+                if (!res.ok) {
+                    const data = await res.json();
+                    throw new Error(data.message || 'Failed to sign up');
+                }
+
+                const user = await res.json();
+
+                // Hydrate Zustand stores with the real DB data
+                setUserProfile({
+                    name: user.name || '',
+                    age: user.profile?.baseStats?.age || 0,
+                    height: user.profile?.baseStats?.height || '',
+                    weight: user.profile?.baseStats?.weight || 0,
+                    goals: user.profile?.focusAreas || [],
+                    avatar: 'beginner',
+                    createdAt: user.createdAt,
+                });
+
+                hydrateGamification({
+                    level: user.profile?.level || 1,
+                    xp: user.profile?.currentXp || 0,
+                    streak: user.profile?.streak || 0,
+                });
+
+                // As requested, redirect directly to dashboard
+                router.push('/dashboard');
+            } else {
+                // Placeholder for actual login endpoint when built
+                router.push('/dashboard');
+            }
+        } catch (err: any) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -86,6 +141,12 @@ export default function LoginPage() {
                             </button>
                         ))}
                     </div>
+
+                    {error && (
+                        <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-xs text-red-400 text-center">
+                            {error}
+                        </div>
+                    )}
 
                     {/* ── form ── */}
                     <form onSubmit={handleSubmit}>
@@ -168,11 +229,12 @@ export default function LoginPage() {
                         {/* submit */}
                         <Button
                             type="submit"
-                            className="w-full mt-6 h-11 bg-gradient-to-r from-teal-500 to-violet-600 text-white border-0 font-bold text-sm hover:shadow-[0_0_20px_rgba(45,212,191,0.4)] transition-all duration-300 group"
+                            disabled={loading}
+                            className="w-full mt-6 h-11 bg-gradient-to-r from-teal-500 to-violet-600 text-white border-0 font-bold text-sm hover:shadow-[0_0_20px_rgba(45,212,191,0.4)] transition-all duration-300 group disabled:opacity-50"
                         >
                             <span className="flex items-center gap-2">
-                                {mode === 'login' ? 'Enter the Forge' : 'Create Character'}
-                                <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
+                                {loading ? 'Forging...' : (mode === 'login' ? 'Enter the Forge' : 'Create Character')}
+                                {!loading && <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />}
                             </span>
                         </Button>
                     </form>

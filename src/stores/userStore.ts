@@ -7,24 +7,18 @@ interface UserStore {
     isOnboarded: boolean;
     updateProfile: (updates: Partial<UserProfile>) => void;
     setOnboarded: (value: boolean) => void;
+    setUserProfile: (profile: UserProfile) => void;
 }
 
 export const useUserStore = create<UserStore>()(
     persist(
         (set) => ({
             profile: {
-                name: 'Fitness Warrior',
-                age: 25,
-                height: "5'3\"",
-                weight: 56,
-                goals: [
-                    'Lose belly fat',
-                    'Reduce chest fat',
-                    'Build wider chest',
-                    'Gain lean muscle',
-                    'Improve posture',
-                    'Improve stamina',
-                ],
+                name: '',
+                age: 0,
+                height: '',
+                weight: 0,
+                goals: [],
                 avatar: 'beginner',
                 createdAt: new Date().toISOString(),
             },
@@ -34,6 +28,7 @@ export const useUserStore = create<UserStore>()(
                     profile: { ...state.profile, ...updates },
                 })),
             setOnboarded: (value) => set({ isOnboarded: value }),
+            setUserProfile: (profile) => set({ profile }),
         }),
         { name: 'fitforge-user' }
     )
