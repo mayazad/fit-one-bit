@@ -82,7 +82,41 @@ export default function LoginPage() {
                 // As requested, redirect directly to dashboard
                 router.push('/onboarding');
             } else {
-                // Placeholder for actual login endpoint when built
+                const res = await fetch('http://localhost:3001/users/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: form.email,
+                        password: form.password,
+                    }),
+                });
+
+                if (!res.ok) {
+                    const data = await res.json();
+                    throw new Error(data.message || 'Invalid email or password. Please try again.');
+                }
+
+                const user = await res.json();
+
+                // Hydrate Zustand stores with the real DB data
+                setUserProfile({
+                    id: user.id || '',
+                    name: user.name || '',
+                    age: user.profile?.baseStats?.age || 0,
+                    height: user.profile?.baseStats?.height || '',
+                    weight: user.profile?.baseStats?.weight || 0,
+                    goals: user.profile?.focusAreas || [],
+                    avatar: 'beginner',
+                    primaryClass: user.profile?.primaryClass || undefined,
+                    createdAt: user.createdAt,
+                });
+
+                hydrateGamification({
+                    level: user.profile?.level || 1,
+                    xp: user.profile?.currentXp || 0,
+                    streak: user.profile?.streak || 0,
+                });
+
                 router.push('/dashboard');
             }
         } catch (err: any) {
@@ -240,7 +274,7 @@ export default function LoginPage() {
                             className="w-full mt-6 h-11 bg-gradient-to-r from-teal-500 to-violet-600 text-white border-0 font-bold text-sm hover:shadow-[0_0_20px_rgba(45,212,191,0.4)] transition-all duration-300 group disabled:opacity-50"
                         >
                             <span className="flex items-center gap-2">
-                                {loading ? 'Forging...' : (mode === 'login' ? 'Enter the Forge' : 'Create Character')}
+                                {loading ? 'Forging...' : (mode === 'login' ? 'Login' : 'Create Character')}
                                 {!loading && <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />}
                             </span>
                         </Button>

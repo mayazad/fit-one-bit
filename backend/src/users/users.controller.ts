@@ -11,6 +11,11 @@ export class UsersController {
         return this.usersService.createUser(createDto);
     }
 
+    @Post('login')
+    async login(@Body() loginDto: any) {
+        return this.usersService.loginUser(loginDto);
+    }
+
     @Get(':id/profile')
     async getProfile(@Param('id') id: string) {
         return this.usersService.getUserProfile(id);
