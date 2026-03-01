@@ -185,15 +185,15 @@ export default function DashboardPage() {
         <div className="absolute top-0 right-0 w-72 h-72 bg-zinc-900/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
         {/* Unified Flex Container */}
-        <div className="relative w-full flex flex-col lg:flex-row items-center lg:items-end lg:justify-start lg:pl-12 overflow-hidden rounded-2xl pt-6 pb-6 px-4 md:p-6 lg:p-0 lg:pt-8 min-h-[350px] lg:min-h-[350px] gap-6 lg:gap-12">
+        <div className="relative w-full flex flex-col lg:flex-row items-center lg:items-center lg:justify-start lg:pl-16 overflow-hidden rounded-2xl pt-6 pb-6 px-4 md:p-6 lg:pt-10 lg:pb-12 lg:px-0 min-h-[350px] lg:h-[400px] gap-6 lg:gap-16">
 
           {/* Avatar Area (Middle on mobile, Left on Desktop) */}
-          <div className="relative order-2 lg:order-1 w-full sm:w-[50%] lg:w-[280px] h-[180px] lg:h-[350px] flex items-center lg:items-end justify-center z-10 shrink-0">
+          <div className="relative order-2 lg:order-1 w-full sm:w-[50%] lg:w-[320px] h-[180px] lg:h-[400px] flex items-center justify-center z-10 shrink-0">
             <EvolvingAvatar level={level} />
           </div>
 
           {/* Text Area (Top on mobile, Right on Desktop) */}
-          <div className="relative order-1 lg:order-2 flex flex-col items-center lg:items-start text-center lg:text-left justify-center lg:justify-end lg:pb-12 z-10 w-full max-w-lg">
+          <div className="relative order-1 lg:order-2 flex flex-col items-center lg:items-start text-center lg:text-left justify-center lg:justify-center z-10 w-full max-w-lg">
             {/* The Header Row */}
             <div className="flex flex-col flex-wrap sm:flex-row items-center gap-2 sm:gap-4 mb-2 z-10 w-full justify-center md:justify-start">
               <h1 className="text-3xl lg:text-4xl font-bold text-zinc-50">

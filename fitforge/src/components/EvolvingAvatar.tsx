@@ -36,7 +36,7 @@ export function EvolvingAvatar({ level }: EvolvingAvatarProps) {
                             src={stage.imagePath}
                             alt={stage.name}
                             fill
-                            className="object-contain object-bottom"
+                            className="object-contain object-bottom scale-125 lg:scale-125 origin-bottom"
                             priority
                         />
                     </div>
