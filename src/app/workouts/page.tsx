@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, ChevronRight, CheckCircle2, Circle, Dumbbell, RotateCcw, Play, SkipForward, X, Trophy, Flame, ShieldCheck, AlertTriangle } from 'lucide-react';
-import { ExerciseIcon, getIconComponent } from '@/components/ExerciseIcon';
+import { ExerciseIcon, getCategoryIconMeta, getIconComponent } from '@/components/ExerciseIcon';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -340,9 +340,9 @@ export default function WorkoutsPage() {
                                                                 onClick={() => handleToggleExercise(dayIndex, exId)}
                                                                 whileTap={{ scale: 0.97 }}
                                                                 animate={justDone ? { scale: [1, 1.04, 1], backgroundColor: ['rgba(52,211,153,0.1)', 'rgba(52,211,153,0.2)', 'rgba(52,211,153,0.1)'] } : {}}
-                                                                className={`w-full flex items-center gap-3 p-2.5 rounded-lg text-left transition-all ${isDone
+                                                                className={`group w-full flex items-center gap-3 p-2.5 rounded-lg text-left transition-all ${isDone
                                                                     ? 'bg-emerald-500/10 border border-emerald-500/20'
-                                                                    : 'bg-white/3 border border-white/5 hover:border-white/10'
+                                                                    : 'bg-white/3 border border-white/5 hover:border-white/15'
                                                                     }`}
                                                             >
                                                                 {isDone ? (
@@ -351,12 +351,17 @@ export default function WorkoutsPage() {
                                                                     </motion.div>
                                                                 ) : (
                                                                     <motion.div key="undone" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
-                                                                        <Circle size={16} className="text-muted-foreground flex-shrink-0" />
+                                                                        <Circle size={16} className="text-muted-foreground flex-shrink-0 transition-colors duration-200 group-hover:text-teal-400" />
                                                                     </motion.div>
                                                                 )}
-                                                                <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
-                                                                    <ExerciseIcon icon={ex.icon} size={15} className="text-cyan-400" />
-                                                                </div>
+                                                                {(() => {
+                                                                    const { Icon: CatIcon, colorClass } = getCategoryIconMeta(ex.category, ex.icon);
+                                                                    return (
+                                                                        <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110">
+                                                                            <CatIcon size={15} className={colorClass} />
+                                                                        </div>
+                                                                    );
+                                                                })()}
                                                                 <div className="flex-1 min-w-0">
                                                                     <p className={`text-sm ${isDone ? 'line-through text-muted-foreground' : ''}`}>{ex.name}</p>
                                                                     <p className="text-[10px] text-muted-foreground">{ex.sets} × {ex.reps}</p>

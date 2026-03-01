@@ -3,6 +3,7 @@ import {
     Droplets, Activity, Timer, Shield, Sunrise, Mountain, Bike,
     ChevronDown, Layers, Navigation, Sun, Moon, Apple, Sword,
     Crown, TrendingUp, Heart, BarChart2, LucideIcon, Footprints,
+    HeartPulse, Move,
 } from 'lucide-react';
 
 const iconMap: Record<string, LucideIcon> = {
@@ -34,20 +35,49 @@ const iconMap: Record<string, LucideIcon> = {
     heart: Heart,
     chart: BarChart2,
     footprints: Footprints,
+    heartpulse: HeartPulse,
+    move: Move,
     // fallback mappings for exercise-specific labels
     diamond: Gem,
     angle: Activity,
     jump: Zap,
     triangle: Activity,
-    lotus: Activity,
-    stretch: Activity,
-    'cat-pose': Activity,
-    angel: Shield,
-    neck: Shield,
+    lotus: Move,
+    stretch: Move,
+    'cat-pose': Move,
+    angel: Move,
+    neck: Move,
     chair: Shield,
     climb: Mountain,
     salad: Heart,
 };
+
+/**
+ * Returns a Lucide icon component + tailwind color class based on exercise category.
+ * This drives the fitness-focused icon semantic in the workout list.
+ */
+export function getCategoryIconMeta(category: string, iconKey: string): {
+    Icon: LucideIcon;
+    colorClass: string;
+} {
+    switch (category) {
+        case 'legs':
+            return { Icon: Footprints, colorClass: 'text-blue-400' };
+        case 'core':
+            return { Icon: Activity, colorClass: 'text-purple-400' };
+        case 'full-body':
+            return { Icon: HeartPulse, colorClass: 'text-orange-400' };
+        case 'flexibility':
+            return { Icon: Move, colorClass: 'text-teal-400' };
+        case 'posture':
+            return { Icon: Move, colorClass: 'text-teal-400' };
+        case 'performance':
+            return { Icon: Zap, colorClass: 'text-yellow-400' };
+        case 'chest':
+        default:
+            return { Icon: iconMap[iconKey] ?? Dumbbell, colorClass: 'text-cyan-400' };
+    }
+}
 
 interface ExerciseIconProps {
     icon: string;
