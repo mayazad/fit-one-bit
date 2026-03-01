@@ -6,7 +6,7 @@ import { EvolvingAvatar } from '@/components/EvolvingAvatar';
 import {
   Flame, Zap, Dumbbell, Target, Droplets, Moon,
   ChevronRight, Trophy, Utensils, TrendingUp,
-  CheckCircle2, Circle, Star, Sparkles,
+  CheckCircle2, Circle, Star, Sparkles, MessageSquareQuote,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -263,13 +263,13 @@ export default function DashboardPage() {
               <CardContent>
                 {today?.isRestDay ? (
                   <div className="text-center py-8">
-                    <motion.p
+                    <motion.div
                       animate={{ y: [0, -5, 0] }}
                       transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                      className="text-4xl mb-2"
+                      className="flex justify-center mb-2"
                     >
-                      😴
-                    </motion.p>
+                      <Moon className="w-10 h-10 text-indigo-400" />
+                    </motion.div>
                     <p className="text-lg font-medium">Rest Day</p>
                     <p className="text-sm text-muted-foreground">Your muscles are recovering and growing!</p>
                   </div>
@@ -341,9 +341,9 @@ export default function DashboardPage() {
                         initial={false}
                         animate={i < waterGlasses ? { scale: [1, 1.2, 1], opacity: 1 } : { opacity: 0.2 }}
                         transition={{ duration: 0.3 }}
-                        className={`text-sm ${i < waterGlasses ? '' : 'grayscale'}`}
+                        className={i < waterGlasses ? 'text-blue-400' : 'text-muted-foreground'}
                       >
-                        💧
+                        <Droplets size={16} />
                       </motion.div>
                     ))}
                   </div>
@@ -373,7 +373,10 @@ export default function DashboardPage() {
                             />
                           )}
                         </AnimatePresence>
-                        + Add Glass 💧
+                        <div className="flex items-center gap-1">
+                          <span>+ Add Glass</span>
+                          <Droplets size={14} />
+                        </div>
                       </Button>
                     </motion.div>
                   </div>
@@ -419,8 +422,10 @@ export default function DashboardPage() {
               <div className="absolute top-0 right-0 w-24 h-24 bg-fuchsia-500/10 rounded-full blur-2xl pointer-events-none" />
               <CardContent className="p-5 relative">
                 <div className="flex items-start gap-2 mb-2">
-                  <span className="text-lg">💬</span>
-                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Quote of the Day</p>
+                  <div className="p-1 rounded-md bg-fuchsia-500/10">
+                    <MessageSquareQuote size={16} className="text-fuchsia-400" />
+                  </div>
+                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium mt-0.5">Quote of the Day</p>
                 </div>
                 <p className="text-sm italic leading-relaxed">&ldquo;{quote.text}&rdquo;</p>
                 <p className="text-xs text-muted-foreground mt-2">— {quote.author}</p>

@@ -1,6 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 
 interface EvolvingAvatarProps {
     level: number;
@@ -8,10 +9,10 @@ interface EvolvingAvatarProps {
 
 export function EvolvingAvatar({ level }: EvolvingAvatarProps) {
     const getStage = (lvl: number) => {
-        if (lvl <= 10) return { id: 1, name: 'Starting Out', description: 'Body Stage 1: Soft', gradient: 'from-slate-400 to-slate-600', icon: '🧍' };
-        if (lvl <= 25) return { id: 2, name: 'Leaning Down', description: 'Body Stage 2: Toned', gradient: 'from-cyan-400 to-blue-600', icon: '🏃' };
-        if (lvl <= 40) return { id: 3, name: 'Building Muscle', description: 'Body Stage 3: Muscular', gradient: 'from-violet-400 to-purple-600', icon: '🏋️' };
-        return { id: 4, name: 'Goal Physique', description: 'Body Stage 4: Shredded', gradient: 'from-orange-400 to-red-600', icon: '🦸' };
+        if (lvl <= 10) return { id: 1, name: 'Starting Out', description: 'Body Stage 1: Soft', gradient: 'from-slate-400 to-slate-600', imagePath: '/avatars/stage-1.svg' };
+        if (lvl <= 25) return { id: 2, name: 'Leaning Down', description: 'Body Stage 2: Toned', gradient: 'from-cyan-400 to-blue-600', imagePath: '/avatars/stage-2.svg' };
+        if (lvl <= 40) return { id: 3, name: 'Building Muscle', description: 'Body Stage 3: Muscular', gradient: 'from-violet-400 to-purple-600', imagePath: '/avatars/stage-3.svg' };
+        return { id: 4, name: 'Goal Physique', description: 'Body Stage 4: Shredded', gradient: 'from-orange-400 to-red-600', imagePath: '/avatars/stage-4.svg' };
     };
 
     const stage = getStage(level);
@@ -32,11 +33,19 @@ export function EvolvingAvatar({ level }: EvolvingAvatarProps) {
                         transition={{ duration: 0.6, ease: 'easeOut' }}
                         className={`w-full h-full flex flex-col items-center shadow-inner bg-gradient-to-br ${stage.gradient} bg-opacity-10`}
                     >
-                        {/* Full-body placeholder visual */}
-                        <div className="flex-1 flex items-center justify-center w-full relative">
+                        {/* Full-body visual */}
+                        <div className="flex-1 flex items-center justify-center w-full relative p-4">
                             {/* Silhouette glow */}
                             <div className="absolute inset-0 bg-white/5 blur-xl rounded-full scale-150 animate-pulse" />
-                            <span className="text-6xl sm:text-7xl relative z-10 drop-shadow-xl filter">{stage.icon}</span>
+                            <div className="relative w-full h-full z-10 drop-shadow-xl filter">
+                                <Image
+                                    src={stage.imagePath}
+                                    alt={stage.name}
+                                    fill
+                                    className="object-contain"
+                                    priority
+                                />
+                            </div>
                         </div>
 
                         {/* Label Base */}
