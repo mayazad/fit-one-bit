@@ -106,14 +106,14 @@ export default function DashboardPage() {
         <div className="absolute left-10 bottom-0 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
 
         {/* Unified Flex Container */}
-        <div className="relative w-full min-h-[350px] md:h-[300px] flex flex-col md:flex-row items-center overflow-hidden rounded-2xl pt-8 md:pt-0">
-          {/* Left Column (The Avatar - 30% width) */}
-          <div className="relative order-2 md:order-1 w-full md:w-1/3 h-[220px] md:h-full flex items-end justify-center md:justify-end md:pr-8 z-10 mt-6 md:mt-0">
+        <div className="relative w-full flex flex-col md:flex-row items-center overflow-hidden rounded-2xl pt-6 px-4 md:p-0 md:h-[300px] gap-4 md:gap-0">
+          {/* Left Column (The Avatar - Moves to BOTTOM on mobile) */}
+          <div className="relative order-2 md:order-1 w-full md:w-1/3 h-[140px] sm:h-[160px] md:h-full flex items-end justify-center md:justify-end md:pr-8 z-10">
             <EvolvingAvatar level={level} />
           </div>
 
-          {/* Right Column (The Text & Progress - 70% width) */}
-          <div className="relative order-1 md:order-2 w-full md:w-2/3 flex flex-col items-center md:items-start text-center md:text-left px-6 md:px-0 md:pr-12 z-10">
+          {/* Right Column (The Text & Progress - Moves to TOP on mobile) */}
+          <div className="relative order-1 md:order-2 w-full md:w-2/3 flex flex-col items-center md:items-start text-center md:text-left md:justify-center md:pr-12 z-10">
             {/* The Header Row */}
             <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 mb-2">
               <h1 className="text-4xl font-bold text-white">
