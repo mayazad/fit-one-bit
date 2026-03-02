@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, ChevronRight, CheckCircle2, Circle, Dumbbell, RotateCcw, Play, SkipForward, X, Trophy, Flame, ShieldCheck, AlertTriangle } from 'lucide-react';
+import { Search, ChevronRight, CheckCircle2, Circle, Dumbbell, RotateCcw, Play, SkipForward, X, Trophy, Flame, ShieldCheck, AlertTriangle, Volume2, VolumeX } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,7 @@ import { exercises, categories } from '@/data/exercises';
 import { useWorkoutStore } from '@/stores/workoutStore';
 import { useGamificationStore } from '@/stores/gamificationStore';
 import { Exercise } from '@/types';
+import confetti from 'canvas-confetti';
 
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
@@ -24,19 +25,79 @@ const fadeUp = {
     }),
 };
 
+// Simple web synth for completion sounds
+const playSound = (type: 'success' | 'workout-done') => {
+    try {
+        const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+
+        if (type === 'success') {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+            osc.frequency.exponentialRampToValueAtTime(1046.50, ctx.currentTime + 0.1); // C6
+            gain.gain.setValueAtTime(0.1, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+            osc.start(ctx.currentTime);
+            osc.stop(ctx.currentTime + 0.1);
+        } else {
+            // Workout done fanfare
+            [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.type = 'triangle';
+                osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0.1, ctx.currentTime + (i * 0.1));
+                gain.gain.linearRampToValueAtTime(0, ctx.currentTime + (i * 0.1) + 0.3);
+                osc.start(ctx.currentTime + (i * 0.1));
+                osc.stop(ctx.currentTime + (i * 0.1) + 0.3);
+            });
+        }
+    } catch { } // Ignore if blocked by browser policy
+};
+
 export default function WorkoutsPage() {
     const [search, setSearch] = useState('');
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
+    const [soundEnabled, setSoundEnabled] = useState(true);
     const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
     const { weeklyPlan, toggleExercise, resetWeek, completedWorkouts } = useWorkoutStore();
     const { addXp } = useGamificationStore();
     const todayIndex = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1;
 
-    // ── Guided Workout Mode ──────────────────────────────────────────
     const [workoutActive, setWorkoutActive] = useState(false);
     const [guidedDayIndex, setGuidedDayIndex] = useState(todayIndex);
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
     const [showCompletionModal, setShowCompletionModal] = useState(false);
+
+    // ── Active Exercise Timer ────────────────────────────────────────
+    const [exTimerActive, setExTimerActive] = useState(false);
+    const [exSecondsLeft, setExSecondsLeft] = useState(0);
+    const exIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+    useEffect(() => {
+        if (exTimerActive && exSecondsLeft > 0) {
+            exIntervalRef.current = setInterval(() => {
+                setExSecondsLeft(prev => {
+                    if (prev <= 1) {
+                        setExTimerActive(false);
+                        clearInterval(exIntervalRef.current!);
+                        handleGuidedComplete(); // Auto complete when timer hits 0
+                        return 0;
+                    }
+                    return prev - 1;
+                });
+            }, 1000);
+        }
+        return () => { if (exIntervalRef.current) clearInterval(exIntervalRef.current); };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [exTimerActive]);
 
     // ── Rest Timer ───────────────────────────────────────────────────
     const [restTimerActive, setRestTimerActive] = useState(false);
@@ -85,30 +146,40 @@ export default function WorkoutsPage() {
     const currentExId = guidedExercises[currentExerciseIndex];
     const currentEx = exercises.find(e => e.id === currentExId);
 
+    // Determines if current exercise is time-based
+    const isTimedExercise = currentEx?.duration && currentEx.duration.includes('s');
+    const parseDuration = (dur: string) => parseInt(dur.replace(/\D/g, '')) || 30;
+
     const startWorkout = (dayIndex: number) => {
         setGuidedDayIndex(dayIndex);
         setCurrentExerciseIndex(0);
         setWorkoutActive(true);
+        setExTimerActive(false);
+        setRestTimerActive(false);
     };
 
-    const handleGuidedComplete = () => {
+    const nextExercise = useCallback(() => {
+        if (currentExerciseIndex < guidedExercises.length - 1) {
+            setCurrentExerciseIndex(i => i + 1);
+            setExTimerActive(false);
+        } else {
+            setWorkoutActive(false);
+            if (soundEnabled) playSound('workout-done');
+            confetti({ particleCount: 150, spread: 80, origin: { y: 0.4 } });
+            setShowCompletionModal(true);
+        }
+    }, [currentExerciseIndex, guidedExercises.length, soundEnabled]);
+
+    const handleGuidedComplete = useCallback(() => {
         handleToggleExercise(guidedDayIndex, currentExId);
-        if (currentExerciseIndex < guidedExercises.length - 1) {
-            setCurrentExerciseIndex(i => i + 1);
-        } else {
-            setWorkoutActive(false);
-            setShowCompletionModal(true);
-        }
-    };
+        if (soundEnabled) playSound('success');
+        confetti({ particleCount: 40, spread: 50, origin: { y: 0.7 } });
+        nextExercise();
+    }, [guidedDayIndex, currentExId, handleToggleExercise, nextExercise, soundEnabled]);
 
-    const handleGuidedSkip = () => {
-        if (currentExerciseIndex < guidedExercises.length - 1) {
-            setCurrentExerciseIndex(i => i + 1);
-        } else {
-            setWorkoutActive(false);
-            setShowCompletionModal(true);
-        }
-    };
+    const handleGuidedSkip = useCallback(() => {
+        nextExercise();
+    }, [nextExercise]);
 
     // ── Exercise grid filter ─────────────────────────────────────────
     const filteredExercises = exercises.filter((ex) => {
@@ -186,8 +257,35 @@ export default function WorkoutsPage() {
                                 <currentEx.icon size={28} className="text-orange-400" />
                             </div>
                             <div className="text-center mb-5">
-                                <p className="text-2xl font-black">{currentEx.sets} sets × {currentEx.reps}</p>
-                                <p className="text-sm text-muted-foreground">{currentEx.muscles.join(', ')}</p>
+                                {isTimedExercise && !exTimerActive && exSecondsLeft === 0 ? (
+                                    <div className="flex flex-col items-center">
+                                        <p className="text-2xl font-black mb-2">{parseDuration(currentEx.duration!)} seconds</p>
+                                        <Button
+                                            onClick={() => {
+                                                setExSecondsLeft(parseDuration(currentEx.duration!));
+                                                setExTimerActive(true);
+                                                if (soundEnabled) playSound('success');
+                                            }}
+                                            className="bg-orange-500/20 hover:bg-orange-500/30 text-orange-400 border border-orange-500/30 rounded-full h-12 px-6"
+                                        >
+                                            <Play size={18} className="mr-2 fill-orange-400" /> Start Timer
+                                        </Button>
+                                    </div>
+                                ) : isTimedExercise && (exTimerActive || exSecondsLeft > 0) ? (
+                                    <div className="flex flex-col items-center">
+                                        <div className="text-5xl font-black text-cyan-400 font-mono mb-2">{exSecondsLeft}s</div>
+                                        <Button
+                                            variant="outline" size="sm"
+                                            onClick={() => setExTimerActive(!exTimerActive)}
+                                            className="text-muted-foreground border-zinc-800/50"
+                                        >
+                                            {exTimerActive ? 'Pause' : 'Resume'}
+                                        </Button>
+                                    </div>
+                                ) : (
+                                    <p className="text-2xl font-black">{currentEx.sets} sets × {currentEx.reps}</p>
+                                )}
+                                <p className="text-sm text-muted-foreground mt-2">{currentEx.muscles.join(', ')}</p>
                                 <Badge variant="secondary" className="mt-2 text-xs">{currentEx.difficulty}</Badge>
                             </div>
                             <div className="space-y-2">
@@ -255,9 +353,22 @@ export default function WorkoutsPage() {
             </AnimatePresence>
 
             {/* ── PAGE HEADER ────────────────────── */}
-            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-                <h1 className="text-2xl font-bold mb-1">Workouts</h1>
-                <p className="text-sm text-muted-foreground">Build your body, one rep at a time.</p>
+            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex items-start justify-between">
+                <div>
+                    <h1 className="text-2xl font-bold mb-1">Workouts</h1>
+                    <p className="text-sm text-muted-foreground">Build your body, one rep at a time.</p>
+                </div>
+                <Button
+                    variant="ghost" size="icon"
+                    onClick={() => {
+                        setSoundEnabled(!soundEnabled);
+                        if (!soundEnabled) playSound('success');
+                    }}
+                    className="text-muted-foreground hover:text-orange-400 hover:bg-orange-500/10"
+                    title={soundEnabled ? "Disable Sounds" : "Enable Sounds"}
+                >
+                    {soundEnabled ? <Volume2 size={20} /> : <VolumeX size={20} />}
+                </Button>
             </motion.div>
 
             <Tabs defaultValue="planner" className="space-y-4">
