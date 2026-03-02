@@ -276,7 +276,16 @@ export default function DashboardPage() {
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="p-1.5 rounded-lg bg-zinc-900/50">
-                    <stat.icon size={14} className={stat.color} />
+                    {stat.label === 'Streak' && streak > 0 ? (
+                      <motion.div
+                        animate={{ scale: [1, 1.2, 1], rotate: [-5, 5, -5] }}
+                        transition={{ repeat: Infinity, duration: 1.2, ease: 'easeInOut' }}
+                      >
+                        <stat.icon size={16} className={`${stat.color} drop-shadow-[0_0_8px_rgba(249,115,22,0.8)]`} />
+                      </motion.div>
+                    ) : (
+                      <stat.icon size={14} className={stat.color} />
+                    )}
                   </div>
                   <span className="text-xs text-muted-foreground">{stat.label}</span>
                 </div>
