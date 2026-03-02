@@ -19,7 +19,7 @@ async function bootstrap() {
     origin: [
       'http://localhost:3000',
       'http://localhost:3001',
-      'fit-one-bit.vercel.app',
+      'https://fit-one-bit.vercel.app',
 
       /\.vercel\.app$/, // Allows all Vercel preview deployments
     ],
