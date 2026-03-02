@@ -72,8 +72,9 @@ export default function LandingPage() {
       >
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           {/* logo */}
-          <Link href="/" className="flex items-center gap-2 group">
+          <Link href="/" className="flex items-center gap-3 group">
             <Image src="/logo.png" alt="eFit Logo" width={150} height={50} priority className="w-auto h-8 lg:h-10" />
+            <span className="text-2xl font-black tracking-tight text-zinc-50">eFit</span>
           </Link>
 
           {/* desktop links */}
@@ -538,8 +539,9 @@ export default function LandingPage() {
       <footer className="border-t border-zinc-800/50 py-8">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <Image src="/logo.png" alt="eFit Logo" width={150} height={50} priority className="w-auto h-6 opacity-60" />
+            <div className="flex items-center gap-3">
+              <Image src="/logo.png" alt="eFit Logo" width={150} height={50} priority className="w-auto h-6 opacity-80" />
+              <span className="text-lg font-bold text-zinc-50/80 tracking-tight">eFit</span>
             </div>
             <div className="flex items-center gap-6">
               <a href="#" className="text-xs text-zinc-50/30 hover:text-zinc-50/60 transition-colors">Privacy</a>

@@ -55,6 +55,7 @@ export default function Sidebar({ isOpen, onClose, desktopOpen = true }: Sidebar
                 <div className="p-6 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-3" onClick={onClose}>
                         <Image src="/logo.png" alt="eFit Logo" width={150} height={50} priority className="w-auto h-8 lg:h-10" />
+                        <span className="text-2xl font-black tracking-tight text-zinc-50">eFit</span>
                     </Link>
                     <button
                         onClick={onClose}
