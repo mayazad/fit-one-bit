@@ -13,6 +13,7 @@ interface DietStore {
     mealPlan: Record<string, { breakfast: string; lunch: string; snack: string; dinner: string }>;
     completion: Record<string, MealCompletion>;
     toggleMeal: (day: string, mealType: keyof MealCompletion) => void;
+    swapMeal: (day: string, mealType: keyof MealCompletion, newMealId: string) => void;
     getTodayCompletion: () => MealCompletion;
     getCompletedMealsCount: () => number;
 }
@@ -35,6 +36,14 @@ export const useDietStore = create<DietStore>()(
                     const comp = { ...state.completion };
                     comp[day] = { ...comp[day], [mealType]: !comp[day][mealType] };
                     return { completion: comp };
+                }),
+            swapMeal: (day, mealType, newMealId) =>
+                set((state) => {
+                    const newPlan = { ...state.mealPlan };
+                    if (newPlan[day]) {
+                        newPlan[day] = { ...newPlan[day], [mealType]: newMealId };
+                    }
+                    return { mealPlan: newPlan };
                 }),
             getTodayCompletion: () => {
                 const state = get();
