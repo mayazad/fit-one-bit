@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { ChatMessage } from '@/types';
+import { useGamificationStore } from './gamificationStore';
+import { useProgressStore } from './progressStore';
 
 const aiResponses: Record<string, string[]> = {
     workout: [
@@ -52,11 +54,21 @@ function getAiResponse(message: string): string {
     }
 
     const responses = aiResponses[category];
-    return responses[Math.floor(Math.random() * responses.length)];
+    const template = responses[Math.floor(Math.random() * responses.length)];
+
+    // Inject Context
+    const gamification = useGamificationStore.getState();
+    const progress = useProgressStore.getState();
+    const latestProgress = progress.getLatest();
+
+    return template
+        .replace('{streak}', gamification.streak.toString())
+        .replace('{level}', gamification.level.toString());
 }
 
 interface ChatStore {
     messages: ChatMessage[];
+    isTyping: boolean;
     sendMessage: (content: string) => void;
     clearChat: () => void;
 }
@@ -72,7 +84,8 @@ export const useChatStore = create<ChatStore>()(
                     timestamp: new Date().toISOString(),
                 },
             ],
-            sendMessage: (content) =>
+            isTyping: false,
+            sendMessage: (content) => {
                 set((state) => {
                     const userMsg: ChatMessage = {
                         id: `user-${Date.now()}`,
@@ -80,14 +93,22 @@ export const useChatStore = create<ChatStore>()(
                         content,
                         timestamp: new Date().toISOString(),
                     };
-                    const aiMsg: ChatMessage = {
-                        id: `ai-${Date.now()}`,
-                        role: 'assistant',
-                        content: getAiResponse(content),
-                        timestamp: new Date().toISOString(),
-                    };
-                    return { messages: [...state.messages, userMsg, aiMsg] };
-                }),
+                    return { messages: [...state.messages, userMsg], isTyping: true };
+                });
+
+                // Simulate AI typing delay
+                setTimeout(() => {
+                    set((state) => {
+                        const aiMsg: ChatMessage = {
+                            id: `ai-${Date.now()}`,
+                            role: 'assistant',
+                            content: getAiResponse(content),
+                            timestamp: new Date().toISOString(),
+                        };
+                        return { messages: [...state.messages, aiMsg], isTyping: false };
+                    });
+                }, 1500);
+            },
             clearChat: () =>
                 set({
                     messages: [
