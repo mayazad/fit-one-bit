@@ -150,9 +150,9 @@ export default function LoginPage() {
 
                     {/* logo */}
                     <div className="text-center mb-8">
-                        <Link href="/" className="inline-flex flex-col items-center gap-3 group">
-                            <Image src="/logo.png" alt="eFit Logo" width={150} height={50} priority className="w-auto h-12 lg:h-14" />
-                            <span className="text-3xl font-black tracking-tight text-zinc-50">eFit</span>
+                        <Link href="/" className="flex flex-row items-center justify-center gap-3 mb-8 group">
+                            <Image src="/logo.png" alt="eFit Logo" width={150} height={50} priority className="w-auto h-12 lg:h-14 transition-transform duration-300 group-hover:scale-105" />
+                            <span className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-400 hover:scale-105 transition-transform duration-300">eFit</span>
                         </Link>
                     </div>
 

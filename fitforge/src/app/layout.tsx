@@ -31,7 +31,12 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <TooltipProvider>
-          <AppShell>{children}</AppShell>
+          <div className="flex flex-col min-h-screen">
+            <AppShell>{children}</AppShell>
+            <footer className="w-full py-6 mt-auto text-center text-sm text-zinc-500 border-t border-zinc-800/50 bg-zinc-950 relative z-50">
+              &copy; {new Date().getFullYear()} MayazAD. All rights reserved.
+            </footer>
+          </div>
         </TooltipProvider>
       </body>
     </html>

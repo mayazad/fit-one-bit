@@ -170,9 +170,9 @@ export default function OnboardingPage() {
             <div className="relative z-10 px-6 pt-6">
                 <div className="max-w-2xl mx-auto">
                     <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-3">
-                            <Image src="/logo.png" alt="eFit Logo" width={150} height={50} priority className="w-auto h-8 lg:h-10" />
-                            <span className="text-2xl font-black tracking-tight text-zinc-50">eFit</span>
+                        <div className="flex items-center gap-3 group">
+                            <Image src="/logo.png" alt="eFit Logo" width={150} height={50} priority className="w-auto h-8 lg:h-10 transition-transform duration-300 group-hover:scale-105" />
+                            <span className="text-2xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-400 hover:scale-105 transition-transform duration-300">eFit</span>
                         </div>
                         <span className="text-xs text-zinc-50/30">Step {step} of {TOTAL_STEPS}</span>
                     </div>
