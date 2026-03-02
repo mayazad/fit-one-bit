@@ -80,11 +80,11 @@ export interface DailyMealPlan {
 
 // ===== PROGRESS =====
 export interface ProgressEntry {
-    date: string;
-    weight?: number;
-    chest?: number;
-    waist?: number;
-    notes?: string;
+    date: string;       // YYYY-MM-DD
+    weight?: number;    // in kg
+    chest?: number;     // in inches
+    waist?: number;     // in inches
+    photo?: string;     // Base64 string of the progress photo
 }
 
 // ===== GAMIFICATION =====
