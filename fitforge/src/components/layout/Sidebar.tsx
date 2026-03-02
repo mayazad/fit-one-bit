@@ -21,6 +21,7 @@ const navItems = [
     { href: '/workouts', label: 'Workouts', icon: Dumbbell },
     { href: '/diet', label: 'Diet Plan', icon: UtensilsCrossed },
     { href: '/progress', label: 'Progress', icon: TrendingUp },
+    { href: '/gamification', label: 'Gamification', icon: Trophy },
     { href: '/achievements', label: 'Achievements', icon: Trophy },
     { href: '/ai-coach', label: 'AI Coach', icon: Bot },
 ];

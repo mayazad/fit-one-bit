@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Dumbbell, UtensilsCrossed, TrendingUp, Bot } from 'lucide-react';
+import { LayoutDashboard, Dumbbell, UtensilsCrossed, TrendingUp, Bot, Trophy } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const items = [
@@ -10,6 +10,7 @@ const items = [
     { href: '/workouts', icon: Dumbbell, label: 'Workouts' },
     { href: '/diet', icon: UtensilsCrossed, label: 'Diet' },
     { href: '/progress', icon: TrendingUp, label: 'Progress' },
+    { href: '/gamification', icon: Trophy, label: 'Gamification' },
     { href: '/ai-coach', icon: Bot, label: 'AI Coach' },
 ];
 
