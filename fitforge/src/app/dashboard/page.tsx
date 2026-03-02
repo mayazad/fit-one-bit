@@ -90,7 +90,8 @@ export default function DashboardPage() {
     showXpToast(quest.xp);
 
     try {
-      const res = await fetch(`http://localhost:3001/quests/${id}/complete`, {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+      const res = await fetch(`${API_URL}/quests/${id}/complete`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: profile?.id, xpReward: quest.xp })

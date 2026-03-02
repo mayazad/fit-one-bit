@@ -113,7 +113,8 @@ export default function OnboardingPage() {
         setError(null);
         setForging(true);
         try {
-            const res = await fetch(`http://localhost:3001/users/${profile.id}/profile`, {
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+            const res = await fetch(`${API_URL}/users/${profile.id}/profile`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
