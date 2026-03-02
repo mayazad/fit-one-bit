@@ -203,6 +203,9 @@ export default function LoginPage() {
                                             <User size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-50/20" />
                                             <Input
                                                 type="text"
+                                                id="name"
+                                                name="name"
+                                                autoComplete="name"
                                                 placeholder="Your name"
                                                 value={form.name}
                                                 onChange={e => set('name', e.target.value)}
@@ -220,6 +223,9 @@ export default function LoginPage() {
                                         <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-50/20" />
                                         <Input
                                             type="email"
+                                            id="email"
+                                            name="email"
+                                            autoComplete="email"
                                             placeholder="hero@efit.com"
                                             value={form.email}
                                             onChange={e => set('email', e.target.value)}
@@ -243,6 +249,9 @@ export default function LoginPage() {
                                         <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-50/20" />
                                         <Input
                                             type={showPw ? 'text' : 'password'}
+                                            id="password"
+                                            name="password"
+                                            autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
                                             placeholder="••••••••"
                                             value={form.password}
                                             onChange={e => set('password', e.target.value)}

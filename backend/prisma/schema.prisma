@@ -95,3 +95,19 @@ model QuestCompletion {
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id])
 }
+
+// ─── Food / Diet ──────────────────────────────────────
+
+model FoodItem {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  calories  Float
+  protein   Float
+  carbs     Float
+  fat       Float
+  serving   String   @default("100g")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("food_items")
+}

@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import {
-    LayoutDashboard,
+    Activity,
     Dumbbell,
     UtensilsCrossed,
     TrendingUp,
@@ -14,13 +14,21 @@ import {
     Settings,
     Trophy,
     X,
+    CheckCircle,
+    CalendarDays,
+    Moon,
+    StretchHorizontal
 } from 'lucide-react';
 
 const navItems = [
-    { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/', label: 'Dashboard', icon: Activity },
+    { href: '/calendar', label: 'Calendar', icon: CalendarDays },
+    { href: '/sleep', label: 'Sleep', icon: Moon },
     { href: '/workouts', label: 'Workouts', icon: Dumbbell },
+    { href: '/flexibility', label: 'Flexibility', icon: StretchHorizontal },
     { href: '/diet', label: 'Diet Plan', icon: UtensilsCrossed },
     { href: '/progress', label: 'Progress', icon: TrendingUp },
+    { href: '/habits', label: 'Habits', icon: CheckCircle }, // Added new habits link
     { href: '/gamification', label: 'Gamification', icon: Trophy },
     { href: '/achievements', label: 'Achievements', icon: Trophy },
     { href: '/ai-coach', label: 'AI Coach', icon: Bot },
