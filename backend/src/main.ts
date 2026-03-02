@@ -19,6 +19,8 @@ async function bootstrap() {
     origin: [
       'http://localhost:3000',
       'http://localhost:3001',
+      'mayaz-repo.vercel.app',
+
       /\.vercel\.app$/, // Allows all Vercel preview deployments
     ],
     credentials: true,
