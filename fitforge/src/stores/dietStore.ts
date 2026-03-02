@@ -52,6 +52,6 @@ export const useDietStore = create<DietStore>()(
                 return count;
             },
         }),
-        { name: 'fitforge-diet' }
+        { name: 'efit-diet' }
     )
 );

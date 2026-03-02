@@ -73,12 +73,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           {/* logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="p-1.5 rounded-lg bg-orange-500/10 border border-orange-500/20 group-hover:bg-orange-500/20 transition-colors">
-              <Zap size={20} className="text-orange-400" />
-            </div>
-            <span className="text-lg font-bold bg-orange-500 hover:bg-orange-600 hover:scale-105 transition-all bg-clip-text text-transparent">
-              FitForge
-            </span>
+            <Image src="/logo.png" alt="eFit Logo" width={150} height={50} priority className="w-auto h-8 lg:h-10" />
           </Link>
 
           {/* desktop links */}
@@ -170,7 +165,7 @@ export default function LandingPage() {
               </motion.h1>
 
               <motion.p variants={fadeUp} className="text-base sm:text-lg text-zinc-50/50 max-w-lg mx-auto lg:mx-0 mb-8 leading-relaxed">
-                Stop tracking, start evolving. FitForge combines data-driven AI coaching with RPG gamification
+                Stop tracking, start evolving. eFit combines data-driven AI coaching with RPG gamification
                 to transform your body, fix your posture, and build lasting habits.
               </motion.p>
 
@@ -452,7 +447,7 @@ export default function LandingPage() {
                 step: '01',
                 icon: Target,
                 title: 'Set Your Goals',
-                desc: 'Tell FitForge what you want — posture fix, muscle gain, fat loss, or all of the above. The AI builds your plan.',
+                desc: 'Tell eFit what you want — posture fix, muscle gain, fat loss, or all of the above. The AI builds your plan.',
                 iconWrap: 'bg-orange-500/10 border-orange-500/20',
                 iconColor: 'text-orange-400',
                 stepColor: 'text-orange-500/[0.06]',
@@ -519,7 +514,7 @@ export default function LandingPage() {
                 Ready to Transform?
               </h2>
               <p className="text-zinc-50/40 max-w-lg mx-auto mb-8 text-sm sm:text-base">
-                Join FitForge and start earning XP from your very first workout. Your Level 1 avatar is waiting.
+                Join eFit and start earning XP from your very first workout. Your Level 1 avatar is waiting.
               </p>
               <Link
                 href="/login"
@@ -544,15 +539,14 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <Zap size={16} className="text-orange-400" />
-              <span className="text-sm font-semibold text-zinc-50/60">FitForge</span>
+              <Image src="/logo.png" alt="eFit Logo" width={150} height={50} priority className="w-auto h-6 opacity-60" />
             </div>
             <div className="flex items-center gap-6">
               <a href="#" className="text-xs text-zinc-50/30 hover:text-zinc-50/60 transition-colors">Privacy</a>
               <a href="#" className="text-xs text-zinc-50/30 hover:text-zinc-50/60 transition-colors">Terms</a>
               <a href="#" className="text-xs text-zinc-50/30 hover:text-zinc-50/60 transition-colors">Contact</a>
             </div>
-            <p className="text-xs text-zinc-50/20">&copy; {new Date().getFullYear()} FitForge. All rights reserved.</p>
+            <p className="text-xs text-zinc-50/20">&copy; {new Date().getFullYear()} eFit. All rights reserved.</p>
           </div>
         </div>
       </footer>

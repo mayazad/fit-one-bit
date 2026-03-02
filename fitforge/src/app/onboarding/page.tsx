@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Flame, Shield, Wind, Zap, ChevronRight, ChevronLeft,
@@ -170,12 +171,7 @@ export default function OnboardingPage() {
                 <div className="max-w-2xl mx-auto">
                     <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-2">
-                            <div className="p-1.5 rounded-lg bg-orange-500/10 border border-orange-500/20">
-                                <Zap size={16} className="text-orange-400" />
-                            </div>
-                            <span className="text-sm font-bold bg-orange-500 hover:bg-orange-600 hover:scale-105 transition-all bg-clip-text text-transparent">
-                                FitForge
-                            </span>
+                            <Image src="/logo.png" alt="eFit Logo" width={150} height={50} priority className="w-auto h-8 lg:h-10" />
                         </div>
                         <span className="text-xs text-zinc-50/30">Step {step} of {TOTAL_STEPS}</span>
                     </div>

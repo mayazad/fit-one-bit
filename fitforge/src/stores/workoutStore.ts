@@ -61,6 +61,6 @@ export const useWorkoutStore = create<WorkoutStore>()(
                 return state.weeklyPlan[getDayIndex()];
             },
         }),
-        { name: 'fitforge-workout' }
+        { name: 'efit-workout' }
     )
 );

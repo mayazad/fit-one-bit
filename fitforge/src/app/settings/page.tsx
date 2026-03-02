@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { Settings, Moon, Sun, Bell, Download, Trash2, RotateCcw } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -33,7 +34,7 @@ export default function SettingsPage() {
         const data: Record<string, string | null> = {};
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
-            if (key?.startsWith('fitforge-')) {
+            if (key?.startsWith('fitforge-') || key?.startsWith('efit-')) {
                 data[key] = localStorage.getItem(key);
             }
         }
@@ -41,7 +42,7 @@ export default function SettingsPage() {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `fitforge-backup-${new Date().toISOString().split('T')[0]}.json`;
+        a.download = `efit-backup-${new Date().toISOString().split('T')[0]}.json`;
         a.click();
         URL.revokeObjectURL(url);
     };
@@ -51,7 +52,7 @@ export default function SettingsPage() {
             const keys = [];
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
-                if (key?.startsWith('fitforge-')) keys.push(key);
+                if (key?.startsWith('fitforge-') || key?.startsWith('efit-')) keys.push(key);
             }
             keys.forEach(k => localStorage.removeItem(k));
             window.location.reload();
@@ -62,7 +63,7 @@ export default function SettingsPage() {
         <div className="max-w-3xl mx-auto space-y-6">
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
                 <h1 className="text-2xl font-bold mb-1">Settings</h1>
-                <p className="text-sm text-muted-foreground">Customize your FitForge experience ⚙️</p>
+                <p className="text-sm text-muted-foreground">Customize your eFit experience ⚙️</p>
             </motion.div>
 
             {/* Appearance */}
@@ -162,10 +163,7 @@ export default function SettingsPage() {
             <motion.div custom={3} initial="hidden" animate="visible" variants={fadeUp}>
                 <Card className="bg-zinc-900 border border-zinc-80010 border-zinc-800/50">
                     <CardContent className="p-5 text-center">
-                        <div className="w-12 h-12 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-50 font-bold text-lg mx-auto mb-3 glow">
-                            F
-                        </div>
-                        <h3 className="font-bold gradient-text text-lg">FitForge</h3>
+                        <Image src="/logo.png" alt="eFit Logo" width={64} height={64} priority className="w-auto h-12 mx-auto mb-3 opacity-80" />
                         <p className="text-xs text-muted-foreground">Body Transformation System</p>
                         <Badge variant="secondary" className="mt-2 text-[10px]">v1.0.0</Badge>
                     </CardContent>

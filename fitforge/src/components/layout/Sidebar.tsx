@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import {
@@ -53,13 +54,7 @@ export default function Sidebar({ isOpen, onClose, desktopOpen = true }: Sidebar
                 {/* Logo */}
                 <div className="p-6 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-3" onClick={onClose}>
-                        <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-50 font-bold text-lg glow">
-                            F
-                        </div>
-                        <div>
-                            <h1 className="text-lg font-bold gradient-text">FitForge</h1>
-                            <p className="text-[10px] text-muted-foreground -mt-0.5">Body Transformation</p>
-                        </div>
+                        <Image src="/logo.png" alt="eFit Logo" width={150} height={50} priority className="w-auto h-8 lg:h-10" />
                     </Link>
                     <button
                         onClick={onClose}
@@ -106,8 +101,8 @@ export default function Sidebar({ isOpen, onClose, desktopOpen = true }: Sidebar
                 {/* Bottom section */}
                 <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border">
                     <div className="glass-card rounded-xl p-3">
-                        <p className="text-xs text-muted-foreground">Powered by FitForge AI</p>
-                        <p className="text-xs font-medium gradient-text">FitForge v1.0</p>
+                        <p className="text-xs text-muted-foreground">Powered by eFit AI</p>
+                        <p className="text-xs font-medium gradient-text">eFit v1.0</p>
                     </div>
                 </div>
             </aside>

@@ -77,6 +77,6 @@ export const useGamificationStore = create<GamificationStore>()(
             },
             hydrateGamification: (data) => set((state) => ({ ...state, ...data })),
         }),
-        { name: 'fitforge-gamification' }
+        { name: 'efit-gamification' }
     )
 );

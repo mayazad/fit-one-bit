@@ -32,6 +32,6 @@ export const useProgressStore = create<ProgressStore>()(
                 return get().entries.slice(-7);
             },
         }),
-        { name: 'fitforge-progress' }
+        { name: 'efit-progress' }
     )
 );

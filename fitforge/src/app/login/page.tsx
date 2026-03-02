@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -150,12 +151,7 @@ export default function LoginPage() {
                     {/* logo */}
                     <div className="text-center mb-8">
                         <Link href="/" className="inline-flex flex-col items-center gap-2 group">
-                            <div className="p-2.5 rounded-xl bg-orange-500/10 border border-orange-500/20 group-hover:bg-orange-500/15 transition-colors">
-                                <Zap size={28} className="text-orange-400" />
-                            </div>
-                            <span className="text-lg font-black bg-orange-500 hover:bg-orange-600 hover:scale-105 transition-all bg-clip-text text-transparent">
-                                FitForge
-                            </span>
+                            <Image src="/logo.png" alt="eFit Logo" width={150} height={50} priority className="w-auto h-8 lg:h-10" />
                         </Link>
                     </div>
 
@@ -223,7 +219,7 @@ export default function LoginPage() {
                                         <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-50/20" />
                                         <Input
                                             type="email"
-                                            placeholder="hero@fitforge.com"
+                                            placeholder="hero@efit.com"
                                             value={form.email}
                                             onChange={e => set('email', e.target.value)}
                                             required

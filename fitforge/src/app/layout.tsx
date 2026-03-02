@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FitForge — Body Transformation",
+  title: "eFit | Digital Health",
   description: "Your AI-powered body transformation companion. Track workouts, plan meals, monitor progress, and level up with gamification.",
   keywords: ["fitness", "body transformation", "workout tracker", "meal planner", "AI coach"],
 };

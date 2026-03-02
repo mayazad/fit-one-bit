@@ -46,6 +46,6 @@ export const useUserStore = create<UserStore>()(
                 }));
             },
         }),
-        { name: 'fitforge-user' }
+        { name: 'efit-user' }
     )
 );

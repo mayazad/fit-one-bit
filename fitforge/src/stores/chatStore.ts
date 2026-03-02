@@ -100,6 +100,6 @@ export const useChatStore = create<ChatStore>()(
                     ],
                 }),
         }),
-        { name: 'fitforge-chat' }
+        { name: 'efit-chat' }
     )
 );
