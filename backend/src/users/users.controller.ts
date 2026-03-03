@@ -11,6 +11,12 @@ export class UsersController {
         return this.usersService.createUser(createDto);
     }
 
+    // Alias for 'register' — frontend uses /users/signup
+    @Post('signup')
+    async signup(@Body() createDto: RegisterDto) {
+        return this.usersService.createUser(createDto);
+    }
+
     @Post('login')
     async login(@Body() loginDto: any) {
         return this.usersService.loginUser(loginDto);
