@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { useState, useEffect } from 'react';
+import { useTheme } from 'next-themes';
 
 const fadeUp = {
     hidden: { opacity: 0, y: 20 },
@@ -18,17 +19,15 @@ const fadeUp = {
 };
 
 export default function SettingsPage() {
-    const [isDark, setIsDark] = useState(true);
+    const { theme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
     const [notifications, setNotifications] = useState(true);
 
     useEffect(() => {
-        const html = document.documentElement;
-        if (isDark) {
-            html.classList.add('dark');
-        } else {
-            html.classList.remove('dark');
-        }
-    }, [isDark]);
+        setMounted(true);
+    }, []);
+
+    const isDark = theme === 'dark';
 
     const handleExport = () => {
         const data: Record<string, string | null> = {};
@@ -84,11 +83,17 @@ export default function SettingsPage() {
                             <Button
                                 variant="outline"
                                 size="sm"
-                                onClick={() => setIsDark(!isDark)}
+                                onClick={() => mounted && setTheme(isDark ? 'light' : 'dark')}
                                 className="border-zinc-800/50"
                             >
-                                {isDark ? <Sun size={14} className="mr-1" /> : <Moon size={14} className="mr-1" />}
-                                {isDark ? 'Light' : 'Dark'}
+                                {mounted ? (
+                                    <>
+                                        {isDark ? <Sun size={14} className="mr-1" /> : <Moon size={14} className="mr-1" />}
+                                        {isDark ? 'Light' : 'Dark'}
+                                    </>
+                                ) : (
+                                    <span className="w-16">...</span>
+                                )}
                             </Button>
                         </div>
                     </CardContent>
