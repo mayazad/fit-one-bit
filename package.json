@@ -1,4 +1,9 @@
 {
+  "private": true,
+  "workspaces": [
+    "fitforge",
+    "backend"
+  ],
   "dependencies": {
     "canvas-confetti": "^1.9.4"
   },
