@@ -48,11 +48,16 @@ export default function DashboardPage() {
   const router = useRouter();
   const { profile, completedDailyQuests, completeQuestLocally } = useUserStore();
 
+  // ── BUG FIX #4: Use primitive dep, not the full profile object ────────────
+  // Depending on `profile` (an object) causes the effect to re-run on EVERY
+  // state write because Zustand creates a new object reference on every set().
+  // Only depend on the specific value we care about.
+  const profileClass = profile?.primaryClass;
   useEffect(() => {
-    if (!profile?.primaryClass) {
+    if (!profileClass) {
       router.replace('/onboarding');
     }
-  }, [profile, router]);
+  }, [profileClass, router]);
   const { level, streak, xp, waterGlasses, waterGoal, sleepHours, getProgress, addWater, removeWater, addXp } = useGamificationStore();
   const { weeklyPlan, completedWorkouts } = useWorkoutStore();
   const { getTodayCompletion } = useDietStore();

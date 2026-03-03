@@ -85,6 +85,11 @@ export const useChatStore = create<ChatStore>()(
             ],
             isTyping: false,
             sendMessage: (content) => {
+                // ── BUG FIX #3: Cap messages to prevent unbounded localStorage growth ──
+                // If messages grow unchecked, on every page load Zustand rehydrates ALL
+                // of them from localStorage, bloating memory and slowing the app.
+                const MAX_MESSAGES = 50;
+
                 set((state) => {
                     const userMsg: ChatMessage = {
                         id: `user-${Date.now()}`,
@@ -92,7 +97,11 @@ export const useChatStore = create<ChatStore>()(
                         content,
                         timestamp: new Date().toISOString(),
                     };
-                    return { messages: [...state.messages, userMsg], isTyping: true };
+                    const next = [...state.messages, userMsg];
+                    return {
+                        messages: next.length > MAX_MESSAGES ? next.slice(-MAX_MESSAGES) : next,
+                        isTyping: true,
+                    };
                 });
 
                 // Simulate AI typing delay
@@ -104,7 +113,11 @@ export const useChatStore = create<ChatStore>()(
                             content: getAiResponse(content),
                             timestamp: new Date().toISOString(),
                         };
-                        return { messages: [...state.messages, aiMsg], isTyping: false };
+                        const next = [...state.messages, aiMsg];
+                        return {
+                            messages: next.length > MAX_MESSAGES ? next.slice(-MAX_MESSAGES) : next,
+                            isTyping: false,
+                        };
                     });
                 }, 1500);
             },

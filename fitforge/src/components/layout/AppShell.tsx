@@ -1,45 +1,62 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import Sidebar from '@/components/layout/Sidebar';
 import Topbar from '@/components/layout/Topbar';
 import MobileNav from '@/components/layout/MobileNav';
 import { useGamificationStore } from '@/stores/gamificationStore';
-import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
-import { Trophy, Star, Shield, Zap, X } from 'lucide-react';
+import { Trophy, Star, X } from 'lucide-react';
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true);
 
-    const {
-        recordDailyLogin,
-        showLevelUpModal,
-        clearLevelUpModal,
-        level,
-        recentlyUnlockedBadges,
-        clearRecentlyUnlockedBadges
-    } = useGamificationStore();
+    // Pull only primitives + stable actions — avoid pulling objects/arrays that
+    // change reference every render (which would make useEffect fire infinitely).
+    const showLevelUpModal = useGamificationStore(s => s.showLevelUpModal);
+    const clearLevelUpModal = useGamificationStore(s => s.clearLevelUpModal);
+    const level = useGamificationStore(s => s.level);
+    const badgeCount = useGamificationStore(s => s.recentlyUnlockedBadges.length);
+    const firstBadge = useGamificationStore(s => s.recentlyUnlockedBadges[0]);
+    const clearRecentlyUnlockedBadges = useGamificationStore(s => s.clearRecentlyUnlockedBadges);
 
+    // ── BUG FIX #1: recordDailyLogin ─────────────────────────────────────────
+    // Previously: useEffect(() => {recordDailyLogin();}, [recordDailyLogin])
+    // The Zustand action is a new function reference on every render when
+    // extracted via destructuring, causing an infinite loop.
+    // Fix: Use a ref so the effect only runs once on mount.
+    const didRunDailyLogin = useRef(false);
     useEffect(() => {
-        // Run once on app mount to check login bonuses
-        recordDailyLogin();
-    }, [recordDailyLogin]);
+        if (didRunDailyLogin.current) return;
+        didRunDailyLogin.current = true;
+        useGamificationStore.getState().recordDailyLogin();
+    }, []);
 
+    // ── BUG FIX #2: Infinite Confetti ────────────────────────────────────────
+    // Previously: useEffect(() => { confetti(...) }, [showLevelUpModal, recentlyUnlockedBadges])
+    // `recentlyUnlockedBadges` is a new array reference every render, so
+    // confetti would fire on every single re-render (memory/CPU explosion!).
+    // Fix: Depend on the primitive `badgeCount` and track the last-seen count.
+    const lastBadgeCount = useRef(0);
     useEffect(() => {
-        if (showLevelUpModal || recentlyUnlockedBadges.length > 0) {
+        const shouldFire =
+            showLevelUpModal ||
+            badgeCount > lastBadgeCount.current;
+
+        if (shouldFire) {
             confetti({
-                particleCount: 150,
+                particleCount: 120,
                 spread: 70,
                 origin: { y: 0.6 },
-                colors: ['#f97316', '#10b981', '#3b82f6', '#eab308']
+                colors: ['#f97316', '#10b981', '#3b82f6', '#eab308'],
             });
         }
-    }, [showLevelUpModal, recentlyUnlockedBadges]);
+        lastBadgeCount.current = badgeCount;
+    }, [showLevelUpModal, badgeCount]);
 
     // Landing page, onboarding, and auth get a clean, standalone layout
     const standaloneRoutes = ['/', '/onboarding', '/login'];
@@ -121,8 +138,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     </div>
                 )}
 
-                {/* Badge Unlock Modals (Show one at a time if multiple) */}
-                {recentlyUnlockedBadges.length > 0 && !showLevelUpModal && (
+                {/* Badge Unlock Notification (Show one at a time) */}
+                {badgeCount > 0 && !showLevelUpModal && firstBadge && (
                     <div className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-50">
                         <motion.div
                             initial={{ x: 100, opacity: 0 }}
@@ -135,14 +152,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                             </div>
                             <div className="flex-1">
                                 <div className="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-1">Badge Unlocked!</div>
-                                <h3 className="font-bold text-zinc-100">{recentlyUnlockedBadges[0].name}</h3>
-                                <p className="text-xs text-zinc-400">{recentlyUnlockedBadges[0].description}</p>
+                                <h3 className="font-bold text-zinc-100">{firstBadge.name}</h3>
+                                <p className="text-xs text-zinc-400">{firstBadge.description}</p>
                             </div>
                             <button
-                                onClick={() => {
-                                    // Remove the first one, let the others show if any
-                                    clearRecentlyUnlockedBadges();
-                                }}
+                                onClick={clearRecentlyUnlockedBadges}
                                 className="text-zinc-500 hover:text-white"
                             >
                                 <X size={16} />
