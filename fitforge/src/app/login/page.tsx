@@ -43,87 +43,40 @@ export default function LoginPage() {
         setLoading(true);
 
         try {
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+            // Simulate network request
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            // Generate a fake user ID for frontend purposes
+            const mockId = Math.random().toString(36).substring(2, 9);
+            const mockName = mode === 'signup' ? form.name : (form.email.split('@')[0] || 'User');
+
+            // Hydrate Zustand stores with mock data
+            setUserProfile({
+                id: mockId,
+                name: mockName,
+                age: 0,
+                height: '',
+                weight: 0,
+                goals: [],
+                avatar: 'beginner',
+                primaryClass: undefined,
+                createdAt: new Date().toISOString(),
+            });
+
+            hydrateGamification({
+                level: 1,
+                xp: 0,
+                streak: 0,
+            });
+
+            // If signup, go to onboarding. If login, simulate an already-onboarded user and go to dashboard.
             if (mode === 'signup') {
-                const res = await fetch(`${API_URL}/users/register`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        name: form.name,
-                        email: form.email,
-                        password: form.password,
-                    }),
-                });
-
-                if (!res.ok) {
-                    const data = await res.json();
-                    throw new Error(data.message || 'Failed to sign up');
-                }
-
-                const user = await res.json();
-
-                // Hydrate Zustand stores with the real DB data
-                setUserProfile({
-                    id: user.id || '',
-                    name: user.name || '',
-                    age: user.profile?.baseStats?.age || 0,
-                    height: user.profile?.baseStats?.height || '',
-                    weight: user.profile?.baseStats?.weight || 0,
-                    goals: user.profile?.focusAreas || [],
-                    avatar: 'beginner',
-                    primaryClass: user.profile?.primaryClass || undefined,
-                    createdAt: user.createdAt,
-                });
-
-                hydrateGamification({
-                    level: user.profile?.level || 1,
-                    xp: user.profile?.currentXp || 0,
-                    streak: user.profile?.streak || 0,
-                });
-
-                // As requested, redirect directly to dashboard
                 router.push('/onboarding');
             } else {
-                const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-                const res = await fetch(`${API_URL}/users/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        email: form.email,
-                        password: form.password,
-                    }),
-                });
-
-                if (!res.ok) {
-                    const data = await res.json();
-                    throw new Error(data.message || 'Invalid email or password. Please try again.');
-                }
-
-                const user = await res.json();
-
-                // Hydrate Zustand stores with the real DB data
-                setUserProfile({
-                    id: user.id || '',
-                    name: user.name || '',
-                    age: user.profile?.baseStats?.age || 0,
-                    height: user.profile?.baseStats?.height || '',
-                    weight: user.profile?.baseStats?.weight || 0,
-                    goals: user.profile?.focusAreas || [],
-                    avatar: 'beginner',
-                    primaryClass: user.profile?.primaryClass || undefined,
-                    createdAt: user.createdAt,
-                });
-
-                hydrateGamification({
-                    level: user.profile?.level || 1,
-                    xp: user.profile?.currentXp || 0,
-                    streak: user.profile?.streak || 0,
-                });
-
                 router.push('/dashboard');
             }
         } catch (err: any) {
-            setError(err.message);
+            setError(err.message || 'Authentication failed. Please try again.');
         } finally {
             setLoading(false);
         }

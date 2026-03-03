@@ -114,33 +114,18 @@ export default function OnboardingPage() {
         setError(null);
         setForging(true);
         try {
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-            const res = await fetch(`${API_URL}/users/${profile.id}/profile`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    baseStats: {
-                        age: parseInt(baseStats.age) || 0,
-                        height: baseStats.height,
-                        weight: parseFloat(baseStats.weight) || 0
-                    },
-                    primaryClass,
-                    focusAreas,
-                    dietPreference: dietPref,
-                }),
-            });
-
-            if (!res.ok) {
-                const data = await res.json();
-                throw new Error(data.message || 'Failed to save profile');
-            }
+            // Simulate API call for local forging
+            await new Promise(resolve => setTimeout(resolve, 2500));
 
             updateProfile({
+                age: parseInt(baseStats.age) || 0,
+                height: baseStats.height,
+                weight: parseFloat(baseStats.weight) || 0,
                 primaryClass,
                 goals: focusAreas,
             });
             setOnboarded(true);
-            setTimeout(() => router.push('/dashboard'), 2500);
+            router.push('/dashboard');
         } catch (err: any) {
             console.error('Failed to forge profile:', err);
             setError(err.message || 'Failed to finish forging profile.');

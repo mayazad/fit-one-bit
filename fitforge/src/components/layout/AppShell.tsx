@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 import Sidebar from '@/components/layout/Sidebar';
 import Topbar from '@/components/layout/Topbar';
 import MobileNav from '@/components/layout/MobileNav';
-import { PageTransition } from '@/components/PageTransition';
 import { useGamificationStore } from '@/stores/gamificationStore';
 import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -61,7 +60,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     onDesktopMenuClick={() => setDesktopSidebarOpen(!desktopSidebarOpen)}
                 />
                 <main className="flex-1 overflow-y-auto pb-20 lg:pb-6 px-4 sm:px-6 py-6">
-                    <PageTransition>{children}</PageTransition>
+                    {children}
                 </main>
             </div>
             <MobileNav />

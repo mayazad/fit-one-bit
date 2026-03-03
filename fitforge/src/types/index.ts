@@ -1,3 +1,5 @@
+import { LucideIcon } from 'lucide-react';
+
 // ===== USER PROFILE =====
 export interface UserProfile {
     id: string;
@@ -29,7 +31,7 @@ export interface Exercise {
     instructions: string[];
     benefits: string[];
     commonMistakes: string[];
-    icon: any;
+    icon: LucideIcon;
     calories: number;
 }
 
@@ -141,6 +143,6 @@ export interface SleepLog {
 export interface HabitEntry {
     id: string;
     name: string;
-    icon: any;
+    icon: LucideIcon;
     completed: boolean;
 }

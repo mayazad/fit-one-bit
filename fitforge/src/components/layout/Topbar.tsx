@@ -1,6 +1,6 @@
 'use client';
 
-import { Menu, Flame, Zap, User, Settings, LogOut, FileText, CreditCard, HelpCircle } from 'lucide-react';
+import { Menu, Flame, Zap, User, Settings, LogOut, CreditCard, HelpCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useGamificationStore } from '@/stores/gamificationStore';
 import { useUserStore } from '@/stores/userStore';

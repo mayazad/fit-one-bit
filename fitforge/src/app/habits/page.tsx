@@ -2,11 +2,12 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Flame, Check, X, Trash2, Settings2 } from 'lucide-react';
+import { Plus, Flame, Check, X, Trash2, Target } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useHabitStore } from '@/stores/habitStore';
+import { toast } from 'sonner';
 import * as LucideIcons from 'lucide-react';
 
 const availableIcons = ['Droplets', 'Book', 'Moon', 'Sun', 'Coffee', 'Dumbbell', 'Apple', 'Zap', 'Target'];
@@ -33,8 +34,14 @@ export default function HabitsPage() {
     const handleAdd = () => {
         if (!newTitle.trim()) return;
         addHabit(newTitle, newIcon);
+        toast.success(`Habit '${newTitle}' created!`);
         setNewTitle('');
         setIsAdding(false);
+    };
+
+    const handleDelete = (id: string, title: string) => {
+        deleteHabit(id);
+        toast.error(`Habit '${title}' deleted.`);
     };
 
     return (
@@ -129,8 +136,21 @@ export default function HabitsPage() {
                         {/* Habits Rows */}
                         <div className="divide-y divide-zinc-800/50">
                             {habits.length === 0 ? (
-                                <div className="p-8 text-center text-zinc-500">
-                                    No habits created yet. Click "New Habit" to start tracking!
+                                <div className="p-12 flex flex-col items-center justify-center text-center">
+                                    <div className="w-16 h-16 rounded-2xl bg-zinc-900 border border-zinc-800/50 flex items-center justify-center mb-4 text-orange-400/50">
+                                        <Target size={32} />
+                                    </div>
+                                    <h3 className="text-zinc-200 font-bold mb-1">No Habits Yet</h3>
+                                    <p className="text-sm text-zinc-500 max-w-xs mx-auto mb-6">
+                                        Start building your perfect routine! Track hydration, reading, or workouts.
+                                    </p>
+                                    <Button
+                                        onClick={() => setIsAdding(true)}
+                                        variant="outline"
+                                        className="border-orange-500/20 text-orange-400 hover:bg-orange-500/10"
+                                    >
+                                        <Plus size={16} className="mr-2" /> Create First Habit
+                                    </Button>
                                 </div>
                             ) : habits.map((habit, index) => {
                                 const IconObj = LucideIcons[habit.icon as keyof typeof LucideIcons] as any || LucideIcons.Target;
@@ -158,7 +178,7 @@ export default function HabitsPage() {
                                             </div>
 
                                             <button
-                                                onClick={() => deleteHabit(habit.id)}
+                                                onClick={() => handleDelete(habit.id, habit.title)}
                                                 className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-red-400 transition-all p-1"
                                             >
                                                 <Trash2 size={14} />

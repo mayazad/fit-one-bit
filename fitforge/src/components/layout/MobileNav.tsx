@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Dumbbell, UtensilsCrossed, TrendingUp, Bot, Trophy, CheckSquare } from 'lucide-react';
+import { LayoutDashboard, Dumbbell, TrendingUp, Bot, Trophy, CheckSquare } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const items = [

@@ -59,7 +59,6 @@ function getAiResponse(message: string): string {
     // Inject Context
     const gamification = useGamificationStore.getState();
     const progress = useProgressStore.getState();
-    const latestProgress = progress.getLatest();
 
     return template
         .replace('{streak}', gamification.streak.toString())

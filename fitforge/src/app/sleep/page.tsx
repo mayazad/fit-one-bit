@@ -1,22 +1,23 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Moon, Star, BedDouble, AlertCircle } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useSleepStore } from '@/stores/sleepStore';
-import {
-    LineChart,
-    Line,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    ResponsiveContainer,
-    Area,
-    AreaChart
-} from 'recharts';
+import { toast } from 'sonner';
+import dynamic from 'next/dynamic';
+
+const LineChart = dynamic(() => import('recharts').then(mod => mod.LineChart), { ssr: false });
+const Line = dynamic(() => import('recharts').then(mod => mod.Line), { ssr: false });
+const XAxis = dynamic(() => import('recharts').then(mod => mod.XAxis), { ssr: false });
+const YAxis = dynamic(() => import('recharts').then(mod => mod.YAxis), { ssr: false });
+const CartesianGrid = dynamic(() => import('recharts').then(mod => mod.CartesianGrid), { ssr: false });
+const Tooltip = dynamic(() => import('recharts').then(mod => mod.Tooltip), { ssr: false });
+const ResponsiveContainer = dynamic(() => import('recharts').then(mod => mod.ResponsiveContainer), { ssr: false });
+const Area = dynamic(() => import('recharts').then(mod => mod.Area), { ssr: false });
+const AreaChart = dynamic(() => import('recharts').then(mod => mod.AreaChart), { ssr: false });
 
 export default function SleepPage() {
     const { records, addRecord, getTodayRecord, getAverageSleep } = useSleepStore();
@@ -27,18 +28,21 @@ export default function SleepPage() {
 
     const handleSave = () => {
         addRecord(hours, quality);
+        toast.success(`Sleep logged: ${hours} hours recorded!`);
     };
 
     // Format data for chart
-    const chartData = records.slice(-7).map(r => {
-        const d = new Date(r.date);
-        return {
-            name: d.toLocaleDateString('en-US', { weekday: 'short' }),
-            date: r.date,
-            hours: r.hours,
-            quality: r.quality
-        };
-    });
+    const chartData = useMemo(() => {
+        return records.slice(-7).map(r => {
+            const d = new Date(r.date);
+            return {
+                name: d.toLocaleDateString('en-US', { weekday: 'short' }),
+                date: r.date,
+                hours: r.hours,
+                quality: r.quality
+            };
+        });
+    }, [records]);
 
     const averageSleep = getAverageSleep();
 

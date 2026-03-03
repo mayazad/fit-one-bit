@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Badge, Quest } from '@/types';
+import { Badge } from '@/types';
 import { defaultBadges, getXpForLevel, getAvatarForLevel } from '@/data/gamification';
 
 interface GamificationStore {

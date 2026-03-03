@@ -11,6 +11,7 @@ import { useUserStore } from '@/stores/userStore';
 import { useGamificationStore } from '@/stores/gamificationStore';
 import { useWorkoutStore } from '@/stores/workoutStore';
 import { getAvatarForLevel } from '@/data/gamification';
+import { toast } from 'sonner';
 
 const fadeUp = {
     hidden: { opacity: 0, y: 20 },
@@ -40,6 +41,7 @@ export default function ProfilePage() {
             height: form.height,
             weight: parseFloat(form.weight) || 56,
         });
+        toast.success('Profile identity saved!');
         setEditing(false);
     };
 

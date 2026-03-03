@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TrendingDown, TrendingUp, Plus, Scale, Ruler, Weight, Maximize2, Ratio, Image as ImageIcon, Download, Target, CalendarDays, Camera } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,9 +9,18 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useProgressStore } from '@/stores/progressStore';
-import {
-    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart, ReferenceLine
-} from 'recharts';
+import dynamic from 'next/dynamic';
+
+const LineChart = dynamic(() => import('recharts').then(mod => mod.LineChart), { ssr: false });
+const Line = dynamic(() => import('recharts').then(mod => mod.Line), { ssr: false });
+const XAxis = dynamic(() => import('recharts').then(mod => mod.XAxis), { ssr: false });
+const YAxis = dynamic(() => import('recharts').then(mod => mod.YAxis), { ssr: false });
+const CartesianGrid = dynamic(() => import('recharts').then(mod => mod.CartesianGrid), { ssr: false });
+const Tooltip = dynamic(() => import('recharts').then(mod => mod.Tooltip), { ssr: false });
+const ResponsiveContainer = dynamic(() => import('recharts').then(mod => mod.ResponsiveContainer), { ssr: false });
+const Area = dynamic(() => import('recharts').then(mod => mod.Area), { ssr: false });
+const AreaChart = dynamic(() => import('recharts').then(mod => mod.AreaChart), { ssr: false });
+const ReferenceLine = dynamic(() => import('recharts').then(mod => mod.ReferenceLine), { ssr: false });
 
 const fadeUp = {
     hidden: { opacity: 0, y: 20 },
@@ -61,25 +70,35 @@ export default function ProgressPage() {
         setShowForm(false);
     };
 
-    const weightChange = entries.length >= 2
-        ? (entries[entries.length - 1].weight ?? 0) - (entries[0].weight ?? 0)
-        : 0;
+    const weightChange = useMemo(() => {
+        return entries.length >= 2
+            ? (entries[entries.length - 1].weight ?? 0) - (entries[0].weight ?? 0)
+            : 0;
+    }, [entries]);
 
-    let filteredEntries = [...entries];
-    if (chartTimeframe === '1M') {
-        filteredEntries = entries.slice(-30);
-    } else if (chartTimeframe === '3M') {
-        filteredEntries = entries.slice(-90);
-    }
+    const filteredEntries = useMemo(() => {
+        let filtered = [...entries];
+        if (chartTimeframe === '1M') {
+            filtered = entries.slice(-30);
+        } else if (chartTimeframe === '3M') {
+            filtered = entries.slice(-90);
+        }
+        return filtered;
+    }, [entries, chartTimeframe]);
 
-    const chartData = filteredEntries.map(e => ({
-        date: e.date.slice(5),
-        weight: e.weight,
-        chest: e.chest,
-        waist: e.waist,
-    }));
+    const chartData = useMemo(() => {
+        return filteredEntries.map(e => ({
+            date: e.date.slice(5),
+            weight: e.weight,
+            chest: e.chest,
+            waist: e.waist,
+        }));
+    }, [filteredEntries]);
 
-    const photosWithDates = entries.filter(e => e.photo).map(e => ({ date: e.date, photo: e.photo! }));
+    const photosWithDates = useMemo(() => {
+        return entries.filter(e => e.photo).map(e => ({ date: e.date, photo: e.photo! }));
+    }, [entries]);
+
     const oldestPhoto = photosWithDates[0];
     const newestPhoto = photosWithDates[photosWithDates.length - 1];
 
@@ -264,37 +283,47 @@ export default function ProgressPage() {
                             </CardHeader>
                             <CardContent>
                                 <div className="h-64">
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <AreaChart data={chartData}>
-                                            <defs>
-                                                <linearGradient id="weightGradient" x1="0" y1="0" x2="0" y2="1">
-                                                    <stop offset="5%" stopColor="oklch(0.72 0.19 250)" stopOpacity={0.3} />
-                                                    <stop offset="95%" stopColor="oklch(0.72 0.19 250)" stopOpacity={0} />
-                                                </linearGradient>
-                                            </defs>
-                                            <CartesianGrid strokeDasharray="3 3" stroke="oklch(1 0 0 / 5%)" />
-                                            <XAxis dataKey="date" tick={{ fontSize: 11, fill: 'oklch(0.65 0.02 270)' }} />
-                                            <YAxis tick={{ fontSize: 11, fill: 'oklch(0.65 0.02 270)' }} domain={['auto', 'auto']} />
-                                            <Tooltip
-                                                contentStyle={{
-                                                    backgroundColor: 'oklch(0.17 0.015 270)',
-                                                    border: '1px solid oklch(1 0 0 / 10%)',
-                                                    borderRadius: '8px',
-                                                    fontSize: '12px',
-                                                }}
-                                            />
-                                            <ReferenceLine y={TARGET_WEIGHT} stroke="oklch(0.577 0.245 27.325)" strokeDasharray="3 3">
-                                            </ReferenceLine>
-                                            <Area
-                                                type="monotone"
-                                                dataKey="weight"
-                                                stroke="oklch(0.72 0.19 250)"
-                                                fill="url(#weightGradient)"
-                                                strokeWidth={2}
-                                                isAnimationActive={true}
-                                            />
-                                        </AreaChart>
-                                    </ResponsiveContainer>
+                                    {chartData.length === 0 ? (
+                                        <div className="w-full h-full flex flex-col items-center justify-center text-center">
+                                            <div className="w-16 h-16 rounded-full bg-orange-500/10 border border-orange-500/20 flex items-center justify-center mb-4 text-orange-400">
+                                                <Scale size={32} />
+                                            </div>
+                                            <h3 className="text-zinc-200 font-bold mb-1">No Weight Data</h3>
+                                            <p className="text-sm text-zinc-500">Log your first entry above to see your trend line.</p>
+                                        </div>
+                                    ) : (
+                                        <ResponsiveContainer width="100%" height="100%">
+                                            <AreaChart data={chartData}>
+                                                <defs>
+                                                    <linearGradient id="weightGradient" x1="0" y1="0" x2="0" y2="1">
+                                                        <stop offset="5%" stopColor="oklch(0.72 0.19 250)" stopOpacity={0.3} />
+                                                        <stop offset="95%" stopColor="oklch(0.72 0.19 250)" stopOpacity={0} />
+                                                    </linearGradient>
+                                                </defs>
+                                                <CartesianGrid strokeDasharray="3 3" stroke="oklch(1 0 0 / 5%)" />
+                                                <XAxis dataKey="date" tick={{ fontSize: 11, fill: 'oklch(0.65 0.02 270)' }} />
+                                                <YAxis tick={{ fontSize: 11, fill: 'oklch(0.65 0.02 270)' }} domain={['auto', 'auto']} />
+                                                <Tooltip
+                                                    contentStyle={{
+                                                        backgroundColor: 'oklch(0.17 0.015 270)',
+                                                        border: '1px solid oklch(1 0 0 / 10%)',
+                                                        borderRadius: '8px',
+                                                        fontSize: '12px',
+                                                    }}
+                                                />
+                                                <ReferenceLine y={TARGET_WEIGHT} stroke="oklch(0.577 0.245 27.325)" strokeDasharray="3 3">
+                                                </ReferenceLine>
+                                                <Area
+                                                    type="monotone"
+                                                    dataKey="weight"
+                                                    stroke="oklch(0.72 0.19 250)"
+                                                    fill="url(#weightGradient)"
+                                                    strokeWidth={2}
+                                                    isAnimationActive={true}
+                                                />
+                                            </AreaChart>
+                                        </ResponsiveContainer>
+                                    )}
                                 </div>
                             </CardContent>
                         </Card>

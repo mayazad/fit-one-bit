@@ -97,7 +97,6 @@ export const useHabitStore = create<HabitStore>()(
                 let currentDate = new Date(sortedDates[0]); // Start with most recent completion
 
                 for (let i = 0; i < sortedDates.length; i++) {
-                    const compDate = new Date(sortedDates[i]);
                     // If the diff between current expected continuous date and completion date is 0 days, increment
                     // (Allowing for initial gap if the streak just started counting from 'yesterday')
 
