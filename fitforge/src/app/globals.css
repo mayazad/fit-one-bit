@@ -151,9 +151,8 @@
 
 /* Glass card effect */
 .glass-card {
-  background: oklch(1 0 0 / 5%);
+  @apply bg-white shadow-sm border border-emerald-100/50 text-slate-800 dark:bg-[oklch(1_0_0/5%)] dark:border-[oklch(1_0_0/8%)] dark:text-inherit dark:shadow-none;
   backdrop-filter: blur(12px);
-  border: 1px solid oklch(1 0 0 / 8%);
 }
 
 /* Gradient text */
