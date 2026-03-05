@@ -2,12 +2,11 @@ import type { NextConfig } from "next";
 import path from "path";
 
 const nextConfig: NextConfig = {
-  // ── FIX: Pin Turbopack to resolve CSS/style packages from fitforge's own
-  // node_modules. Without this, Node's resolver walks up to the parent
-  // "ADs Planner/" directory (which has a stray package.json but no
-  // node_modules), causing an infinite resolution error loop that crashes
-  // the entire machine.
+  // ── Pin Turbopack root and resolve CSS packages from efit's own
+  // node_modules to prevent Node's resolver from walking up to the parent
+  // directory.
   turbopack: {
+    root: __dirname,
     resolveAlias: {
       tailwindcss: path.resolve(__dirname, "node_modules/tailwindcss"),
       "tw-animate-css": path.resolve(__dirname, "node_modules/tw-animate-css"),
