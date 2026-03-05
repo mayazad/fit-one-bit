@@ -86,14 +86,17 @@ export default function OnboardingPage() {
     const [step, setStep] = useState(1);
     const [direction, setDirection] = useState(1);
 
-    // Route Guard
+    // Route Guard — use primitives, NOT the full `profile` object (which changes
+    // reference on every Zustand state update, causing excessive re-renders).
+    const profileId = profile?.id;
+    const profileClass = profile?.primaryClass;
     useEffect(() => {
-        if (!profile?.id) {
+        if (!profileId) {
             router.replace('/login');
-        } else if (profile?.primaryClass) {
+        } else if (profileClass) {
             router.replace('/dashboard');
         }
-    }, [profile, router]);
+    }, [profileId, profileClass, router]);
 
     /* form data */
     const [baseStats, setBaseStats] = useState({ age: '', height: '', weight: '' });
