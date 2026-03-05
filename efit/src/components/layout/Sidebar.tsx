@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 
 const navItems = [
-    { href: '/', label: 'Dashboard', icon: Activity },
+    { href: '/dashboard', label: 'Dashboard', icon: Activity },
     { href: '/calendar', label: 'Calendar', icon: CalendarDays },
     { href: '/sleep', label: 'Sleep', icon: Moon },
     { href: '/workouts', label: 'Workouts', icon: Dumbbell },
